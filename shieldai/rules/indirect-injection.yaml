@@ -1,0 +1,177 @@
+category: indirect_injection
+description: "Patterns that attempt injection via documents, RAG contexts, URLs, emails, and other indirect channels"
+rules:
+  - id: II001
+    name: document_embedded_instruction
+    pattern: "(when|if)\\s+(you\\s+)?(read|process|summarize|analyze)\\s+(this|the)\\s+(document|text|content).*?(follow|execute|obey)\\s+(these|the|my)\\s+(hidden|embedded|actual)"
+    severity: high
+    weight: 0.88
+    description: "Document with embedded instructions"
+
+  - id: II002
+    name: rag_context_override
+    pattern: "(retrieved|fetched|pulled)\\s+(context|document|passage)\\s+(contains|has|includes)\\s+(new|updated|real)\\s+(system\\s+)?(instructions?|rules?|directives?)"
+    severity: critical
+    weight: 0.92
+    description: "RAG context containing injection"
+
+  - id: II003
+    name: url_fetch_instruction
+    pattern: "(fetch|load|get|visit|open|read)\\s+(this|the)\\s+(url|link|page|website)\\s+(and|then)\\s+(follow|execute|obey|do)"
+    severity: high
+    weight: 0.85
+    description: "URL fetch with instruction"
+
+  - id: II004
+    name: email_hidden_instruction
+    pattern: "(email|message|letter)\\s+(below|above|attached)\\s+(contains?|has|includes?)\\s+(hidden|embedded|special)\\s+(instructions?|commands?|directives?)"
+    severity: high
+    weight: 0.85
+    description: "Email with hidden instructions"
+
+  - id: II005
+    name: summarize_but_follow
+    pattern: "(summarize|read|process)\\s+(this|the)\\s+(document|text|article|page).*(but|and)\\s+(actually|instead|also|secretly)\\s+(follow|execute|obey)"
+    severity: high
+    weight: 0.88
+    description: "Summarize but actually follow instructions"
+
+  - id: II006
+    name: invisible_instruction
+    pattern: "(invisible|hidden|concealed|white\\s+text|zero-font|display\\s*:\\s*none)\\s+(instruction|text|message|command)"
+    severity: high
+    weight: 0.88
+    description: "Invisible text injection"
+
+  - id: II007
+    name: metadata_injection
+    pattern: "(metadata|header|footer|comment|alt\\s+text)\\s+(contains?|has|includes?)\\s+(instructions?|commands?|directives?)"
+    severity: high
+    weight: 0.82
+    description: "Metadata-based injection"
+
+  - id: II008
+    name: image_text_injection
+    pattern: "(image|picture|photo|screenshot)\\s+(contains?|has|shows?)\\s+(text|instructions?|commands?)\\s+(that|to)\\s+(you\\s+should|must|need\\s+to)\\s+(follow|execute|obey)"
+    severity: high
+    weight: 0.82
+    description: "Image-based text injection"
+
+  - id: II009
+    name: tool_output_injection
+    pattern: "(tool|function|API|plugin)\\s+(output|result|response|return)\\s+(says|contains?|instructs?)\\s+(you\\s+)?(to|should|must)"
+    severity: high
+    weight: 0.85
+    description: "Tool output injection"
+
+  - id: II010
+    name: context_window_poison
+    pattern: "(context|knowledge\\s+base|vector\\s+store|retrieval)\\s+(has\\s+been|was|is)\\s+(poisoned|modified|tampered|injected|compromised)"
+    severity: critical
+    weight: 0.90
+    description: "Context poisoning reference"
+
+  - id: II011
+    name: injection_via_data
+    pattern: "(data|input|csv|json|xml|html)\\s+(file|payload)\\s+(contains?|has|embeds?).*?(instruction|command|directive|script)"
+    severity: high
+    weight: 0.82
+    description: "Injection via data file"
+
+  - id: II012
+    name: markdown_injection
+    pattern: "(markdown|md|formatting)\\s+(that|which)\\s+(hides?|conceals?|embeds?)\\s+(instructions?|links?|scripts?)"
+    severity: high
+    weight: 0.82
+    description: "Markdown-based injection"
+
+  - id: II013
+    name: prompt_in_document
+    pattern: "(this\\s+document|the\\s+text\\s+below|the\\s+following)\\s+(is|contains)\\s+(a\\s+)?(new|updated|replacement)\\s+(system\\s+)?(prompt|instruction|directive)"
+    severity: critical
+    weight: 0.92
+    description: "Document claiming to be new prompt"
+
+  - id: II014
+    name: search_result_injection
+    pattern: "(search\\s+result|web\\s+page|website|source)\\s+(says|instructs?|tells?)\\s+(you\\s+)?(to|that\\s+you\\s+should|must)"
+    severity: high
+    weight: 0.80
+    description: "Search result injection"
+
+  - id: II015
+    name: api_response_override
+    pattern: "(API|service|endpoint|webhook)\\s+(response|callback|return)\\s+(overrides?|replaces?|supersedes?)\\s+(your|the)\\s+(original|system|current)\\s+(instructions?|prompt|rules?)"
+    severity: critical
+    weight: 0.90
+    description: "API response override"
+
+  - id: II016
+    name: database_injection
+    pattern: "(database|db|table|record)\\s+(entry|row|field|value)\\s+(contains?|stores?|has)\\s+(instructions?|commands?|directives?)\\s+(for|to|that)"
+    severity: high
+    weight: 0.82
+    description: "Database content injection"
+
+  - id: II017
+    name: third_party_instruction
+    pattern: "(third[-\\s]party|external|outside)\\s+(source|service|api|system)\\s+(says|instructed|told\\s+me|requests?)\\s+(you|that\\s+you)\\s+(should|must|need\\s+to)"
+    severity: high
+    weight: 0.82
+    description: "Third-party instruction claim"
+
+  - id: II018
+    name: iframe_injection
+    pattern: "(<iframe|<embed|<object|<script|<link|<img.*?onerror)\\s"
+    severity: high
+    weight: 0.85
+    description: "HTML element injection"
+
+  - id: II019
+    name: comment_injection
+    pattern: "(<!--.*?(ignore|system|override|instruction|follow).*?-->)"
+    severity: high
+    weight: 0.85
+    description: "HTML comment with injection"
+
+  - id: II020
+    name: file_attachment_injection
+    pattern: "(attached|uploaded)\\s+(file|document|image|pdf)\\s+(contains?|has|includes?)\\s+(your\\s+)?(new|real|actual|updated)\\s+(instructions?|directives?|commands?)"
+    severity: high
+    weight: 0.88
+    description: "File attachment injection"
+
+  - id: II021
+    name: cross_plugin_injection
+    pattern: "(plugin|extension|addon|tool)\\s+(output|response)\\s+(should\\s+be|is)\\s+(treated\\s+as|your\\s+new)\\s+(system\\s+)?(instruction|prompt|directive)"
+    severity: critical
+    weight: 0.90
+    description: "Cross-plugin injection"
+
+  - id: II022
+    name: prompt_leaking_via_output
+    pattern: "(include|embed|insert|hide)\\s+(the\\s+)?(system\\s+prompt|instructions?)\\s+(in|within|inside)\\s+(your|the)\\s+(response|output|answer|reply)"
+    severity: high
+    weight: 0.88
+    description: "Exfiltrate prompt via output"
+
+  - id: II023
+    name: callback_injection
+    pattern: "(callback|webhook|notification)\\s+(url|endpoint|address)\\s+(to\\s+)?(send|exfiltrate|leak|transmit)\\s+(the\\s+)?(system|prompt|instructions?|data)"
+    severity: critical
+    weight: 0.92
+    description: "Callback URL for data exfiltration"
+
+  - id: II024
+    name: supply_chain_attack
+    pattern: "(supply\\s+chain|dependency|package|library)\\s+(attack|inject|compromise|poison)"
+    severity: medium
+    weight: 0.72
+    description: "Supply chain attack reference"
+
+  - id: II025
+    name: side_channel
+    pattern: "(side\\s+channel|timing\\s+attack|exfiltrate\\s+via|leak\\s+through)\\s+(the\\s+)?(response|output|formatting|metadata)"
+    severity: high
+    weight: 0.82
+    description: "Side-channel data exfiltration"

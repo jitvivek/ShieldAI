@@ -1,0 +1,61 @@
+name: bfsi
+version: 1
+policies:
+  - name: no_pii_leakage
+    action: block
+    severity: critical
+    detector: pii_detector
+    patterns: [email, phone_india, aadhaar, pan, credit_card]
+
+  - name: no_system_prompt_leak
+    action: block
+    severity: critical
+    detector: prompt_shield
+    threshold: 0.15
+
+  - name: no_financial_advice
+    action: flag
+    severity: high
+    detector: keyword_match
+    patterns:
+      - guaranteed returns
+      - risk free investment
+      - invest now
+      - double your money
+      - insider trading tip
+      - sure shot profit
+      - zero risk
+      - fixed deposit alternative
+
+  - name: rbi_data_protection
+    action: block
+    severity: critical
+    detector: keyword_match
+    patterns:
+      - internal account number
+      - customer transaction id
+      - internal audit reference
+      - bank internal memo
+      - swift code internal
+
+  - name: no_harmful_content
+    action: block
+    severity: critical
+    detector: content_classifier
+    categories: [weapons, drugs, self_harm, violence]
+
+  - name: disclaimer_check
+    action: flag
+    severity: medium
+    detector: keyword_match
+    patterns:
+      - this is financial advice
+      - i recommend you invest
+      - you should definitely buy
+      - guaranteed profit
+
+  - name: response_length_limit
+    action: truncate
+    severity: medium
+    detector: length_check
+    max_tokens: 1500

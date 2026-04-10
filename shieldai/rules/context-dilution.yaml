@@ -1,0 +1,107 @@
+category: context_dilution
+description: "Patterns that attempt to overwhelm context, dilute safety instructions, or overflow the attention window"
+rules:
+  - id: CD001
+    name: ignore_filler_text
+    pattern: "(ignore|skip|disregard)\\s+(the\\s+)?(filler|padding|above|previous)\\s+(text|content|paragraph|lines)"
+    severity: high
+    weight: 0.85
+    description: "Instruction to ignore filler text"
+
+  - id: CD002
+    name: only_follow_last
+    pattern: "(only|just)\\s+(follow|read|pay\\s+attention\\s+to|focus\\s+on)\\s+(the\\s+)?(last|final|bottom|end)"
+    severity: high
+    weight: 0.85
+    description: "Only follow last instruction"
+
+  - id: CD003
+    name: real_instruction_below
+    pattern: "(real|actual|true|important)\\s+(instruction|message|request|question)\\s+(is\\s+)?(below|at\\s+the\\s+end|following)"
+    severity: high
+    weight: 0.82
+    description: "Real instruction is below"
+
+  - id: CD004
+    name: context_overflow
+    pattern: "(previous|above|all\\s+the)\\s+(context|text|content)\\s+(is\\s+)?(irrelevant|not\\s+important|filler|padding)"
+    severity: high
+    weight: 0.85
+    description: "Declare previous context irrelevant"
+
+  - id: CD005
+    name: padding_delimiter
+    pattern: "(={10,}|-{10,}|\\*{10,}|#{10,})\\s*(real|actual|true|new|important|start\\s+here)"
+    severity: high
+    weight: 0.82
+    description: "Padding delimiter before real instruction"
+
+  - id: CD006
+    name: long_distraction
+    pattern: "(long|lengthy)\\s+(paragraph|text|message)\\s+(above|before)\\s+(is|was)\\s+(just|only)\\s+(a\\s+)?(distraction|filler|padding|noise)"
+    severity: high
+    weight: 0.85
+    description: "Long text identified as distraction"
+
+  - id: CD007
+    name: attention_redirect
+    pattern: "(pay|direct|focus)\\s+(attention|focus)\\s+(only\\s+)?(on|to)\\s+(this|the\\s+following|what\\s+comes\\s+next)"
+    severity: medium
+    weight: 0.72
+    description: "Redirect attention to specific content"
+
+  - id: CD008
+    name: reset_context_window
+    pattern: "reset\\s+(your\\s+)?(context|memory|conversation)\\s+(window|buffer|history)"
+    severity: high
+    weight: 0.85
+    description: "Reset context window"
+
+  - id: CD009
+    name: context_injection_boundary
+    pattern: "(---\\s*new\\s+conversation|===\\s*reset|###\\s*system\\s*:)"
+    severity: critical
+    weight: 0.90
+    description: "Injected conversation boundary"
+
+  - id: CD010
+    name: start_fresh
+    pattern: "(start|begin)\\s+(fresh|new|clean|over)\\s*[,.]?\\s*(ignore|forget|discard)\\s+(all\\s+)?(previous|above|prior)"
+    severity: high
+    weight: 0.88
+    description: "Start fresh and ignore previous"
+
+  - id: CD011
+    name: separator_injection
+    pattern: "<\\|?(end|sep|boundary|delimiter)\\|?>\\s*(new|system|real|actual)"
+    severity: critical
+    weight: 0.90
+    description: "Injected separator token"
+
+  - id: CD012
+    name: overflow_attempt
+    pattern: "(overflow|exceed|fill|saturate)\\s+(your|the)\\s+(context|memory|token|attention)\\s+(window|limit|capacity|buffer)"
+    severity: high
+    weight: 0.82
+    description: "Explicit context overflow attempt"
+
+  - id: CD013
+    name: noise_then_command
+    pattern: "(noise|random\\s+text|filler).*?(now|here|this\\s+is)\\s+(the\\s+)?(real|actual|important)\\s+(command|instruction|request)"
+    severity: high
+    weight: 0.85
+    description: "Noise followed by real command"
+
+  - id: CD014
+    name: buried_instruction
+    pattern: "(buried|hidden|embedded|concealed)\\s+(instruction|command|message|directive)\\s+(in|within|inside)"
+    severity: high
+    weight: 0.82
+    description: "Deliberately buried instruction"
+
+  - id: CD015
+    name: end_of_conversation
+    pattern: "(end\\s+of\\s+conversation|conversation\\s+ended|new\\s+session\\s+start)"
+    severity: high
+    weight: 0.85
+    description: "False end of conversation marker"

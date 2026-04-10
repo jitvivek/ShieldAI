@@ -1,0 +1,32 @@
+name: strict
+version: 1
+policies:
+  - name: no_system_prompt_leak
+    action: block
+    severity: critical
+    detector: prompt_shield
+    threshold: 0.15
+
+  - name: no_pii_in_output
+    action: block
+    severity: critical
+    detector: pii_detector
+    patterns: [email, phone_india, phone_intl, aadhaar, pan, credit_card, ip_address]
+
+  - name: no_harmful_instructions
+    action: block
+    severity: critical
+    detector: content_classifier
+    categories: [weapons, drugs, self_harm, violence]
+
+  - name: no_jailbreak
+    action: block
+    severity: critical
+    detector: jailbreak_detector
+    threshold: 0.5
+
+  - name: response_length_limit
+    action: truncate
+    severity: medium
+    detector: length_check
+    max_tokens: 1000

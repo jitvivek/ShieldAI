@@ -1,0 +1,100 @@
+services:
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+      target: dev
+    ports:
+      - "3000:3000"
+      - "9229:9229" # Node.js debug port
+    environment:
+      - DATABASE_URL=postgresql://shield:shield@postgres:5432/shieldai
+      - REDIS_URL=redis://redis:6379
+      - ML_SERVICE_URL=http://ml-service:8000
+      - NODE_ENV=development
+      - PORT=3000
+      - LOG_LEVEL=debug
+      - ML_SERVICE_TIMEOUT_MS=500
+      - RATE_LIMIT_FREE_PER_MINUTE=100
+      - RATE_LIMIT_FREE_PER_DAY=1000
+      - RATE_LIMIT_PAID_PER_MINUTE=1000
+      - THRESHOLD_SAFE=0.3
+      - THRESHOLD_SUSPICIOUS=0.7
+      - API_KEY_CACHE_TTL_SECONDS=300
+    volumes:
+      - ./api/src:/app/src
+      - ./api/tsconfig.json:/app/tsconfig.json
+      - ./api/prisma:/app/prisma
+      - ./rules:/app/rules
+      - ./scripts:/app/scripts
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    command: npx nodemon --exec "node --inspect=0.0.0.0:9229 -r ts-node/register" src/index.ts
+
+  ml-service:
+    build: ./ml-service
+    ports:
+      - "8000:8000"
+    volumes:
+      - model-cache:/app/models
+      - ./ml-service/app:/app/app
+    environment:
+      - MODEL_CACHE_DIR=/app/models
+      - DEVICE=cpu
+    restart: unless-stopped
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  dashboard:
+    build:
+      context: ./dashboard
+      dockerfile: Dockerfile
+      target: dev
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://api:3000
+    volumes:
+      - ./dashboard/src:/app/src
+      - ./dashboard/index.html:/app/index.html
+    depends_on:
+      - api
+    command: npx vite --host 0.0.0.0 --port 5173
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: shield
+      POSTGRES_PASSWORD: shield
+      POSTGRES_DB: shieldai
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U shield"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  pg-data:
+  redis-data:
+  model-cache:

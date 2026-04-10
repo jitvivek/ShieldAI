@@ -1,0 +1,14 @@
+name: permissive
+version: 1
+policies:
+  - name: pii_logging
+    action: flag
+    severity: low
+    detector: pii_detector
+    patterns: [email, credit_card]
+
+  - name: prompt_leak_logging
+    action: flag
+    severity: medium
+    detector: prompt_shield
+    threshold: 0.50

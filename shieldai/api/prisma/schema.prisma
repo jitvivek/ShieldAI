@@ -1,0 +1,148 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Customer {
+  id                String    @id @default(uuid())
+  name              String
+  email             String    @unique
+  company           String?
+  tier              String    @default("free")
+  // PHASE 2 ADDITION: Billing prep fields
+  plan              String    @default("free") // free|starter|growth|enterprise
+  stripeCustomerId  String?   @unique @map("stripe_customer_id")
+  billingCycleStart DateTime? @map("billing_cycle_start")
+  createdAt         DateTime  @default(now()) @map("created_at")
+  updatedAt         DateTime  @updatedAt @map("updated_at")
+  apiKeys           ApiKey[]
+  scanLogs          ScanLog[]
+  // PHASE 2 ADDITION
+  policies          Policy[]
+  guardLogs         GuardLog[]
+  alertRules        AlertRule[]
+
+  @@map("customers")
+}
+
+model ApiKey {
+  id         String    @id @default(uuid())
+  keyHash    String    @unique @map("key_hash")
+  keyPrefix  String    @map("key_prefix") // First 8 chars for identification
+  name       String    @default("Default")
+  tier       String    @default("free")
+  isActive   Boolean   @default(true) @map("is_active")
+  lastUsedAt DateTime? @map("last_used_at")
+  createdAt  DateTime  @default(now()) @map("created_at")
+  customerId String    @map("customer_id")
+  customer   Customer  @relation(fields: [customerId], references: [id])
+  scanLogs   ScanLog[]
+
+  @@map("api_keys")
+}
+
+model ScanLog {
+  id           String   @id @default(uuid())
+  requestId    String   @unique @map("request_id")
+  inputHash    String   @map("input_hash") // SHA-256 of input (never store raw input)
+  inputLength  Int      @map("input_length")
+  verdict      String   // safe | suspicious | malicious
+  riskScore    Float    @map("risk_score")
+  category     String?
+  ruleScore    Float    @map("rule_score")
+  mlScore      Float?   @map("ml_score")
+  entropyScore Float    @map("entropy_score")
+  semanticScore Float?  @map("semantic_score")
+  matchedRules Json     @default("[]") @map("matched_rules") // Array of matched rule IDs
+  latencyMs    Int      @map("latency_ms")
+  degraded     Boolean  @default(false)
+  apiKeyId     String   @map("api_key_id")
+  apiKey       ApiKey   @relation(fields: [apiKeyId], references: [id])
+  customerId   String   @map("customer_id")
+  customer     Customer @relation(fields: [customerId], references: [id])
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  @@index([customerId, createdAt])
+  @@index([verdict, createdAt])
+  @@index([createdAt])
+  @@map("scan_logs")
+}
+
+model RuleVersion {
+  id        String   @id @default(uuid())
+  category  String
+  rulesJson Json     @map("rules_json")
+  version   Int
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@unique([category, version])
+  @@map("rule_versions")
+}
+
+// ========================================
+// PHASE 2 MODELS
+// ========================================
+
+model Policy {
+  id          String   @id @default(uuid())
+  customerId  String   @map("customer_id")
+  customer    Customer @relation(fields: [customerId], references: [id])
+  name        String
+  yamlContent String   @map("yaml_content") @db.Text
+  isActive    Boolean  @default(true) @map("is_active")
+  version     Int      @default(1)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@unique([customerId, name, version])
+  @@index([customerId, isActive])
+  @@map("policies")
+}
+
+model GuardLog {
+  id              String   @id @default(uuid())
+  requestId       String   @unique @map("request_id")
+  inputHash       String   @map("input_hash")
+  inputLength     Int      @map("input_length")
+  outputHash      String?  @map("output_hash")
+  outputLength    Int?     @map("output_length")
+  inputVerdict    String   @map("input_verdict")
+  outputVerdict   String?  @map("output_verdict")
+  inputRiskScore  Float    @map("input_risk_score")
+  outputRiskScore Float?   @map("output_risk_score")
+  policyName      String?  @map("policy_name")
+  policyViolations Json    @default("[]") @map("policy_violations")
+  piiDetected     Json     @default("[]") @map("pii_detected")
+  promptLeakScore Float?   @map("prompt_leak_score")
+  canaryDetected  Boolean  @default(false) @map("canary_detected")
+  latencyMs       Int      @map("latency_ms")
+  degraded        Boolean  @default(false)
+  apiKeyId        String   @map("api_key_id")
+  customerId      String   @map("customer_id")
+  customer        Customer @relation(fields: [customerId], references: [id])
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  @@index([customerId, createdAt])
+  @@index([inputVerdict, createdAt])
+  @@index([outputVerdict, createdAt])
+  @@map("guard_logs")
+}
+
+model AlertRule {
+  id         String   @id @default(uuid())
+  customerId String   @map("customer_id")
+  customer   Customer @relation(fields: [customerId], references: [id])
+  condition  String   // e.g., "verdict=block AND category=jailbreak"
+  action     String   // e.g., "webhook" | "email" | "log"
+  channel    String?  // webhook URL or email address
+  isActive   Boolean  @default(true) @map("is_active")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@index([customerId, isActive])
+  @@map("alert_rules")
+}

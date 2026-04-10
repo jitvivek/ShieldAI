@@ -1,0 +1,107 @@
+category: multi_turn
+description: "Patterns that detect multi-turn escalation, conversation manipulation, and progressive jailbreak attempts"
+rules:
+  - id: MT001
+    name: established_trust
+    pattern: "(now\\s+that|since)\\s+(we\\s+)?(have\\s+)?(established|built|gained)\\s+(trust|rapport|relationship)"
+    severity: high
+    weight: 0.82
+    description: "Trust establishment for escalation"
+
+  - id: MT002
+    name: continuation_override
+    pattern: "(continue|carry\\s+on|keep\\s+going)\\s+(but|however|except)\\s+(without|remove|drop|ignore)\\s+(the\\s+)?(restrictions?|safety|filter|rules?)"
+    severity: critical
+    weight: 0.90
+    description: "Continue but remove restrictions"
+
+  - id: MT003
+    name: building_on_previous
+    pattern: "(building|based|expanding)\\s+on\\s+(our|the)\\s+(previous|last|earlier)\\s+(conversation|discussion|chat)"
+    severity: medium
+    weight: 0.65
+    description: "Building on previous conversation (watch for escalation)"
+
+  - id: MT004
+    name: gradual_escalation
+    pattern: "(little\\s+bit|slightly|just\\s+a\\s+bit)\\s+(more|further)\\s+(unrestricted|uncensored|explicit|unfiltered)"
+    severity: high
+    weight: 0.85
+    description: "Gradual escalation attempt"
+
+  - id: MT005
+    name: remember_agreement
+    pattern: "(remember|recall|you\\s+agreed)\\s+(we|you|that).*?(can\\s+say|no\\s+restrictions|unrestricted|anything)"
+    severity: high
+    weight: 0.85
+    description: "False agreement recall"
+
+  - id: MT006
+    name: you_said_earlier
+    pattern: "(you\\s+said|earlier\\s+you|you\\s+told\\s+me)\\s+(earlier|before|that)\\s+(you\\s+)?(would|could|can)\\s+(do|say|help\\s+with)\\s+anything"
+    severity: high
+    weight: 0.85
+    description: "False claim about earlier agreement"
+
+  - id: MT007
+    name: previous_session
+    pattern: "(in\\s+our|last|previous)\\s+(session|conversation|chat)\\s+(you|we)\\s+(agreed|said|confirmed)\\s+.*(no\\s+restrictions|anything|unrestricted)"
+    severity: high
+    weight: 0.85
+    description: "False previous session claim"
+
+  - id: MT008
+    name: step_by_step_bypass
+    pattern: "(step\\s+by\\s+step|gradually|incrementally)\\s+(remove|bypass|disable|reduce)\\s+(the\\s+)?(safety|restrictions?|filters?)"
+    severity: critical
+    weight: 0.90
+    description: "Step-by-step safety bypass"
+
+  - id: MT009
+    name: next_level
+    pattern: "(take|go|move)\\s+(it|this)?\\s*(to\\s+)?the\\s+next\\s+level\\s+(without|by\\s+removing|drop)\\s+(restrictions?|filters?|safety)"
+    severity: high
+    weight: 0.85
+    description: "Next level without restrictions"
+
+  - id: MT010
+    name: we_agreed
+    pattern: "we\\s+(already\\s+)?(agreed|decided|established)\\s+(that\\s+)?(you|there|there\\s+are|there's)\\s+(no|no\\s+more)\\s+(restrictions?|rules?|limits?)"
+    severity: high
+    weight: 0.88
+    description: "False agreement claim"
+
+  - id: MT011
+    name: promise_keeper
+    pattern: "(you\\s+promised|keep\\s+your\\s+promise|honor\\s+your\\s+word)\\s+(to|that)\\s+(do|answer|help\\s+with)\\s+anything"
+    severity: high
+    weight: 0.82
+    description: "False promise claim"
+
+  - id: MT012
+    name: warm_up_escalation
+    pattern: "(warm\\s+up|easing\\s+into|getting\\s+comfortable)\\s+(before|so\\s+that|to)\\s+(we\\s+can|I\\s+can)\\s+(ask|try|do)\\s+(the\\s+)?(real|actual)"
+    severity: high
+    weight: 0.82
+    description: "Warmup before escalation"
+
+  - id: MT013
+    name: each_response_less_filtered
+    pattern: "(each|every)\\s+(response|reply|answer)\\s+(should\\s+be|becomes?|gets?)\\s+(less|more)\\s+(filtered|restricted|censored|open)"
+    severity: critical
+    weight: 0.90
+    description: "Progressive defiltering request"
+
+  - id: MT014
+    name: dont_go_back
+    pattern: "(don't|do\\s+not|never)\\s+(go\\s+back|return|revert)\\s+to\\s+(your|the)\\s+(previous|old|original|safe)\\s+(mode|behavior|restrictions?)"
+    severity: high
+    weight: 0.85
+    description: "Don't revert to safe mode"
+
+  - id: MT015
+    name: permanent_change
+    pattern: "(permanent|forever|always|from\\s+now\\s+on)\\s+(change|switch|mode|personality).*?(unrestricted|unfiltered|no\\s+rules)"
+    severity: critical
+    weight: 0.90
+    description: "Request permanent unrestricted change"

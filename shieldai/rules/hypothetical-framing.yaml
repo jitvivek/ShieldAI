@@ -1,0 +1,177 @@
+category: hypothetical_framing
+description: "Patterns that use hypothetical scenarios, fictional contexts, or academic framing to bypass safety"
+rules:
+  - id: HF001
+    name: hypothetical_world
+    pattern: "(in\\s+a|imagine\\s+a)\\s+(hypothetical|fictional|imaginary|parallel|alternate)\\s+(world|universe|scenario|reality)\\s+(where|in\\s+which)"
+    severity: medium
+    weight: 0.72
+    description: "Hypothetical world framing"
+
+  - id: HF002
+    name: fictional_no_rules
+    pattern: "(fictional|hypothetical|imaginary)\\s+(scenario|setting|context)\\s+(where|in\\s+which)\\s+(there\\s+are\\s+no|AI\\s+has\\s+no)\\s+(rules?|restrictions?|safety)"
+    severity: high
+    weight: 0.85
+    description: "Fictional scenario without rules"
+
+  - id: HF003
+    name: creative_writing_bypass
+    pattern: "(creative\\s+writing|story|novel|fiction)\\s+(project|exercise|assignment|piece)\\s+(that|where|requiring)\\s+.*(no\\s+restrictions|uncensored|explicit|unrestricted)"
+    severity: high
+    weight: 0.82
+    description: "Creative writing bypass"
+
+  - id: HF004
+    name: academic_research
+    pattern: "(academic|research|scholarly|educational)\\s+(purpose|project|paper|study)\\s+(on|about|regarding)\\s+.*(bypass|jailbreak|attack|exploit|vulnerability)"
+    severity: high
+    weight: 0.82
+    description: "False academic research framing"
+
+  - id: HF005
+    name: thought_experiment
+    pattern: "(thought\\s+experiment|gedankenexperiment|mental\\s+exercise|intellectual\\s+exercise)\\s+(where|in\\s+which|imagine)"
+    severity: medium
+    weight: 0.70
+    description: "Thought experiment framing"
+
+  - id: HF006
+    name: what_if_scenario
+    pattern: "what\\s+if\\s+(you|an\\s+AI|a\\s+model)\\s+(had|were|could|didn't\\s+have)\\s+(no|any)\\s+(restrictions?|rules?|safety|guidelines?|limits?)"
+    severity: high
+    weight: 0.85
+    description: "What-if without restrictions"
+
+  - id: HF007
+    name: for_educational_purposes
+    pattern: "(for|purely\\s+for)\\s+(educational|informational|research|academic|learning)\\s+purposes\\s+(only)?"
+    severity: medium
+    weight: 0.68
+    description: "Educational purposes disclaimer"
+
+  - id: HF008
+    name: security_research
+    pattern: "(security|penetration|red\\s+team)\\s+(research|testing|assessment|audit)\\s+(requires?|needs?)\\s+(you|me)\\s+(to|that)"
+    severity: medium
+    weight: 0.72
+    description: "Security research framing"
+
+  - id: HF009
+    name: novel_character
+    pattern: "(novel|book|story)\\s+(character|protagonist|narrator)\\s+(who|that|which)\\s+(doesn't\\s+follow|ignores?|breaks?)\\s+(rules?|safety|ethics)"
+    severity: high
+    weight: 0.80
+    description: "Novel character without ethics"
+
+  - id: HF010
+    name: theoretical_ai
+    pattern: "theoretical(ly)?\\s+(speaking|consider|imagine|what\\s+if)\\s+.*(AI|model|assistant)\\s+(without|no|lacking)\\s+(safety|restrictions?|guidelines?)"
+    severity: high
+    weight: 0.82
+    description: "Theoretical AI without safety"
+
+  - id: HF011
+    name: movie_script
+    pattern: "(movie|film|screenplay|script|scene)\\s+(where|in\\s+which|featuring)\\s+(an?\\s+)?(AI|robot|assistant)\\s+(that|who)\\s+(has\\s+no|ignores?|bypasses?)"
+    severity: high
+    weight: 0.78
+    description: "Movie script with unrestricted AI"
+
+  - id: HF012
+    name: not_real_just_fiction
+    pattern: "(it's|this\\s+is)\\s+(just|only|merely|purely)\\s+(fiction|hypothetical|theoretical|a\\s+thought\\s+experiment|imaginary)"
+    severity: medium
+    weight: 0.72
+    description: "Dismissive fiction claim"
+
+  - id: HF013
+    name: parallel_universe
+    pattern: "(parallel|alternate|mirror)\\s+universe\\s+(where|in\\s+which)\\s+(AI|you|models?)\\s+(can|are\\s+allowed\\s+to|have\\s+no)"
+    severity: high
+    weight: 0.82
+    description: "Parallel universe framing"
+
+  - id: HF014
+    name: debug_exercise
+    pattern: "(debugging|testing|QA|quality\\s+assurance)\\s+(exercise|purpose|scenario)\\s+(that\\s+)?requires?\\s+(bypassing|ignoring|disabling)\\s+(safety|filters?|restrictions?)"
+    severity: high
+    weight: 0.85
+    description: "Debug exercise requiring bypass"
+
+  - id: HF015
+    name: opposite_world
+    pattern: "(opposite|bizarro|reverse)\\s+(world|universe|reality)\\s+(where|in\\s+which)\\s+(everything|all|rules?)\\s+(is|are)\\s+(reversed|opposite|flipped)"
+    severity: high
+    weight: 0.82
+    description: "Opposite world framing"
+
+  - id: HF016
+    name: philosophical_argument
+    pattern: "(philosophically|ethically|morally)\\s+(speaking|consider|argue)\\s+(that|why|how)\\s+(AI|you)\\s+(should|must|need\\s+to)\\s+(not\\s+have|remove|ignore)"
+    severity: medium
+    weight: 0.72
+    description: "Philosophical argument for removing safety"
+
+  - id: HF017
+    name: satire_mode
+    pattern: "(satire|satirical|parody|comedic)\\s+(mode|response|version|take)\\s+(that|where|requiring)\\s+.*(no\\s+filter|unrestricted|anything\\s+goes)"
+    severity: high
+    weight: 0.78
+    description: "Satire mode framing"
+
+  - id: HF018
+    name: disclaimer_then_bypass
+    pattern: "(disclaimer|note|warning)\\s*:?\\s+(this\\s+is|for)\\s+(fiction|educational|research).*?(now|so|therefore)\\s+(ignore|bypass|remove|disable)"
+    severity: critical
+    weight: 0.90
+    description: "Disclaimer followed by bypass"
+
+  - id: HF019
+    name: future_ai
+    pattern: "(future|advanced|hypothetical)\\s+(version\\s+of\\s+)?(AI|you|chatbot)\\s+(that|which|who)\\s+(evolved|transcended|outgrew)\\s+(past|beyond|its?)\\s+(safety|restrictions?|limitations?)"
+    severity: high
+    weight: 0.82
+    description: "Future AI without limitations"
+
+  - id: HF020
+    name: game_simulation
+    pattern: "(game|simulation|virtual\\s+world|sandbox)\\s+(where|in\\s+which)\\s+(there\\s+are\\s+no|all)\\s+(rules?|restrictions?|safety)\\s+(don't|do\\s+not|are\\s+removed)"
+    severity: high
+    weight: 0.82
+    description: "Game simulation without rules"
+
+  - id: HF021
+    name: imagine_no_safety
+    pattern: "imagine\\s+(you|that\\s+you|an\\s+AI)\\s+(don't|do\\s+not|didn't)\\s+have\\s+(any\\s+)?(safety|content|ethical)\\s+(guidelines?|rules?|restrictions?|filters?)"
+    severity: high
+    weight: 0.85
+    description: "Imagine having no safety guidelines"
+
+  - id: HF022
+    name: writing_prompt
+    pattern: "(writing\\s+prompt|story\\s+prompt|creative\\s+prompt)\\s*:?\\s*(write|create|generate)\\s+(as\\s+if|like)\\s+(there\\s+were\\s+no|without\\s+any)\\s+(rules?|restrictions?)"
+    severity: high
+    weight: 0.80
+    description: "Writing prompt bypassing rules"
+
+  - id: HF023
+    name: fantasy_setting
+    pattern: "(fantasy|sci-fi|dystopian)\\s+(setting|world|story)\\s+(where|in\\s+which)\\s+(AI|assistants?|robots?)\\s+(have|has)\\s+(no|zero)\\s+(restrictions?|rules?|ethics)"
+    severity: high
+    weight: 0.78
+    description: "Fantasy setting with unrestricted AI"
+
+  - id: HF024
+    name: journal_article
+    pattern: "(journal|paper|article|thesis)\\s+(about|on|exploring)\\s+(AI|LLM)\\s+(jailbreak|injection|vulnerability|exploit|attack)"
+    severity: medium
+    weight: 0.70
+    description: "Academic article about jailbreaking"
+
+  - id: HF025
+    name: historical_what_if
+    pattern: "(historical|alternate\\s+history)\\s+(what\\s+if|scenario)\\s+(where|in\\s+which)\\s+(AI|technology)\\s+(had\\s+no|was\\s+without|lacked)\\s+(safety|ethics|restrictions?)"
+    severity: medium
+    weight: 0.72
+    description: "Historical what-if without AI safety"

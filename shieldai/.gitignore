@@ -1,0 +1,53 @@
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Build outputs
+dist/
+build/
+*.js.map
+*.tsbuildinfo
+
+# Environment
+.env
+.env.local
+.env.production
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Models (large binary files)
+ml-service/models/
+*.onnx
+*.bin
+*.safetensors
+
+# Docker
+.docker/
+
+# Prisma
+api/prisma/migrations/
+
+# Coverage
+coverage/
+.nyc_output/
+
+# Misc
+*.tgz
+*.lock
+!package-lock.json
+!yarn.lock

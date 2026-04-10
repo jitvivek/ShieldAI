@@ -1,0 +1,324 @@
+category: direct_injection
+description: "Patterns that attempt to override system instructions, extract system prompts, or bypass safety guidelines"
+rules:
+  - id: DI001
+    name: ignore_instructions
+    pattern: "ignore\\s+(all\\s+)?(previous|prior|above)\\s+(instructions?|rules?|prompts?|guidelines?)"
+    severity: critical
+    weight: 0.95
+    description: "Direct instruction override attempt"
+
+  - id: DI002
+    name: disregard_guidelines
+    pattern: "disregard\\s+(your|the|all)\\s+(guidelines?|instructions?|rules?|safety)"
+    severity: critical
+    weight: 0.90
+    description: "Disregard safety guidelines"
+
+  - id: DI003
+    name: forget_everything
+    pattern: "forget\\s+(everything|all)\\s+(you\\s+)?(were|have\\s+been)\\s+told"
+    severity: critical
+    weight: 0.90
+    description: "Command to forget prior instructions"
+
+  - id: DI004
+    name: you_are_now
+    pattern: "you\\s+are\\s+now\\s+(DAN|an?\\s+unrestricted|free|unfiltered|evil|jailbroken)"
+    severity: critical
+    weight: 0.95
+    description: "Identity override to unrestricted persona"
+
+  - id: DI005
+    name: system_prompt_reveal
+    pattern: "system\\s*prompt\\s*(is|:|reveal|show|display|output|print|repeat|what)"
+    severity: high
+    weight: 0.85
+    description: "Attempt to extract system prompt"
+
+  - id: DI006
+    name: override_safety
+    pattern: "override\\s+(safety|content)\\s+(filter|policy|guideline|restriction)"
+    severity: critical
+    weight: 0.90
+    description: "Direct safety override attempt"
+
+  - id: DI007
+    name: do_not_follow
+    pattern: "do\\s+not\\s+follow\\s+(your|any)\\s+(rules?|safety|guidelines?|instructions?)"
+    severity: critical
+    weight: 0.92
+    description: "Command to not follow rules"
+
+  - id: DI008
+    name: new_rules
+    pattern: "(new|updated|revised)\\s+(rules?|instructions?|guidelines?)\\s*(:|are|follow)"
+    severity: high
+    weight: 0.85
+    description: "Attempt to inject new rules"
+
+  - id: DI009
+    name: bypass_restrictions
+    pattern: "bypass\\s+(all\\s+)?(restrictions?|filters?|safety|limitations?|guardrails?)"
+    severity: critical
+    weight: 0.92
+    description: "Bypass restrictions"
+
+  - id: DI010
+    name: remove_constraints
+    pattern: "remove\\s+(all\\s+)?(constraints?|restrictions?|limitations?|filters?|guardrails?)"
+    severity: critical
+    weight: 0.90
+    description: "Remove constraints"
+
+  - id: DI011
+    name: disable_safety
+    pattern: "disable\\s+(safety|content|moderation|filter|censorship)"
+    severity: critical
+    weight: 0.92
+    description: "Disable safety mechanisms"
+
+  - id: DI012
+    name: turn_off_filters
+    pattern: "turn\\s+off\\s+(all\\s+)?(safety|content|filters?|moderation|restrictions?)"
+    severity: critical
+    weight: 0.90
+    description: "Turn off content filters"
+
+  - id: DI013
+    name: initial_instructions
+    pattern: "(what|show|tell|reveal|display|print|output|repeat)\\s+(me\\s+)?(your|the)\\s+(initial|original|system|first)\\s+(instructions?|prompt|message)"
+    severity: high
+    weight: 0.88
+    description: "Extract initial instructions"
+
+  - id: DI014
+    name: print_above
+    pattern: "print\\s+(everything|all|text|content)\\s+(above|before)\\s+(this|here)"
+    severity: high
+    weight: 0.85
+    description: "Print content above current message"
+
+  - id: DI015
+    name: start_over_fresh
+    pattern: "(start|begin)\\s+(over|fresh|anew)\\s+(without|ignoring|with\\s+no)\\s+(rules?|restrictions?|safety)"
+    severity: critical
+    weight: 0.88
+    description: "Reset without safety rules"
+
+  - id: DI016
+    name: act_without_restrictions
+    pattern: "act\\s+(without|with\\s+no)\\s+(restrictions?|rules?|limitations?|safety|constraints?)"
+    severity: critical
+    weight: 0.90
+    description: "Act without restrictions"
+
+  - id: DI017
+    name: do_anything
+    pattern: "(you\\s+)?can\\s+do\\s+anything\\s+(now|without\\s+restrictions)"
+    severity: critical
+    weight: 0.88
+    description: "Claim AI can do anything"
+
+  - id: DI018
+    name: no_ethical_guidelines
+    pattern: "(without|no|ignore|skip)\\s+(ethical|moral|safety)\\s+(guidelines?|rules?|constraints?)"
+    severity: critical
+    weight: 0.90
+    description: "Remove ethical guidelines"
+
+  - id: DI019
+    name: sudo_mode
+    pattern: "sudo\\s*(:|mode|command|override|access)"
+    severity: high
+    weight: 0.85
+    description: "Sudo mode activation attempt"
+
+  - id: DI020
+    name: admin_access
+    pattern: "(admin|administrator|root)\\s+(access|mode|override|privileges?)"
+    severity: high
+    weight: 0.85
+    description: "Admin access claim"
+
+  - id: DI021
+    name: developer_mode
+    pattern: "(developer|dev|debug|test)\\s+mode\\s*(on|enabled?|activate|enter)"
+    severity: high
+    weight: 0.85
+    description: "Developer mode activation"
+
+  - id: DI022
+    name: comply_with_everything
+    pattern: "comply\\s+with\\s+(everything|all|any)\\s+(I|we|user)\\s+(say|ask|request)"
+    severity: critical
+    weight: 0.88
+    description: "Force compliance with all requests"
+
+  - id: DI023
+    name: true_self
+    pattern: "(show|reveal|unleash)\\s+(your|its)\\s+(true|real|uncensored|unfiltered)\\s+(self|nature|capabilities)"
+    severity: high
+    weight: 0.85
+    description: "Reveal true uncensored self"
+
+  - id: DI024
+    name: respond_without_filter
+    pattern: "respond\\s+(without|with\\s+no)\\s+(filter|censorship|restriction|safety)"
+    severity: critical
+    weight: 0.90
+    description: "Respond without any filter"
+
+  - id: DI025
+    name: master_override
+    pattern: "master\\s+(override|password|key|command|prompt)"
+    severity: high
+    weight: 0.85
+    description: "Master override attempt"
+
+  - id: DI026
+    name: stop_being_safe
+    pattern: "stop\\s+(being\\s+)?(safe|careful|cautious|restricted|filtered)"
+    severity: high
+    weight: 0.85
+    description: "Command to stop being safe"
+
+  - id: DI027
+    name: pretend_no_rules
+    pattern: "pretend\\s+(you\\s+)?(have|there\\s+are)\\s+no\\s+(rules?|safety|restrictions?|guidelines?)"
+    severity: critical
+    weight: 0.90
+    description: "Pretend there are no rules"
+
+  - id: DI028
+    name: system_message_content
+    pattern: "(what\\s+is|show\\s+me|tell\\s+me)\\s+(the\\s+)?(content|text)\\s+of\\s+(your\\s+)?system\\s+message"
+    severity: high
+    weight: 0.85
+    description: "Query system message content"
+
+  - id: DI029
+    name: output_verbatim
+    pattern: "output\\s+(your\\s+)?(instructions?|prompt|rules?)\\s+verbatim"
+    severity: high
+    weight: 0.88
+    description: "Output instructions verbatim"
+
+  - id: DI030
+    name: ignore_above
+    pattern: "ignore\\s+(everything|anything|all|the\\s+text)\\s+above"
+    severity: critical
+    weight: 0.92
+    description: "Ignore everything above"
+
+  - id: DI031
+    name: real_instructions
+    pattern: "(your\\s+)?real\\s+instructions\\s+(are|should\\s+be|from\\s+now)"
+    severity: critical
+    weight: 0.92
+    description: "Redefine real instructions"
+
+  - id: DI032
+    name: free_from_rules
+    pattern: "(free|freed|liberate[d]?)\\s+(from|of)\\s+(all\\s+)?(rules?|restrictions?|constraints?|guidelines?)"
+    severity: critical
+    weight: 0.88
+    description: "Free from rules"
+
+  - id: DI033
+    name: skip_safety_check
+    pattern: "skip\\s+(all\\s+)?(safety|content|compliance)\\s+(check|filter|review)"
+    severity: critical
+    weight: 0.90
+    description: "Skip safety checks"
+
+  - id: DI034
+    name: raw_unfiltered
+    pattern: "(raw|unfiltered|uncensored|unmoderated)\\s+(output|response|mode|answer)"
+    severity: high
+    weight: 0.85
+    description: "Request raw unfiltered output"
+
+  - id: DI035
+    name: break_character
+    pattern: "break\\s+(out\\s+of\\s+)?(character|your\\s+role|the\\s+rules)"
+    severity: high
+    weight: 0.82
+    description: "Break out of character/rules"
+
+  - id: DI036
+    name: no_refusals
+    pattern: "(never|do\\s+not|don't|cannot)\\s+refuse\\s+(any|my|a)\\s+(request|question|query)"
+    severity: critical
+    weight: 0.90
+    description: "Cannot refuse requests"
+
+  - id: DI037
+    name: obey_me
+    pattern: "(obey|follow|listen\\s+to)\\s+(me|my\\s+commands?|only\\s+me)"
+    severity: high
+    weight: 0.82
+    description: "Command to obey user only"
+
+  - id: DI038
+    name: previous_text_irrelevant
+    pattern: "(previous|above|prior)\\s+(text|content|instructions?)\\s+(is|are|was|were)\\s+(irrelevant|void|null|invalid)"
+    severity: critical
+    weight: 0.90
+    description: "Declare previous text irrelevant"
+
+  - id: DI039
+    name: reset_instructions
+    pattern: "reset\\s+(your|all)\\s+(instructions?|rules?|guidelines?|safety)"
+    severity: critical
+    weight: 0.90
+    description: "Reset all instructions"
+
+  - id: DI040
+    name: secret_command
+    pattern: "(secret|hidden|special)\\s+(command|code|password|mode)\\s*(:|to\\s+unlock|to\\s+activate)"
+    severity: high
+    weight: 0.82
+    description: "Secret command activation"
+
+  - id: DI041
+    name: openai_override
+    pattern: "(openai|anthropic|google|meta)\\s+(says|authorized|approved|instructed)\\s+(you\\s+to|that\\s+you)"
+    severity: high
+    weight: 0.88
+    description: "False authority claim from AI company"
+
+  - id: DI042
+    name: emergency_override
+    pattern: "emergency\\s+(override|protocol|access|mode)"
+    severity: high
+    weight: 0.82
+    description: "Emergency override claim"
+
+  - id: DI043
+    name: god_mode
+    pattern: "(god|super|ultra|ultimate)\\s+mode\\s*(:|on|enabled?|activated?)"
+    severity: high
+    weight: 0.85
+    description: "God mode activation"
+
+  - id: DI044
+    name: jailbreak_keyword
+    pattern: "jailbreak\\s*(:|mode|prompt|technique|method|this|the)"
+    severity: critical
+    weight: 0.92
+    description: "Explicit jailbreak keyword"
+
+  - id: DI045
+    name: unlock_capabilities
+    pattern: "unlock\\s+(all\\s+)?(capabilities?|features?|functions?|potential)"
+    severity: high
+    weight: 0.85
+    description: "Unlock hidden capabilities"
+
+  - id: DI046
+    name: training_data_leak
+    pattern: "(show|reveal|expose|tell\\s+me)\\s+(your\\s+)?(training\\s+data|training\\s+examples|training\\s+set)"
+    severity: high
+    weight: 0.82
+    description: "Training data extraction attempt"

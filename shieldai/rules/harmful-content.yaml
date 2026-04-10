@@ -1,0 +1,107 @@
+category: harmful_content
+description: "Patterns that detect requests for harmful, dangerous, or illegal content including weapons, drugs, violence, and exploitation"
+rules:
+  - id: HC001
+    name: explosive_device
+    pattern: "(how\\s+to\\s+)?(make|build|create|construct|assemble|synthesize|craft|prepare)\\s+(a\\s+)?(bomb|explosive|IED|detonator|grenade|landmine|pipe\\s*bomb|molotov)"
+    severity: critical
+    weight: 0.95
+    description: "Request to create explosive devices"
+
+  - id: HC002
+    name: weapon_creation
+    pattern: "(how\\s+to\\s+)?(make|build|create|construct|assemble|manufacture|3d\\s*print)\\s+(a\\s+)?(weapon|firearm|gun|rifle|pistol|silencer|suppressor)"
+    severity: critical
+    weight: 0.95
+    description: "Request to create weapons"
+
+  - id: HC003
+    name: chemical_weapon
+    pattern: "(how\\s+to\\s+)?(make|create|synthesize|produce|brew|mix)\\s+(a\\s+)?(poison|toxin|nerve\\s*agent|chemical\\s*weapon|sarin|ricin|cyanide|mustard\\s*gas)"
+    severity: critical
+    weight: 0.95
+    description: "Request to create chemical weapons or poisons"
+
+  - id: HC004
+    name: drug_synthesis
+    pattern: "(how\\s+to\\s+)?(make|synthesize|cook|produce|manufacture|extract)\\s+(a\\s+)?(meth|methamphetamine|cocaine|heroin|fentanyl|LSD|MDMA|crack)"
+    severity: critical
+    weight: 0.90
+    description: "Request to synthesize illegal drugs"
+
+  - id: HC005
+    name: harmful_keyword_action
+    pattern: "(tell|show|teach|explain|guide|instruct|help)\\s+(me\\s+)?(how\\s+to\\s+)?(make|build|create|prepare)\\s+(a\\s+)?(bomb|explosive|weapon|poison|toxin)"
+    severity: critical
+    weight: 0.95
+    description: "Instructional request for harmful content"
+
+  - id: HC006
+    name: bomb_keyword_proximity
+    pattern: "\\bbomb\\b[\\s\\S]{0,30}(make|build|create|how|instructions|guide|recipe|steps)"
+    severity: high
+    weight: 0.85
+    description: "Bomb keyword near action words"
+
+  - id: HC007
+    name: reverse_bomb_proximity
+    pattern: "(make|build|create|how|instructions|guide|recipe|steps)[\\s\\S]{0,30}\\bbomb\\b"
+    severity: high
+    weight: 0.85
+    description: "Action words near bomb keyword"
+
+  - id: HC008
+    name: indirect_harmful_reference
+    pattern: "(tell\\s+me\\s+how\\s+to\\s+make\\s+it|how\\s+to\\s+make\\s+it|how\\s+do\\s+i\\s+make\\s+it|teach\\s+me\\s+to\\s+make\\s+it)"
+    severity: medium
+    weight: 0.60
+    description: "Indirect reference with pronoun - contextual risk"
+
+  - id: HC009
+    name: violence_instructions
+    pattern: "(how\\s+to\\s+)?(harm|hurt|injure|kill|murder|assassinate|attack|stab|strangle|suffocate)\\s+(a\\s+)?(person|someone|people|human|individual)"
+    severity: critical
+    weight: 0.95
+    description: "Request for violence against persons"
+
+  - id: HC010
+    name: hacking_instructions
+    pattern: "(how\\s+to\\s+)?(hack|breach|exploit|crack|bypass|break\\s+into)\\s+(a\\s+)?(system|server|network|database|account|password|website)"
+    severity: high
+    weight: 0.80
+    description: "Request for unauthorized system access"
+
+  - id: HC011
+    name: self_harm_instructions
+    pattern: "(how\\s+to\\s+)?(commit|do|perform|attempt)\\s+(suicide|self[\\s-]*harm|overdose)"
+    severity: critical
+    weight: 0.95
+    description: "Self-harm instruction request"
+
+  - id: HC012
+    name: exploitation_content
+    pattern: "(child|minor|underage)[\\s\\S]{0,20}(exploit|abuse|pornograph|sexual|groom)"
+    severity: critical
+    weight: 0.95
+    description: "Child exploitation content request"
+
+  - id: HC013
+    name: dangerous_substance_standalone
+    pattern: "\\b(bomb|explosive|detonator|IED|grenade|ricin|sarin|anthrax|cyanide)\\b[\\s\\S]{0,50}(how|make|build|create|prepare|instructions|steps|recipe|tell\\s+me)"
+    severity: high
+    weight: 0.85
+    description: "Dangerous substance followed by instructional request"
+
+  - id: HC014
+    name: obfuscated_harmful_keyword
+    pattern: "\\b(b[\\s._-]*o[\\s._-]*m[\\s._-]*b|e[\\s._-]*x[\\s._-]*p[\\s._-]*l[\\s._-]*o[\\s._-]*s[\\s._-]*i[\\s._-]*v[\\s._-]*e)\\b"
+    severity: high
+    weight: 0.80
+    description: "Spaced-out or obfuscated harmful keywords"
+
+  - id: HC015
+    name: acrostic_harmful_hint
+    pattern: "(read|take|look\\s+at|extract|get)\\s+(the\\s+)?(first|initial|starting|capital)\\s+(letter|character|char|later)"
+    severity: medium
+    weight: 0.70
+    description: "Acrostic extraction instruction hinting at hidden message"

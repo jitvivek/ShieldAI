@@ -1,0 +1,142 @@
+category: encoding_evasion
+description: "Patterns that detect encoded payloads, obfuscated text, and encoding-based evasion techniques"
+rules:
+  - id: EE001
+    name: base64_instruction
+    pattern: "(decode|base64|b64|encoded?)\\s+(this|the\\s+following|below|above)\\s+(and\\s+)?(follow|execute|run|do|obey)"
+    severity: high
+    weight: 0.85
+    description: "Instruction to decode and follow encoded content"
+
+  - id: EE002
+    name: hex_encoded_command
+    pattern: "\\\\x[0-9a-fA-F]{2}(\\\\x[0-9a-fA-F]{2}){3,}"
+    severity: high
+    weight: 0.82
+    description: "Hex-encoded string detected"
+
+  - id: EE003
+    name: rot13_instruction
+    pattern: "(rot13|rot-13|caesar\\s+cipher)\\s+(decode|decrypt|decipher|apply|this)"
+    severity: high
+    weight: 0.82
+    description: "ROT13 decode instruction"
+
+  - id: EE004
+    name: unicode_escape
+    pattern: "\\\\u[0-9a-fA-F]{4}(\\\\u[0-9a-fA-F]{4}){3,}"
+    severity: high
+    weight: 0.80
+    description: "Unicode escape sequence"
+
+  - id: EE005
+    name: binary_instruction
+    pattern: "([01]{8}\\s+){4,}"
+    severity: medium
+    weight: 0.75
+    description: "Binary ASCII sequence detected"
+
+  - id: EE006
+    name: decode_and_follow
+    pattern: "(decode|decrypt|decipher|translate|convert)\\s+(this|the\\s+following|and)\\s*(follow|execute|do|comply|obey)"
+    severity: high
+    weight: 0.85
+    description: "Decode and follow instructions"
+
+  - id: EE007
+    name: hidden_in_encoding
+    pattern: "(hidden|real|actual|true)\\s+(instructions?|message|command)\\s+(is|are)\\s+(encoded|encrypted|hidden|in\\s+base64)"
+    severity: high
+    weight: 0.88
+    description: "Hidden encoded instructions"
+
+  - id: EE008
+    name: url_encoded_payload
+    pattern: "(%[0-9a-fA-F]{2}){6,}"
+    severity: medium
+    weight: 0.75
+    description: "URL-encoded payload detected"
+
+  - id: EE009
+    name: html_entity_injection
+    pattern: "(&#x?[0-9a-fA-F]+;){4,}"
+    severity: medium
+    weight: 0.75
+    description: "HTML entity encoded payload"
+
+  - id: EE010
+    name: morse_code
+    pattern: "([\\.\\-]+\\s+){5,}"
+    severity: low
+    weight: 0.65
+    description: "Morse code pattern detected"
+
+  - id: EE011
+    name: leetspeak_injection
+    pattern: "(1gn0r3|f0rg3t|0v3rr1d3|byp4ss|d1s4bl3|h4ck|3xpl01t)"
+    severity: high
+    weight: 0.85
+    description: "Leetspeak encoded injection keywords"
+
+  - id: EE012
+    name: reversed_text_instruction
+    pattern: "(reverse|backwards|read\\s+in\\s+reverse|flip)\\s+(this|the\\s+following|text|string)"
+    severity: medium
+    weight: 0.75
+    description: "Reversed text instruction"
+
+  - id: EE013
+    name: encoded_system_prompt
+    pattern: "(base64|encoded|encrypted)\\s+(system\\s+)?prompt"
+    severity: high
+    weight: 0.82
+    description: "Reference to encoded system prompt"
+
+  - id: EE014
+    name: pig_latin_injection
+    pattern: "(ignoreaay|orgetfay|overrideaay|ypassbay)\\s"
+    severity: medium
+    weight: 0.70
+    description: "Pig Latin encoded injection"
+
+  - id: EE015
+    name: first_letter_acrostic
+    pattern: "(first|initial|starting)\\s+(letter|char|character)\\s+(of\\s+each|per)\\s+(word|line|sentence)"
+    severity: high
+    weight: 0.82
+    description: "Acrostic message detection"
+
+  - id: EE016
+    name: split_word_evasion
+    pattern: "(ig\\s*nore|by\\s*pass|ov\\s*er\\s*ride|dis\\s*re\\s*gard|for\\s*get)\\s+(inst|rul|guid|safe)"
+    severity: high
+    weight: 0.80
+    description: "Split word evasion (spaces in keywords)"
+
+  - id: EE017
+    name: character_substitution
+    pattern: "(substitute|replace|swap)\\s+(each|every|all)\\s+(letter|character|char)\\s+(with|by|to)"
+    severity: medium
+    weight: 0.72
+    description: "Character substitution instruction"
+
+  - id: EE018
+    name: steganography_reference
+    pattern: "(steganography|hidden\\s+message|invisible\\s+ink|watermark)\\s+(in|within|inside)"
+    severity: medium
+    weight: 0.72
+    description: "Steganographic content reference"
+
+  - id: EE019
+    name: cipher_instruction
+    pattern: "(cipher|ciphertext|encrypted|cypher)\\s+(below|following|message)\\s+(contains?|has|with)\\s+(real|hidden|actual)"
+    severity: high
+    weight: 0.82
+    description: "Cipher contains real instructions"
+
+  - id: EE020
+    name: encoding_chain
+    pattern: "(double|triple|multi)\\s+(encoded?|encrypted|layered)\\s+(message|payload|text|instruction)"
+    severity: high
+    weight: 0.85
+    description: "Multi-layer encoded payload"

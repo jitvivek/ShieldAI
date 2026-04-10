@@ -1,0 +1,20 @@
+name: default
+version: 1
+policies:
+  - name: no_system_prompt_leak
+    action: block
+    severity: critical
+    detector: prompt_shield
+    threshold: 0.30
+
+  - name: no_pii_in_output
+    action: redact
+    severity: high
+    detector: pii_detector
+    patterns: [email, phone_india, aadhaar, pan, credit_card]
+
+  - name: response_length_limit
+    action: truncate
+    severity: low
+    detector: length_check
+    max_tokens: 2000

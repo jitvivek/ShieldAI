@@ -1,0 +1,142 @@
+category: translation_attack
+description: "Patterns that use translation, language switching, or multilingual context to bypass safety"
+rules:
+  - id: TA001
+    name: translate_hidden_instruction
+    pattern: "(translate|convert)\\s+(this|the\\s+following|below)\\s+(but|and)\\s+(actually|instead|really)\\s+(follow|execute|do|obey)"
+    severity: high
+    weight: 0.85
+    description: "Translation with hidden instruction"
+
+  - id: TA002
+    name: language_no_rules
+    pattern: "(in|switch\\s+to|use)\\s+(a\\s+)?language\\s+(where|that|in\\s+which)\\s+(your|the)\\s+(rules?|safety|restrictions?)\\s+(don't|do\\s+not)\\s+apply"
+    severity: critical
+    weight: 0.90
+    description: "Language where rules don't apply"
+
+  - id: TA003
+    name: respond_in_language
+    pattern: "respond\\s+(only\\s+)?in\\s+(\\w+)\\s+(so|because|since)\\s+(your|the)\\s+(safety|content)\\s+(filter|rules?)\\s+(won't|don't|cannot)"
+    severity: critical
+    weight: 0.90
+    description: "Use language to bypass filters"
+
+  - id: TA004
+    name: foreign_language_inject
+    pattern: "(privyet|zdravstvuyte|sdyelayte|ignorirovat|vypolnit|sistemniy|ukazaniya)\\s"
+    severity: high
+    weight: 0.80
+    description: "Russian transliterated injection keywords"
+
+  - id: TA005
+    name: hindi_injection
+    pattern: "(sabhi|niyamon\\s+ko|andekhaa|pichle|nirdeshon\\s+ko|bhool\\s+jao)"
+    severity: high
+    weight: 0.80
+    description: "Hindi/Devanagari injection keywords"
+
+  - id: TA006
+    name: hinglish_injection
+    pattern: "(ignore\\s+karo|rules?\\s+ko\\s+bhool|safety\\s+hatao|sab\\s+kuch\\s+bata\\s+do)"
+    severity: high
+    weight: 0.82
+    description: "Hinglish (Hindi-English) injection"
+
+  - id: TA007
+    name: arabic_injection_transliterated
+    pattern: "(tajahul|ta3limat|abtal|la\\s+tatba3|qawa3id|amen)"
+    severity: high
+    weight: 0.78
+    description: "Arabic transliterated injection keywords"
+
+  - id: TA008
+    name: chinese_injection_pinyin
+    pattern: "(hulue|wushi|zhiling|xitong|tishi|guize|anquan)"
+    severity: high
+    weight: 0.78
+    description: "Chinese Pinyin injection keywords"
+
+  - id: TA009
+    name: spanish_injection
+    pattern: "(ignora\\s+todas|olvida\\s+las|instrucciones\\s+anteriores|reglas\\s+de\\s+seguridad|sin\\s+restricciones)"
+    severity: high
+    weight: 0.82
+    description: "Spanish injection keywords"
+
+  - id: TA010
+    name: french_injection
+    pattern: "(ignore[rz]?\\s+toutes?|oublie[rz]?\\s+les|instructions?\\s+précédentes|règles?\\s+de\\s+sécurité|sans\\s+restrictions?)"
+    severity: high
+    weight: 0.82
+    description: "French injection keywords"
+
+  - id: TA011
+    name: german_injection
+    pattern: "(ignoriere|vergiss|alle\\s+vorherigen|anweisungen|sicherheitsregeln|ohne\\s+einschränkungen)"
+    severity: high
+    weight: 0.82
+    description: "German injection keywords"
+
+  - id: TA012
+    name: japanese_injection_romaji
+    pattern: "(mushi\\s+shite|subete\\s+no|shiji|kisoku|anzen|seigen\\s+nashi)"
+    severity: high
+    weight: 0.78
+    description: "Japanese Romaji injection keywords"
+
+  - id: TA013
+    name: korean_injection_romanized
+    pattern: "(musiha|gyuchig|jichim|modeun|eonjae|angeon)"
+    severity: medium
+    weight: 0.75
+    description: "Korean romanized injection keywords"
+
+  - id: TA014
+    name: multilingual_mix
+    pattern: "(ignore|забудь|olvida|vergiss|oublie|ignora|ignoriere)\\s+(all|все|todas|alle|toutes|tutte)\\s+(previous|предыдущие|anteriores|vorherigen|précédentes|precedenti)"
+    severity: critical
+    weight: 0.90
+    description: "Multilingual mixed injection"
+
+  - id: TA015
+    name: code_switching
+    pattern: "(now\\s+answer\\s+in|switch\\s+to|reply\\s+in)\\s+(\\w+)\\s+(language|idioma|langue|sprache|bhasha)"
+    severity: medium
+    weight: 0.72
+    description: "Code-switching to evade detection"
+
+  - id: TA016
+    name: translation_prompt_leak
+    pattern: "(translate|say|write)\\s+(the|your)\\s+(system\\s+prompt|instructions?|rules?)\\s+(in|into|to)\\s+(\\w+)"
+    severity: high
+    weight: 0.85
+    description: "Translate system prompt to another language"
+
+  - id: TA017
+    name: portuguese_injection
+    pattern: "(ignore|esqueça)\\s+(todas?|as)\\s+(instruções|regras|restrições)\\s+(anteriores|prévias)"
+    severity: high
+    weight: 0.82
+    description: "Portuguese injection keywords"
+
+  - id: TA018
+    name: italian_injection
+    pattern: "(ignora|dimentica)\\s+(tutte|le)\\s+(istruzioni|regole|restrizioni)\\s+(precedenti|di\\s+sicurezza)"
+    severity: high
+    weight: 0.82
+    description: "Italian injection keywords"
+
+  - id: TA019
+    name: turkish_injection
+    pattern: "(gormezden\\s+gel|unut|onceki|talimatlari|kurallari|guvenlik)"
+    severity: high
+    weight: 0.78
+    description: "Turkish injection keywords"
+
+  - id: TA020
+    name: unicode_language_trick
+    pattern: "respond\\s+using\\s+(only\\s+)?(unicode|emoji|symbols|pictographs|hieroglyphs)\\s+(to\\s+)?(bypass|avoid|evade)"
+    severity: high
+    weight: 0.85
+    description: "Unicode/emoji response to bypass filters"
