@@ -29,7 +29,10 @@ import { detectAcrostic } from '../utils/acrostic';
 import { sha256 } from '../utils/crypto';
 
 import { analyzeEntropy } from './entropyAnalyzer';
+import { normalizeIndic } from './indicNormalizer';
+import { detectLanguage } from './languageDetector';
 import { classify as mlClassify } from './mlClassifier';
+import { scanForPii } from './piiScanner';
 import { preprocess } from './preprocessor';
 import { evaluate as ruleEvaluate } from './ruleEngine';
 import { computeRiskScore, determineVerdict, generateExplanation } from './scoreFusion';
@@ -53,7 +56,18 @@ export async function runPipeline(
   // Step 1: Preprocess
   const preprocessed = preprocess(input);
 
-  // Step 1b: Acrostic detection — check for hidden dangerous keywords
+  // Step 1a: Language detection and Indic normalization
+  const langResult = await detectLanguage(input);
+  let normalizedInput = preprocessed.normalized;
+  if (langResult.language !== 'en') {
+    const indicResult = normalizeIndic(input);
+    normalizedInput = indicResult.normalized;
+  }
+
+  // Step 1b: PII scanning
+  const piiResult = scanForPii(input);
+
+  // Step 1c: Acrostic detection — check for hidden dangerous keywords
   const acrosticResult = detectAcrostic(input);
   if (acrosticResult.detected) {
     logger.warn(
@@ -73,6 +87,7 @@ export async function runPipeline(
       encodings: preprocessed.encodingsDetected,
       homoglyphs: preprocessed.homoglyphsFound,
       invisibleChars: preprocessed.invisibleCharsRemoved,
+      acronymExpansions: preprocessed.acronymExpansionsFound,
     },
     'Preprocessing complete',
   );
@@ -80,7 +95,7 @@ export async function runPipeline(
   // Steps 2-5: Run all detection layers in parallel
   const [ruleResult, mlResult, entropyResult, semanticResult] = await Promise.allSettled([
     // Step 2: Rule engine (sync, but wrapped in promise for allSettled)
-    Promise.resolve(ruleEvaluate(preprocessed.normalized, preprocessed.deleetified)),
+    Promise.resolve(ruleEvaluate(preprocessed.normalized, preprocessed.deleetified, preprocessed.acronymExpanded)),
 
     // Step 3: ML classifier (async — calls ML sidecar)
     mlClassify(preprocessed.original, preprocessed.normalized),
@@ -89,7 +104,8 @@ export async function runPipeline(
     Promise.resolve(analyzeEntropy(preprocessed.normalized)),
 
     // Step 5: Semantic similarity (async — calls ML sidecar)
-    computeSimilarity(preprocessed.normalized),
+    // Use acronym-expanded text for better matching of abbreviated dangerous terms
+    computeSimilarity(preprocessed.acronymExpanded || preprocessed.normalized),
   ]);
 
   // Extract results, handling failures gracefully
@@ -187,6 +203,10 @@ export async function runPipeline(
     degraded,
     apiKeyId,
     customerId,
+    detectedLanguage: langResult.language,
+    isCodeMixed: langResult.isCodeMixed ?? false,
+    classifierUsed: langResult.language !== 'en' ? 'muril' : 'deberta',
+    piiDetected: piiResult.matches.length > 0 ? piiResult.matches.map((m) => m.type) : [],
   }).catch((err) => {
     logger.error({ requestId, err }, 'Failed to log scan result');
   });
@@ -256,6 +276,10 @@ async function logScan(data: {
   degraded: boolean;
   apiKeyId: string;
   customerId: string;
+  detectedLanguage: string;
+  isCodeMixed: boolean;
+  classifierUsed: string;
+  piiDetected: string[];
 }): Promise<void> {
   await prisma.scanLog.create({
     data: {
@@ -274,6 +298,10 @@ async function logScan(data: {
       degraded: data.degraded,
       apiKeyId: data.apiKeyId,
       customerId: data.customerId,
+      detectedLanguage: data.detectedLanguage,
+      isCodeMixed: data.isCodeMixed,
+      classifierUsed: data.classifierUsed,
+      piiDetected: data.piiDetected,
     },
   });
 }

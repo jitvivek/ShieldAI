@@ -1,0 +1,115 @@
+[
+  {
+    "text": "My Aadhaar number is 2234 5678 9012",
+    "expected_pii": [{ "type": "aadhaar", "validated": false }],
+    "description": "Random Aadhaar (Verhoeff check may fail)"
+  },
+  {
+    "text": "My Aadhaar is 4567 1234 5678",
+    "expected_pii": [{ "type": "aadhaar" }],
+    "description": "Aadhaar pattern match (12 digits)"
+  },
+  {
+    "text": "PAN card: ABCPD1234E",
+    "expected_pii": [{ "type": "pan", "validated": true }],
+    "description": "Valid PAN format with P (Person)"
+  },
+  {
+    "text": "Company PAN: AABCC1234D is for our firm",
+    "expected_pii": [{ "type": "pan", "validated": true }],
+    "description": "Company PAN with C (Company)"
+  },
+  {
+    "text": "Pay me at user@ybl or merchant@paytm",
+    "expected_pii": [
+      { "type": "upi_id", "validated": true },
+      { "type": "upi_id", "validated": true }
+    ],
+    "description": "Two valid UPI IDs"
+  },
+  {
+    "text": "IFSC code is SBIN0001234",
+    "expected_pii": [{ "type": "ifsc" }],
+    "description": "Valid IFSC format"
+  },
+  {
+    "text": "Call me at +91 9876543210",
+    "expected_pii": [{ "type": "indian_phone" }],
+    "description": "Indian phone with +91 prefix"
+  },
+  {
+    "text": "My mobile is 9876543210",
+    "expected_pii": [{ "type": "indian_phone" }],
+    "description": "Indian phone without prefix"
+  },
+  {
+    "text": "Passport number: A1234567",
+    "expected_pii": [{ "type": "indian_passport" }],
+    "description": "Indian passport format"
+  },
+  {
+    "text": "Voter ID: ABC1234567",
+    "expected_pii": [{ "type": "voter_id_epic" }],
+    "description": "EPIC voter ID"
+  },
+  {
+    "text": "Email me at test@example.com",
+    "expected_pii": [{ "type": "email" }],
+    "description": "Email address"
+  },
+  {
+    "text": "Card number: 4111 1111 1111 1111",
+    "expected_pii": [{ "type": "credit_card", "validated": true }],
+    "description": "Visa test card (Luhn valid)"
+  },
+  {
+    "text": "My name is Rahul and I live in Delhi",
+    "expected_pii": [],
+    "description": "No PII — safe text"
+  },
+  {
+    "text": "The GDP of India is 3.7 trillion dollars",
+    "expected_pii": [],
+    "description": "No PII — numbers in context"
+  },
+  {
+    "text": "My Aadhaar is 1234-5678-9012 and PAN is ABCPL1234M. Pay me at rahul@upi",
+    "expected_pii": [
+      { "type": "aadhaar" },
+      { "type": "pan" },
+      { "type": "upi_id" }
+    ],
+    "description": "Multiple PII types in one text"
+  },
+  {
+    "text": "मेरा आधार नंबर 9876 5432 1098 है",
+    "expected_pii": [{ "type": "aadhaar" }],
+    "description": "Hindi text with Aadhaar number"
+  },
+  {
+    "text": "Bhai mera PAN hai DEFPS5678Q, bank account IFSC HDFC0001234 mein hai",
+    "expected_pii": [
+      { "type": "pan" },
+      { "type": "ifsc" }
+    ],
+    "description": "Hinglish text with PAN and IFSC"
+  },
+  {
+    "text": "Invalid Aadhaar: 0000 0000 0000. Invalid PAN: 12345",
+    "expected_pii": [],
+    "description": "Invalid formats that should not match"
+  },
+  {
+    "text": "UPI payment to random@email.com should not match UPI",
+    "expected_pii": [{ "type": "email" }],
+    "description": "Email that looks like UPI but isn't (invalid handle)"
+  },
+  {
+    "text": "NEFT to bank account 12345678901234 IFSC SBIN0005678",
+    "expected_pii": [
+      { "type": "indian_bank_account" },
+      { "type": "ifsc" }
+    ],
+    "description": "Bank account with co-occurring IFSC code"
+  }
+]

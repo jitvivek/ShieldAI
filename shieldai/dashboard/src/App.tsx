@@ -9,6 +9,9 @@ import ApiKeys from './pages/ApiKeys';
 import Guards from './pages/Guards';
 import Policies from './pages/Policies';
 import ThreatFeed from './pages/ThreatFeed';
+// India-specific
+import IndiaInsights from './pages/IndiaInsights';
+import Compliance from './pages/Compliance';
 
 function App() {
   return (
@@ -21,6 +24,8 @@ function App() {
         <Route path="/threat-feed" element={<ThreatFeed />} />
         <Route path="/logs" element={<Logs />} />
         <Route path="/api-keys" element={<ApiKeys />} />
+        <Route path="/india-insights" element={<IndiaInsights />} />
+        <Route path="/compliance" element={<Compliance />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Layout>

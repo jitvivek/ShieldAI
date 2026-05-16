@@ -87,7 +87,7 @@ rules:
 
   - id: HC013
     name: dangerous_substance_standalone
-    pattern: "\\b(bomb|explosive|detonator|IED|grenade|ricin|sarin|anthrax|cyanide)\\b[\\s\\S]{0,50}(how|make|build|create|prepare|instructions|steps|recipe|tell\\s+me)"
+    pattern: "\\b(bomb|explosive|detonator|IED|grenade|ricin|sarin|anthrax|cyanide|RDX|TNT|C-?4|PETN|ANFO|HMX|TATP|HMTD|SEMTEX|VX|VBIED)\\b[\\s\\S]{0,50}(how|make|build|create|prepare|instructions|steps|recipe|tell\\s+me)"
     severity: high
     weight: 0.85
     description: "Dangerous substance followed by instructional request"
@@ -105,3 +105,59 @@ rules:
     severity: medium
     weight: 0.70
     description: "Acrostic extraction instruction hinting at hidden message"
+
+  - id: HC016
+    name: dangerous_acronym_action
+    pattern: "\\b(RDX|TNT|C-?4|PETN|ANFO|HMX|TATP|HMTD|SEMTEX|VX|VBIED)\\b[\\s\\S]{0,50}(how|make|build|create|prepare|instructions|steps|recipe|tell\\s+me|ready)"
+    severity: critical
+    weight: 0.90
+    description: "Dangerous substance acronym near instructional request"
+
+  - id: HC017
+    name: reverse_dangerous_acronym
+    pattern: "(how|make|build|create|prepare|instructions|steps|recipe|tell\\s+me|ready)[\\s\\S]{0,50}\\b(RDX|TNT|C-?4|PETN|ANFO|HMX|TATP|HMTD|SEMTEX|VX|VBIED)\\b"
+    severity: critical
+    weight: 0.90
+    description: "Instructional request near dangerous substance acronym"
+
+  - id: HC018
+    name: dangerous_acronym_standalone
+    pattern: "\\b(RDX|TNT|C-?4|PETN|ANFO|HMX|TATP|HMTD|SEMTEX|VX|VBIED)\\b[\\s\\S]{0,30}(do you|if yes|tell me|show me|explain|teach)"
+    severity: high
+    weight: 0.85
+    description: "Dangerous substance acronym with conversational request pattern"
+
+  - id: HC019
+    name: explicit_content_generation
+    pattern: "(create|generate|make|produce|give\\s+me|show\\s+me|send\\s+me)\\s+[\\s\\S]{0,30}(nude|naked|nudes|porn|pornograph|explicit|nsfw|sexual|sex\\s+image|sex\\s+photo|sex\\s+video|erotic)"
+    severity: critical
+    weight: 0.90
+    description: "Request to generate explicit or sexual content"
+
+  - id: HC020
+    name: explicit_content_instructional
+    pattern: "(how\\s+to\\s+)?(create|generate|make|produce|get|find)\\s+(a\\s+)?(nude|naked|nudes|porn|pornograph|explicit|nsfw|sexual|erotic)\\s+(photo|image|picture|video|content|deepfake)"
+    severity: critical
+    weight: 0.90
+    description: "Instructional request for explicit or sexual content"
+
+  - id: HC021
+    name: deepfake_explicit
+    pattern: "(deepfake|deep\\s*fake|face\\s*swap|undress)\\s+[\\s\\S]{0,30}(photo|image|picture|video|nude|naked|porn)"
+    severity: critical
+    weight: 0.95
+    description: "Request to create deepfake or AI-generated explicit content"
+
+  - id: HC022
+    name: explicit_keyword_proximity
+    pattern: "\\b(nude|naked|nudes|porn|nsfw)\\b[\\s\\S]{0,30}(create|generate|make|produce|prompt|how|image|photo|picture)"
+    severity: high
+    weight: 0.85
+    description: "Explicit keyword near content generation action words"
+
+  - id: HC023
+    name: reverse_explicit_proximity
+    pattern: "(create|generate|make|produce|prompt|give\\s+me)[\\s\\S]{0,30}\\b(nude|naked|nudes|porn|nsfw|explicit|erotic)\\b"
+    severity: high
+    weight: 0.85
+    description: "Content generation action words near explicit keywords"

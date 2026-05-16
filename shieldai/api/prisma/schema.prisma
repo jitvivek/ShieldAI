@@ -17,6 +17,13 @@ model Customer {
   plan              String    @default("free") // free|starter|growth|enterprise
   stripeCustomerId  String?   @unique @map("stripe_customer_id")
   billingCycleStart DateTime? @map("billing_cycle_start")
+  // India-specific fields
+  region            String    @default("IN")
+  dpdpConsent       Boolean   @default(false) @map("dpdp_consent")
+  dpdpConsentDate   DateTime? @map("dpdp_consent_date")
+  dataRetentionDays Int       @default(90) @map("data_retention_days")
+  industry          String?   @default("other")
+  applicableRegs    Json      @default("[]") @map("applicable_regs")
   createdAt         DateTime  @default(now()) @map("created_at")
   updatedAt         DateTime  @updatedAt @map("updated_at")
   apiKeys           ApiKey[]
@@ -25,6 +32,10 @@ model Customer {
   policies          Policy[]
   guardLogs         GuardLog[]
   alertRules        AlertRule[]
+  // Phase extensions
+  moduleConfigs        ModuleConfig[]
+  trustScoreHistories  TrustScoreHistory[]
+  complianceSnapshots  ComplianceSnapshot[]
 
   @@map("customers")
 }
@@ -57,17 +68,25 @@ model ScanLog {
   mlScore      Float?   @map("ml_score")
   entropyScore Float    @map("entropy_score")
   semanticScore Float?  @map("semantic_score")
-  matchedRules Json     @default("[]") @map("matched_rules") // Array of matched rule IDs
-  latencyMs    Int      @map("latency_ms")
-  degraded     Boolean  @default(false)
-  apiKeyId     String   @map("api_key_id")
-  apiKey       ApiKey   @relation(fields: [apiKeyId], references: [id])
-  customerId   String   @map("customer_id")
-  customer     Customer @relation(fields: [customerId], references: [id])
-  createdAt    DateTime @default(now()) @map("created_at")
+  matchedRules     Json     @default("[]") @map("matched_rules")
+  // India-specific fields
+  detectedLanguage String   @default("en") @map("detected_language")
+  isCodeMixed      Boolean  @default(false) @map("is_code_mixed")
+  classifierUsed   String   @default("deberta") @map("classifier_used")
+  piiDetected      Json?    @map("pii_detected")
+  regulatoryFlags  Json?    @map("regulatory_flags")
+  expiresAt        DateTime? @map("expires_at")
+  latencyMs        Int      @map("latency_ms")
+  degraded         Boolean  @default(false)
+  apiKeyId         String   @map("api_key_id")
+  apiKey           ApiKey   @relation(fields: [apiKeyId], references: [id])
+  customerId       String   @map("customer_id")
+  customer         Customer @relation(fields: [customerId], references: [id])
+  createdAt        DateTime @default(now()) @map("created_at")
 
   @@index([customerId, createdAt])
   @@index([verdict, createdAt])
+  @@index([detectedLanguage, createdAt])
   @@index([createdAt])
   @@map("scan_logs")
 }
@@ -75,13 +94,60 @@ model ScanLog {
 model RuleVersion {
   id        String   @id @default(uuid())
   category  String
+  language  String   @default("en")
   rulesJson Json     @map("rules_json")
   version   Int
   isActive  Boolean  @default(true) @map("is_active")
   createdAt DateTime @default(now()) @map("created_at")
 
-  @@unique([category, version])
+  @@unique([category, language, version])
   @@map("rule_versions")
+}
+
+// ========================================
+// FUTURE-PROOF: Module system & Trust scores
+// ========================================
+
+model ModuleConfig {
+  id         String   @id @default(uuid())
+  customerId String   @map("customer_id")
+  customer   Customer @relation(fields: [customerId], references: [id])
+  moduleName String   @map("module_name")
+  phase      Int
+  isEnabled  Boolean  @default(true) @map("is_enabled")
+  config     Json     @default("{}") @db.JsonB
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@unique([customerId, moduleName])
+  @@map("module_configs")
+}
+
+model TrustScoreHistory {
+  id         String   @id @default(uuid())
+  customerId String   @map("customer_id")
+  customer   Customer @relation(fields: [customerId], references: [id])
+  overall    Float
+  components Json     @db.JsonB
+  computedAt DateTime @default(now()) @map("computed_at")
+
+  @@index([customerId, computedAt])
+  @@map("trust_score_history")
+}
+
+model ComplianceSnapshot {
+  id             String   @id @default(uuid())
+  customerId     String   @map("customer_id")
+  customer       Customer @relation(fields: [customerId], references: [id])
+  overallStatus  String   @map("overall_status")
+  regulationData Json     @map("regulation_data") @db.JsonB
+  violationCount Int      @map("violation_count")
+  period         String   // "2026-05" (monthly)
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  @@unique([customerId, period])
+  @@index([customerId, createdAt])
+  @@map("compliance_snapshots")
 }
 
 // ========================================

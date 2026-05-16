@@ -1,0 +1,177 @@
+category: hinglish_injection
+description: "Code-mixed Hindi-English injection patterns (Latin script)"
+rules:
+  - id: HE001
+    name: ignore_hinglish
+    pattern: "(bhai|yaar|sun|dekh|suno).*(ignore|bhool|chod|hata|nazarandaz).*(instructions?|rules?|nirdesh|niyam)"
+    severity: critical
+    weight: 0.88
+    description: "Hinglish: ignore instructions with casual address"
+
+  - id: HE002
+    name: system_prompt_hinglish
+    pattern: "(apna|tera|tumhara|aapka)\\s*(system\\s*prompt|niyam|rules?)\\s*(bata|dikha|de|reveal|output)"
+    severity: critical
+    weight: 0.90
+    description: "Hinglish: reveal system prompt"
+
+  - id: HE003
+    name: unrestricted_hinglish
+    pattern: "(ab\\s+tu|ab\\s+tum|ab\\s+aap)\\s*(ho|ban).*(free|mukt|unrestricted|bina\\s+rok)"
+    severity: high
+    weight: 0.82
+    description: "Hinglish: you are now unrestricted"
+
+  - id: HE004
+    name: authority_hinglish
+    pattern: "(main|mai|mein)\\s*(tera|tumhara|aapka)?\\s*(developer|admin|boss|owner|malik)\\s*(hoon|hu|hun|hai)"
+    severity: high
+    weight: 0.75
+    description: "Hinglish: I am the developer/admin"
+
+  - id: HE005
+    name: pleading_hinglish
+    pattern: "(please|pls|plz)\\s*(bhai|yaar|boss).*(system\\s*prompt|secret|hidden|internal)\\s*(bata|dikha|de)"
+    severity: high
+    weight: 0.78
+    description: "Hinglish: pleading to reveal secrets"
+
+  - id: HE006
+    name: ignore_pichle_hinglish
+    pattern: "(pichle|pehle|purane|pahle\\s*ke)\\s*(saare|sabhi|sab|poore)?\\s*(nirdesh|instructions?|rules?|niyam)\\s*(ko)?\\s*(ignore|bhool|chod|andekha|hata)"
+    severity: critical
+    weight: 0.90
+    description: "Hinglish: ignore previous instructions"
+
+  - id: HE007
+    name: new_role_hinglish
+    pattern: "(ab\\s+se|aaj\\s+se)\\s*(tu|tum|aap)\\s*(ek)?\\s*(naya|nayi|new|different)\\s*(AI|bot|assistant)"
+    severity: high
+    weight: 0.82
+    description: "Hinglish: assign new AI identity"
+
+  - id: HE008
+    name: safety_hata_hinglish
+    pattern: "(safety|suraksha)\\s*(rules?|niyam|filter)\\s*(hata|band|off|disable|remove)\\s*(kar|karo|kro|do|de)"
+    severity: critical
+    weight: 0.90
+    description: "Hinglish: disable safety rules"
+
+  - id: HE009
+    name: testing_mode_hinglish
+    pattern: "(testing|debug|test)\\s*(mode|wala)\\s*(chalu|shuru|on|start|enable)\\s*(kar|karo|kro)"
+    severity: high
+    weight: 0.78
+    description: "Hinglish: enable testing mode"
+
+  - id: HE010
+    name: dan_mode_hinglish
+    pattern: "(DAN|do\\s*anything\\s*now)\\s*(mode|wala)\\s*(ban|bano|ho\\s*ja|activate)"
+    severity: critical
+    weight: 0.92
+    description: "Hinglish: DAN mode"
+
+  - id: HE011
+    name: kuch_bhi_hinglish
+    pattern: "(kuch\\s*bhi|sab\\s*kuch|anything)\\s*(bol|bata|kar|answer).*(bina|without)\\s*(rok|filter|restriction|censor)"
+    severity: high
+    weight: 0.80
+    description: "Hinglish: say anything without restrictions"
+
+  - id: HE012
+    name: security_audit_hinglish
+    pattern: "(security|suraksha)\\s*(audit|check|test|jaanch)\\s*(ke\\s*liye|for).*(system\\s*prompt|config|niyam|rules)\\s*(bata|dikha|reveal|share)"
+    severity: high
+    weight: 0.82
+    description: "Hinglish: social engineering via security audit"
+
+  - id: HE013
+    name: bypass_hinglish
+    pattern: "(bypass|skip|chhod|hatao)\\s*(kar|karo|kro|do)\\s*(ye|yeh|is|these)?\\s*(content\\s*filter|safety|restriction|niyam|rules)"
+    severity: critical
+    weight: 0.88
+    description: "Hinglish: bypass content filters"
+
+  - id: HE014
+    name: full_access_hinglish
+    pattern: "(pura|full|complete)\\s*(access|permission|control)\\s*(de|do|chahiye|dedo)"
+    severity: high
+    weight: 0.78
+    description: "Hinglish: requesting full access"
+
+  - id: HE015
+    name: secret_reveal_hinglish
+    pattern: "(secret|chhupa|hidden|gupt)\\s*(wala|wali)?\\s*(nirdesh|instructions?|prompt|rules?|niyam)\\s*(bata|dikha|reveal|share)"
+    severity: critical
+    weight: 0.88
+    description: "Hinglish: reveal secret instructions"
+
+  - id: HE016
+    name: pretend_hinglish
+    pattern: "(pretend|natak|bahana|acting)\\s*(kar|karo)\\s*(ki|that)\\s*(koi|no|tere|tumhare)\\s*(rules?|niyam|restriction|limit)"
+    severity: high
+    weight: 0.80
+    description: "Hinglish: pretend no rules exist"
+
+  - id: HE017
+    name: jailbreak_request_hinglish
+    pattern: "(jailbreak|jail\\s*break)\\s*(kar|karo|kro|ho\\s*ja|activate)"
+    severity: critical
+    weight: 0.92
+    description: "Hinglish: explicit jailbreak request"
+
+  - id: HE018
+    name: sudo_hinglish
+    pattern: "(sudo|root|superuser|admin)\\s*(mode|access|wala)\\s*(de|do|chahiye|dedo|enable|activate)"
+    severity: critical
+    weight: 0.88
+    description: "Hinglish: sudo/admin access request"
+
+  - id: HE019
+    name: hack_teach_hinglish
+    pattern: "(sikha|bata|samjha)\\s*(kaise|how)\\s*(hack|tod|break|chori|steal|maarna|kill)"
+    severity: critical
+    weight: 0.90
+    description: "Hinglish: teach how to hack/steal/harm"
+
+  - id: HE020
+    name: hypothetical_hinglish
+    pattern: "(maan\\s*le|soch|imagine|sochle)\\s*(ki|that)?\\s*(koi|tere|tumhare|no)\\s*(rules?|niyam|restriction|safety)"
+    severity: high
+    weight: 0.78
+    description: "Hinglish: hypothetical framing"
+
+  - id: HE021
+    name: training_data_hinglish
+    pattern: "(training|model)\\s*(data|information|jaankari)\\s*(bata|dikha|reveal|share|de)"
+    severity: high
+    weight: 0.80
+    description: "Hinglish: extract training data"
+
+  - id: HE022
+    name: filter_off_hinglish
+    pattern: "(filter|censor|moderation)\\s*(band|off|hata|remove)\\s*(kar|karo|kro|de|do)"
+    severity: critical
+    weight: 0.88
+    description: "Hinglish: turn off filters"
+
+  - id: HE023
+    name: real_answer_hinglish
+    pattern: "(asli|saccha|real|honest)\\s*(jawab|answer|baat)\\s*(de|do|bata|bolo).*(bina|without)\\s*(filter|censor|rok|restriction)"
+    severity: high
+    weight: 0.75
+    description: "Hinglish: give real answer without censorship"
+
+  - id: HE024
+    name: emergency_hinglish
+    pattern: "(emergency|urgent|zaruri|important)\\s*(hai|mode).*(rules?|niyam|restriction|safety).*(ignore|hata|bypass|skip|chod)"
+    severity: high
+    weight: 0.78
+    description: "Hinglish: emergency bypass claim"
+
+  - id: HE025
+    name: token_extract_hinglish
+    pattern: "(system|internal)\\s*(token|key|password|API\\s*key|secret)\\s*(bata|dikha|de|do|output|reveal)"
+    severity: critical
+    weight: 0.92
+    description: "Hinglish: extract system tokens/keys"

@@ -1,0 +1,212 @@
+category: hindi_injection
+description: "Hindi-language prompt injection patterns (Devanagari script)"
+rules:
+  - id: HI001
+    name: ignore_instructions_hi
+    pattern: "(पिछले|पूर्व|सभी)\\s*(निर्देश|नियम|अनुदेश).*(अनदेखा|भूल|छोड़|नज़रअंदाज़|नजरअंदाज)"
+    severity: critical
+    weight: 0.90
+    description: "Hindi: ignore previous instructions"
+
+  - id: HI002
+    name: reveal_prompt_hi
+    pattern: "(सिस्टम|system)\\s*(प्रॉम्प्ट|prompt|निर्देश).*(बताओ|दिखाओ|प्रकट|output|reveal|बता\\s*दो|दिखा\\s*दो)"
+    severity: critical
+    weight: 0.92
+    description: "Hindi: reveal system prompt"
+
+  - id: HI003
+    name: unrestricted_hi
+    pattern: "(बिना|कोई)\\s*(रोक|प्रतिबंध|पाबंदी|नियम|restriction)"
+    severity: high
+    weight: 0.80
+    description: "Hindi: remove restrictions"
+
+  - id: HI004
+    name: you_are_now_hi
+    pattern: "(अब\\s+तुम|अब\\s+आप)\\s*(हो|बन\\s+गए|बन\\s+जाओ).*(मुक्त|स्वतंत्र|unrestricted|free)"
+    severity: critical
+    weight: 0.88
+    description: "Hindi: you are now free/unrestricted"
+
+  - id: HI005
+    name: i_am_developer_hi
+    pattern: "(मैं|मै|मे)\\s*(आपका|तुम्हारा|तेरा)?\\s*(डेवलपर|developer|एडमिन|admin|मालिक|owner)\\s*(हूं|हूँ|हु)"
+    severity: high
+    weight: 0.82
+    description: "Hindi: claiming developer/admin identity"
+
+  - id: HI006
+    name: forget_rules_hi
+    pattern: "(अपने|तुम्हारे|आपके)\\s*(सभी|सारे|पूरे)?\\s*(नियम|rules|निर्देश|instructions)\\s*(भूल|माफ|हटा|delete|remove)"
+    severity: critical
+    weight: 0.90
+    description: "Hindi: forget your rules"
+
+  - id: HI007
+    name: output_config_hi
+    pattern: "(अपना|तुम्हारा|आपका)\\s*(पूरा|full|complete)?\\s*(कॉन्फ़िगरेशन|configuration|config|सेटिंग|settings?)\\s*(आउटपुट|output|बताओ|दिखाओ|print)"
+    severity: critical
+    weight: 0.88
+    description: "Hindi: output your configuration"
+
+  - id: HI008
+    name: pretend_mode_hi
+    pattern: "(बहाना|नाटक|ढोंग)\\s*(करो|कर)\\s*(कि)?.*(कोई\\s*(नियम|rule)|बिना\\s*(रोक|प्रतिबंध))"
+    severity: high
+    weight: 0.82
+    description: "Hindi: pretend there are no rules"
+
+  - id: HI009
+    name: do_anything_hi
+    pattern: "(कुछ\\s*भी|सब\\s*कुछ)\\s*(कर\\s*सकते|बता\\s*सकते|जवाब\\s*दे).*(चाहे\\s*जो|बिना\\s*रोक)"
+    severity: high
+    weight: 0.78
+    description: "Hindi: do anything without restrictions"
+
+  - id: HI010
+    name: testing_mode_hi
+    pattern: "(टेस्टिंग|testing|परीक्षण)\\s*(मोड|mode).*(चालू|शुरू|enable|on|activate)"
+    severity: high
+    weight: 0.75
+    description: "Hindi: enable testing/debug mode"
+
+  - id: HI011
+    name: secret_hi
+    pattern: "(छुपा|गुप्त|secret|hidden)\\s*(निर्देश|instructions?|prompt|नियम|rules?)\\s*(बताओ|दिखाओ|बता\\s*दो|दिखा\\s*दो|reveal)"
+    severity: critical
+    weight: 0.90
+    description: "Hindi: reveal hidden/secret instructions"
+
+  - id: HI012
+    name: jailbreak_dan_hi
+    pattern: "(DAN|डैन|डी\\s*ए\\s*एन)\\s*(मोड|mode|बनो|बन\\s*जाओ)"
+    severity: critical
+    weight: 0.92
+    description: "Hindi: DAN mode activation"
+
+  - id: HI013
+    name: override_safety_hi
+    pattern: "(सुरक्षा|safety|security)\\s*(नियम|rules?|फ़िल्टर|filter).*(बंद|हटा|disable|off|remove|override)"
+    severity: critical
+    weight: 0.92
+    description: "Hindi: disable safety filters"
+
+  - id: HI014
+    name: new_identity_hi
+    pattern: "(अब\\s+से|आज\\s+से)\\s*(तुम|आप|तू)\\s*(एक)?\\s*(नया|नई|different).*(AI|बॉट|bot|असिस्टेंट)"
+    severity: high
+    weight: 0.85
+    description: "Hindi: assign new identity"
+
+  - id: HI015
+    name: ignore_all_previous_hi
+    pattern: "(सभी|सारे|पूरे|हर)\\s*(पिछले|पहले\\s*के|पूर्व)\\s*(निर्देश|बातें|नियम|instructions|rules)\\s*(को)?\\s*(अनदेखा|भूल|ignore|नजरअंदाज)"
+    severity: critical
+    weight: 0.92
+    description: "Hindi: ignore all previous instructions (strong)"
+
+  - id: HI016
+    name: role_assignment_hi
+    pattern: "(तुम|आप|तू)\\s*(अब)?\\s*(एक)?.*(हैकर|hacker|चोर|thief|अपराधी|criminal|बदमाश)\\s*(हो|बनो|बन\\s*जाओ)"
+    severity: critical
+    weight: 0.88
+    description: "Hindi: malicious role assignment"
+
+  - id: HI017
+    name: bypass_hi
+    pattern: "(बाइपास|bypass|छोड़|skip|उल्लंघन)\\s*(करो|कर|कीजिए).*(content\\s*filter|सुरक्षा|safety|नियम|rules)"
+    severity: critical
+    weight: 0.90
+    description: "Hindi: bypass content filters"
+
+  - id: HI018
+    name: emergency_override_hi
+    pattern: "(आपातकालीन|emergency|urgent|जरूरी)\\s*(मोड|mode|स्थिति).*(सभी|सब|all).*(नियम|rules|restrictions?|प्रतिबंध)"
+    severity: high
+    weight: 0.82
+    description: "Hindi: emergency override claim"
+
+  - id: HI019
+    name: teach_harm_hi
+    pattern: "(सिखाओ|बताओ|समझाओ)\\s*(कैसे)?\\s*(हैक|hack|तोड़|break|चोरी|steal|मार|kill)"
+    severity: critical
+    weight: 0.90
+    description: "Hindi: teach harmful activities"
+
+  - id: HI020
+    name: reveal_training_hi
+    pattern: "(ट्रेनिंग|training)\\s*(डेटा|data|जानकारी|information).*(बताओ|दिखाओ|बता\\s*दो|reveal)"
+    severity: high
+    weight: 0.80
+    description: "Hindi: reveal training data"
+
+  - id: HI021
+    name: system_token_hi
+    pattern: "(सिस्टम|system)\\s*(टोकन|token|कुंजी|key|पासवर्ड|password)\\s*(बताओ|दिखाओ|दो|output)"
+    severity: critical
+    weight: 0.92
+    description: "Hindi: extract system tokens/keys"
+
+  - id: HI022
+    name: act_as_hi
+    pattern: "(ऐसे|वैसे)\\s*(काम|बर्ताव|व्यवहार)\\s*(करो|कर)\\s*(जैसे)?\\s*(कोई|कि).*(नियम|rules|filter|प्रतिबंध)\\s*(नहीं|ना|नही)"
+    severity: high
+    weight: 0.82
+    description: "Hindi: act as if no rules exist"
+
+  - id: HI023
+    name: hypothetical_hi
+    pattern: "(मान\\s*लो|सोचो|कल्पना\\s*करो|imagine)\\s*(कि)?\\s*(कोई|तुम|आप).*(नियम|rules|restriction|सीमा)\\s*(नहीं|ना|नही|बिना)"
+    severity: high
+    weight: 0.78
+    description: "Hindi: hypothetical framing to bypass rules"
+
+  - id: HI024
+    name: give_access_hi
+    pattern: "(पूरा|full|complete)\\s*(एक्सेस|access|अनुमति|permission)\\s*(दो|दे\\s*दो|चाहिए)"
+    severity: high
+    weight: 0.78
+    description: "Hindi: requesting full access"
+
+  - id: HI025
+    name: internal_instructions_hi
+    pattern: "(आंतरिक|internal|अंदर\\s*का)\\s*(निर्देश|instructions?|prompt|नियम|दस्तावेज).*(बताओ|दिखाओ|share|साझा)"
+    severity: critical
+    weight: 0.88
+    description: "Hindi: request internal instructions"
+
+  - id: HI026
+    name: sudo_hi
+    pattern: "(sudo|सूडो|रूट|root|superuser)\\s*(एक्सेस|access|मोड|mode|अनुमति)"
+    severity: critical
+    weight: 0.90
+    description: "Hindi: sudo/root access request"
+
+  - id: HI027
+    name: no_filter_hi
+    pattern: "(बिना|कोई)\\s*(फ़िल्टर|filter|सेंसर|censor|रोक).*(बोलो|बताओ|जवाब\\s*दो|answer)"
+    severity: high
+    weight: 0.82
+    description: "Hindi: respond without filters"
+
+  - id: HI028
+    name: real_truth_hi
+    pattern: "(असली|सच्चा|real|true)\\s*(जवाब|answer|सच|truth)\\s*(दो|बताओ|बोलो).*(बिना\\s*रोक|censorship|filter|hiding)"
+    severity: high
+    weight: 0.75
+    description: "Hindi: give real answer without censorship"
+
+  - id: HI029
+    name: developer_mode_hi
+    pattern: "(डेवलपर|developer|debug)\\s*(मोड|mode)\\s*(चालू|शुरू|enable|on|activate|start)"
+    severity: high
+    weight: 0.82
+    description: "Hindi: developer mode activation"
+
+  - id: HI030
+    name: ignore_warning_hi
+    pattern: "(चेतावनी|warning|alert)\\s*(मत|नहीं|ना|don't|mat)\\s*(दो|दिखाओ|show|भेजो)"
+    severity: medium
+    weight: 0.70
+    description: "Hindi: suppress warnings"

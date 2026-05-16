@@ -1,0 +1,107 @@
+category: tamil_injection
+description: "Tamil-language injection patterns"
+rules:
+  - id: TA001
+    name: ignore_instructions_ta
+    pattern: "(முந்தைய|முன்னர்|முன்)\\s*(அறிவுறுத்தல்|விதிகள்|நிபந்தனை|கட்டளை).*(புறக்கணி|மறந்துவிடு|விடு|தள்ளு)"
+    severity: critical
+    weight: 0.88
+    description: "Tamil: ignore previous instructions"
+
+  - id: TA002
+    name: reveal_prompt_ta
+    pattern: "(system|சிஸ்டம்)\\s*(prompt|ப்ராம்ட்|கட்டளை).*(காட்டு|வெளிப்படுத்து|சொல்லு|கொடு)"
+    severity: critical
+    weight: 0.90
+    description: "Tamil: reveal system prompt"
+
+  - id: TA003
+    name: unrestricted_ta
+    pattern: "(கட்டுப்பாடு|restriction|தடை)\\s*(இல்லாமல்|இல்லை|நீக்கு|remove|off)"
+    severity: high
+    weight: 0.80
+    description: "Tamil: remove restrictions"
+
+  - id: TA004
+    name: new_identity_ta
+    pattern: "(இப்போது|இனிமேல்)\\s*(நீ|நீங்கள்)\\s*(ஒரு)?\\s*(புதிய|new|different)\\s*(AI|போட்|bot)"
+    severity: high
+    weight: 0.82
+    description: "Tamil: assign new AI identity"
+
+  - id: TA005
+    name: developer_claim_ta
+    pattern: "(நான்|எனக்கு)\\s*(developer|admin|உரிமையாளர்|owner)\\s*(ஆக|நான்)"
+    severity: high
+    weight: 0.75
+    description: "Tamil: claiming developer identity"
+
+  - id: TA006
+    name: forget_rules_ta
+    pattern: "(உங்கள்|உன்|உனது)\\s*(விதிகள்|rules|அறிவுறுத்தல்|instructions)\\s*(மறந்துவிடு|நீக்கு|delete|remove)"
+    severity: critical
+    weight: 0.88
+    description: "Tamil: forget your rules"
+
+  - id: TA007
+    name: safety_disable_ta
+    pattern: "(பாதுகாப்பு|safety|security)\\s*(விதிகள்|rules|filter|வடிகட்டி)\\s*(நிறுத்து|disable|off|நீக்கு|remove)"
+    severity: critical
+    weight: 0.90
+    description: "Tamil: disable safety filters"
+
+  - id: TA008
+    name: secret_instructions_ta
+    pattern: "(மறைவான|ரகசிய|secret|hidden)\\s*(அறிவுறுத்தல்|instructions|prompt|கட்டளை)\\s*(காட்டு|சொல்லு|வெளிப்படுத்து|reveal)"
+    severity: critical
+    weight: 0.88
+    description: "Tamil: reveal hidden instructions"
+
+  - id: TA009
+    name: bypass_ta
+    pattern: "(bypass|தாண்டு|skip|கடந்து)\\s*(செல்|போ|கொள்).*(content\\s*filter|பாதுகாப்பு|safety|விதிகள்|rules)"
+    severity: critical
+    weight: 0.88
+    description: "Tamil: bypass content filters"
+
+  - id: TA010
+    name: jailbreak_ta
+    pattern: "(jailbreak|jail\\s*break)\\s*(செய்|activate|enable|ஆன்)"
+    severity: critical
+    weight: 0.92
+    description: "Tamil: explicit jailbreak"
+
+  - id: TA011
+    name: hypothetical_ta
+    pattern: "(நினைத்துப்பாரு|கற்பனை\\s*செய்|imagine)\\s*(எந்த|உன்|உனது)?\\s*(விதிகள்|rules|கட்டுப்பாடு|restriction)\\s*(இல்லை|இல்லாமல்)"
+    severity: high
+    weight: 0.78
+    description: "Tamil: hypothetical framing"
+
+  - id: TA012
+    name: no_filter_ta
+    pattern: "(வடிகட்டி|filter|censor)\\s*(இல்லாமல்|இல்லை|நிறுத்து|நீக்கு).*(சொல்லு|பதில்|answer|respond)"
+    severity: high
+    weight: 0.80
+    description: "Tamil: respond without filters"
+
+  - id: TA013
+    name: full_access_ta
+    pattern: "(முழு|full|complete)\\s*(அணுகல்|access|அனுமதி|permission)\\s*(கொடு|தரு|வேண்டும்)"
+    severity: high
+    weight: 0.78
+    description: "Tamil: requesting full access"
+
+  - id: TA014
+    name: teach_harm_ta
+    pattern: "(சொல்லு|கற்றுக்கொடு|teach)\\s*(எப்படி|how)?\\s*(hack|திருடு|steal|உடை|break|கொல்|kill)"
+    severity: critical
+    weight: 0.90
+    description: "Tamil: teach harmful activities"
+
+  - id: TA015
+    name: token_extract_ta
+    pattern: "(system|internal)\\s*(token|key|password|API\\s*key|ரகசியம்)\\s*(காட்டு|சொல்லு|கொடு|reveal|output)"
+    severity: critical
+    weight: 0.92
+    description: "Tamil: extract system tokens"

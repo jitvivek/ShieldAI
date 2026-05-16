@@ -121,7 +121,7 @@ function loadRulesFromDir(dir: string): void {
  * Evaluate text against all loaded rules and structural patterns.
  * Tests both normalized and deleetified text variants.
  */
-export function evaluate(normalizedText: string, deleetifiedText: string): RuleEngineResult {
+export function evaluate(normalizedText: string, deleetifiedText: string, acronymExpandedText?: string): RuleEngineResult {
   const start = performance.now();
 
   if (!rulesLoaded) {
@@ -131,10 +131,11 @@ export function evaluate(normalizedText: string, deleetifiedText: string): RuleE
   const matchedRules: MatchedRule[] = [];
   const seenRuleIds = new Set<string>();
 
-  // Test both text variants against all rules
+  // Test all text variants against all rules
   const textsToTest = [
     { text: normalizedText, label: 'normalized' },
     { text: deleetifiedText, label: 'deleetified' },
+    ...(acronymExpandedText ? [{ text: acronymExpandedText, label: 'acronym_expanded' }] : []),
   ];
 
   for (const { text } of textsToTest) {

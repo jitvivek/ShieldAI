@@ -8,6 +8,8 @@ const navItems = [
   { path: '/threat-feed', label: 'Threat Feed', icon: '⚡' },
   { path: '/logs', label: 'Scan Logs', icon: '📋' },
   { path: '/api-keys', label: 'API Keys', icon: '🔑' },
+  { path: '/india-insights', label: 'India Insights', icon: '🇮🇳' },
+  { path: '/compliance', label: 'Compliance', icon: '⚖️' },
 ];
 
 export default function Sidebar() {

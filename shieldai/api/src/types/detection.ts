@@ -60,9 +60,11 @@ export interface PreprocessorResult {
   original: string;
   normalized: string;
   deleetified: string;
+  acronymExpanded: string;
   encodingsDetected: string[];
   homoglyphsFound: number;
   invisibleCharsRemoved: number;
+  acronymExpansionsFound: number;
   processingTimeMs: number;
 }
 

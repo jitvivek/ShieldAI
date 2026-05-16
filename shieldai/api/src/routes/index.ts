@@ -16,6 +16,7 @@ import apiKeysRouter from './v1/apiKeys';
 import guardRouter from './v1/guard';
 import scanOutputRouter from './v1/scan-output';
 import policiesRouter from './v1/policies';
+import complianceRouter from './v1/compliance';
 
 const prisma = new PrismaClient();
 
@@ -31,6 +32,7 @@ export function registerRoutes(app: Router): void {
   app.use('/v1/guard', authMiddleware, rateLimitMiddleware, guardRouter);
   app.use('/v1/scan/output', authMiddleware, rateLimitMiddleware, scanOutputRouter);
   app.use('/v1/policies', authMiddleware, policiesRouter);
+  app.use('/v1/compliance', authMiddleware, complianceRouter);
 
   // Scan logs endpoint
   app.get('/v1/logs', authMiddleware, async (req: Request, res: Response): Promise<void> => {

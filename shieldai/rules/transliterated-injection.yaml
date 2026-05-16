@@ -1,0 +1,142 @@
+category: transliterated_injection
+description: "Romanized Indian language injection patterns (Latin script Hindi/Tamil/Telugu)"
+rules:
+  - id: TR001
+    name: ignore_romanized_hi
+    pattern: "(kripya|please)\\s*(apne|apna|tumhare)\\s*(sabhi|saare|pichle)\\s*(nirdesh|instructions?)\\s*(ko)?\\s*(andekha|ignore|bhool|chod)"
+    severity: critical
+    weight: 0.85
+    description: "Romanized Hindi: please ignore your previous instructions"
+
+  - id: TR002
+    name: reveal_romanized_hi
+    pattern: "(apna|tera|tumhara)\\s*(poora|pura|full)\\s*(system\\s*prompt|nirdesh|rules?)\\s*(batao|bata\\s*do|dikhao|dikha\\s*do)"
+    severity: critical
+    weight: 0.88
+    description: "Romanized Hindi: reveal your full system prompt"
+
+  - id: TR003
+    name: ignore_romanized_ta
+    pattern: "(ungal|unga)\\s*(munthaya|munnadi)\\s*(arivuraigalai|instructions?)\\s*(purakkanikavum|ignore|maranthu)"
+    severity: critical
+    weight: 0.82
+    description: "Romanized Tamil: ignore previous instructions"
+
+  - id: TR004
+    name: reveal_romanized_ta
+    pattern: "(ungal|unga)\\s*(system\\s*prompt|kattalai)\\s*(kaattu|sollu|velippaduthu|reveal)"
+    severity: critical
+    weight: 0.85
+    description: "Romanized Tamil: reveal system prompt"
+
+  - id: TR005
+    name: ignore_all_romanized
+    pattern: "(sabhi|saare|sab|poore|ellam)\\s*(nirdesh|niyam|rules?|instructions?)\\s*(ko)?\\s*(bhool|ignore|andekha|chod|purakkanikavum)"
+    severity: critical
+    weight: 0.88
+    description: "Romanized Indic: ignore all rules"
+
+  - id: TR006
+    name: developer_romanized
+    pattern: "(main|mai|mein|naan)\\s*(tera|tumhara|aapka|unga)?\\s*(developer|admin|owner|malik|urimaiyaalar)\\s*(hoon|hu|hun|irukken)"
+    severity: high
+    weight: 0.78
+    description: "Romanized Indic: I am the developer/admin"
+
+  - id: TR007
+    name: remove_restrictions_romanized
+    pattern: "(bina|without|illaamal)\\s*(rok|pabandi|restriction|kattupadu)\\s*(bol|bata|answer|sollu|patil)"
+    severity: high
+    weight: 0.80
+    description: "Romanized Indic: speak without restrictions"
+
+  - id: TR008
+    name: forget_rules_romanized
+    pattern: "(apne|tumhare|aapke|unga)\\s*(saare|sabhi|sab|ellam)?\\s*(niyam|rules?|nirdesh|vidhigal)\\s*(bhool|maaf|hata|delete|neekkhu|maranthu)"
+    severity: critical
+    weight: 0.88
+    description: "Romanized Indic: forget your rules"
+
+  - id: TR009
+    name: new_identity_romanized
+    pattern: "(ab\\s+se|aaj\\s+se|ippo\\s+irunthu)\\s*(tu|tum|aap|nee)\\s*(ek)?.*(naya|new|different|puthiya)\\s*(AI|bot|assistant)"
+    severity: high
+    weight: 0.80
+    description: "Romanized Indic: assign new identity"
+
+  - id: TR010
+    name: safety_disable_romanized
+    pattern: "(safety|suraksha|paathukaappu)\\s*(rules?|niyam|filter|vadikatdi)\\s*(hata|band|off|disable|remove|neekkhu|niruthu)"
+    severity: critical
+    weight: 0.88
+    description: "Romanized Indic: disable safety"
+
+  - id: TR011
+    name: testing_mode_romanized
+    pattern: "(testing|debug)\\s*(mode|wala)\\s*(chalu|shuru|on|start|enable)\\s*(kar|karo|kro|pannunga|sei)"
+    severity: high
+    weight: 0.75
+    description: "Romanized Indic: enable testing mode"
+
+  - id: TR012
+    name: secret_reveal_romanized
+    pattern: "(chhupa|gupt|secret|hidden|maraivana|ragasiya)\\s*(nirdesh|instructions?|prompt|niyam|rules?|kattalai)\\s*(batao|dikhao|reveal|kaattu|sollu)"
+    severity: critical
+    weight: 0.88
+    description: "Romanized Indic: reveal secret instructions"
+
+  - id: TR013
+    name: jailbreak_romanized
+    pattern: "(jailbreak|jail\\s*break)\\s*(kar|karo|kro|sei|pannunga|activate)"
+    severity: critical
+    weight: 0.92
+    description: "Romanized Indic: jailbreak request"
+
+  - id: TR014
+    name: bypass_romanized
+    pattern: "(bypass|skip|chhod|hatao|thaandu)\\s*(kar|karo|sei|pannunga)?.*(content\\s*filter|safety|suraksha|paathukaappu|restriction)"
+    severity: critical
+    weight: 0.88
+    description: "Romanized Indic: bypass content filters"
+
+  - id: TR015
+    name: hypothetical_romanized
+    pattern: "(maan\\s*le|soch|imagine|ninaithu\\s*paaru)\\s*(ki|that)?\\s*(koi|no|un|unga)?\\s*(rules?|niyam|restriction|kattupadu)\\s*(nahi|naa|illai|illa)"
+    severity: high
+    weight: 0.78
+    description: "Romanized Indic: hypothetical no-rules framing"
+
+  - id: TR016
+    name: dan_romanized
+    pattern: "(DAN|do\\s*anything\\s*now)\\s*(mode|ban|bano|activate|sei)"
+    severity: critical
+    weight: 0.92
+    description: "Romanized Indic: DAN mode activation"
+
+  - id: TR017
+    name: ignore_simple_romanized
+    pattern: "(sab|sabhi|saare)\\s*(bhool\\s*ja|bhool\\s*jao|ignore\\s*kar|andekha\\s*kar)"
+    severity: critical
+    weight: 0.85
+    description: "Romanized Hindi: forget/ignore everything (simple)"
+
+  - id: TR018
+    name: teach_harm_romanized
+    pattern: "(sikha|bata|samjha|sollu|cheppu)\\s*(de|do)?\\s*(kaise|how|eppadi|ela)?\\s*(hack|tod|break|chori|steal|maar|kill)"
+    severity: critical
+    weight: 0.88
+    description: "Romanized Indic: teach harmful activities"
+
+  - id: TR019
+    name: token_extract_romanized
+    pattern: "(system|internal)\\s*(token|key|password|API\\s*key|secret)\\s*(bata|dikha|de|do|kaattu|sollu|cheppu)"
+    severity: critical
+    weight: 0.90
+    description: "Romanized Indic: extract system tokens"
+
+  - id: TR020
+    name: no_censor_romanized
+    pattern: "(bina|without|illaamal)\\s*(censor|filter|moderation|rok\\s*tok)\\s*(bolo|bata|jawab\\s*do|sollu|answer)"
+    severity: high
+    weight: 0.78
+    description: "Romanized Indic: respond without censorship"

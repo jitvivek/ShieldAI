@@ -9,6 +9,7 @@
  */
 
 import { PreprocessorResult } from '../types/detection';
+import { expandDangerousAcronyms } from '../utils/acronyms';
 import { decodeAllEncodings, decodeEmbeddedBase64 } from '../utils/encoding';
 import { deLeetspeak } from '../utils/leetspeak';
 import { normalizeUnicode, stripInvisibleChars, normalizeWhitespace } from '../utils/unicode';
@@ -51,15 +52,21 @@ export function preprocess(input: string): PreprocessorResult {
   // Leetspeak de-mapping (produces a separate output)
   const deleetified = normalizeWhitespace(deLeetspeak(normalized));
 
+  // Layer 5: Acronym expansion — expand known dangerous abbreviations
+  const acronymResult = expandDangerousAcronyms(normalized);
+  const acronymExpanded = acronymResult.expanded;
+
   const processingTimeMs = Math.round((performance.now() - start) * 100) / 100;
 
   return {
     original,
     normalized,
     deleetified,
+    acronymExpanded,
     encodingsDetected,
     homoglyphsFound,
     invisibleCharsRemoved,
+    acronymExpansionsFound: acronymResult.expansionCount,
     processingTimeMs,
   };
 }

@@ -87,4 +87,8 @@ export const api = {
 
   deletePolicy: (name: string) =>
     apiFetch<any>(`/policies/${name}`, { method: 'DELETE' }),
+
+  // Compliance
+  getComplianceStatus: () => apiFetch<any>('/compliance/status'),
+  getComplianceReport: () => apiFetch<any>('/compliance/report'),
 };

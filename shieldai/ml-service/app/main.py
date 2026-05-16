@@ -13,8 +13,12 @@ from starlette.responses import Response
 from app.routers import classify, embed
 # PHASE 2 ADDITION
 from app.routers import jailbreak
+# India-specific
+from app.routers import detect_language
 from app.models.classifier import get_classifier
 from app.models.embedder import get_embedder
+from app.models import indic_classifier
+from app.models import language_detector
 
 # Configure logging
 logging.basicConfig(
@@ -56,6 +60,8 @@ app.include_router(classify.router)
 app.include_router(embed.router)
 # PHASE 2 ADDITION
 app.include_router(jailbreak.router)
+# India-specific
+app.include_router(detect_language.router)
 
 # Startup event — preload models
 @app.on_event("startup")
@@ -75,6 +81,23 @@ async def startup():
         logger.info("Embedder loaded successfully")
     except Exception as e:
         logger.error(f"Failed to load embedder: {e}")
+
+    # Load Indic models (graceful degradation)
+    try:
+        from app.config import get_settings
+        settings = get_settings()
+        cache_dir = settings.model_cache_dir if hasattr(settings, 'model_cache_dir') else '/app/models'
+        indic_classifier.load_model(cache_dir=cache_dir)
+        logger.info("MuRIL indic classifier loaded successfully")
+    except Exception as e:
+        logger.warning(f"MuRIL classifier not loaded (degraded mode): {e}")
+
+    try:
+        cache_dir = '/app/models'
+        language_detector.load_model(cache_dir=cache_dir)
+        logger.info("Language detector loaded successfully")
+    except Exception as e:
+        logger.warning(f"Language detector not loaded (degraded mode): {e}")
 
     elapsed = time.time() - start
     logger.info(f"ML models loaded in {elapsed:.2f}s")
