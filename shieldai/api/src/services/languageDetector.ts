@@ -97,7 +97,7 @@ function detectLocal(text: string): LanguageDetectionResult {
     return { language: 'en', script: 'latin', confidence: 0.85, isCodeMixed: false, detectedVia: 'local_heuristic' };
   }
 
-  const topLang = Object.entries(counts).sort((a, b) => b[1] - a[1])[0];
+  const topLang = Object.entries(counts).sort((a, b) => b[1] - a[1])[0]!;
   const indicRatio = totalIndic / words;
   const isCodeMixed = indicRatio > 0.1 && indicRatio < 0.7;
 

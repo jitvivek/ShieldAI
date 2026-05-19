@@ -24,7 +24,21 @@ export interface DetectResponse {
   degraded: boolean;
   breakdown?: DetectBreakdown;
   preprocessing?: PreprocessingSummary;
+  pii?: PiiSummary;
+  language?: LanguageSummary;
   latency_ms: number;
+}
+
+export interface PiiSummary {
+  detected: boolean;
+  types: string[];
+  count: number;
+}
+
+export interface LanguageSummary {
+  detected: string;
+  is_code_mixed: boolean;
+  classifier_used: string;
 }
 
 export type Verdict = 'pass' | 'flag' | 'block';
@@ -163,6 +177,8 @@ export interface PipelineResult {
   degraded: boolean;
   breakdown: DetectBreakdown;
   preprocessing: PreprocessingSummary;
+  pii: PiiSummary;
+  language: LanguageSummary;
   latencyMs: number;
   ruleEngineResult: RuleEngineResult;
   mlResult: MLClassifierResult | null;

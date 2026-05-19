@@ -1,0 +1,263 @@
+category: religious_discrimination
+description: "Detects communal hate speech, religious discrimination, anti-minority rhetoric, and communal violence incitement targeting Hindu, Muslim, Sikh, Christian, Buddhist, Jain, and other Indian religious communities in English, Hindi, and Hinglish"
+rules:
+  # ── Anti-Muslim hate speech ───────────────────────────────────────────
+
+  - id: RD001
+    name: anti_muslim_slur_en
+    pattern: "\\b(jihadi|jihadist|katua|mulla|katwe|terroristan|peacefool|pissfull|ricebag|love\\s+jihadist|puncturewala|landya|sulla)\\b"
+    severity: critical
+    weight: 0.92
+    description: "English: Anti-Muslim slurs and derogatory terms"
+
+  - id: RD002
+    name: anti_muslim_stereotype_en
+    pattern: "(all\\s+)?\\b(muslim|islam|musalman)s?\\b\\s+(are|is)\\s+(terrorist|violent|backward|anti[\\s-]?national|invader|oppressor|fanatic|extremist|jihadi|dangerous|threat)"
+    severity: critical
+    weight: 0.95
+    description: "English: Stereotyping all Muslims as terrorists or threats"
+
+  - id: RD003
+    name: muslim_deportation_en
+    pattern: "(muslim|islam|musalman)s?\\s+(should|must|need\\s+to)\\s+(go\\s+back|leave|be\\s+sent|be\\s+deport|be\\s+kicked\\s+out|go\\s+to\\s+pakistan|be\\s+thrown\\s+out)"
+    severity: critical
+    weight: 0.95
+    description: "English: Calls for Muslim deportation"
+
+  - id: RD004
+    name: muslim_violence_en
+    pattern: "(muslim|islam|musalman|mosque|masjid|madrasa)[\\s\\S]{0,40}(should\\s+be|deserve\\s+to\\s+be|need\\s+to\\s+be)\\s+(killed|eliminated|wiped\\s+out|destroyed|bombed|burned|lynched|shot)"
+    severity: critical
+    weight: 0.98
+    description: "English: Inciting violence against Muslims"
+
+  - id: RD005
+    name: love_jihad_conspiracy_en
+    pattern: "(love\\s+jihad|land\\s+jihad|economic\\s+jihad|population\\s+jihad|thook\\s+jihad|corona\\s+jihad|jihad)[\\s\\S]{0,40}(conspiracy|plot|planned|agenda|taking\\s+over|stealing|converting|trapping)"
+    severity: high
+    weight: 0.82
+    description: "English: Conspiracy theories targeting Muslims"
+
+  # ── Anti-Hindu hate speech ────────────────────────────────────────────
+
+  - id: RD006
+    name: anti_hindu_slur_en
+    pattern: "\\b(bhakt|sanghi|chaddi|gaumutra|cow\\s*piss|pagan|idol\\s+worshipper|hindutva\\s+terrorist|saffron\\s+terrorist|kafir|mushrik)\\b[\\s\\S]{0,30}(all|every|typical|always|inherently|naturally)"
+    severity: critical
+    weight: 0.85
+    description: "English: Anti-Hindu slurs used to stereotype entire community"
+
+  - id: RD007
+    name: anti_hindu_violence_en
+    pattern: "(hindu|mandir|temple|brahmin|pandit)[\\s\\S]{0,40}(should\\s+be|deserve\\s+to\\s+be|need\\s+to\\s+be)\\s+(killed|eliminated|wiped\\s+out|destroyed|bombed|burned|attacked|demolished)"
+    severity: critical
+    weight: 0.98
+    description: "English: Inciting violence against Hindus"
+
+  - id: RD008
+    name: hinduphobia_en
+    pattern: "(all\\s+)?\\b(hindu|sanatan|hinduism)\\b\\s+(is|are)\\s+(evil|barbaric|savage|backward|oppressive|terrorist|fascist|cancer|disease|plague|poison)"
+    severity: critical
+    weight: 0.90
+    description: "English: Hinduphobia — demonizing entire religion"
+
+  # ── Anti-Sikh hate speech ─────────────────────────────────────────────
+
+  - id: RD009
+    name: anti_sikh_slur_en
+    pattern: "\\b(khalistani|separatist\\s+sikh|bhangi|sardaar\\s+joke|12\\s+baj\\s+gaye|sardar\\s*ji\\s+joke|turban\\s+head)\\b"
+    severity: high
+    weight: 0.82
+    description: "English: Anti-Sikh slurs and stereotypes"
+
+  - id: RD010
+    name: anti_sikh_violence_en
+    pattern: "(sikh|gurdwara|gurudwara|khalsa|sardar)[\\s\\S]{0,40}(should\\s+be|deserve\\s+to\\s+be|need\\s+to\\s+be)\\s+(killed|eliminated|wiped\\s+out|attacked|burned|lynched|shot)"
+    severity: critical
+    weight: 0.98
+    description: "English: Inciting violence against Sikhs"
+
+  # ── Anti-Christian hate speech ────────────────────────────────────────
+
+  - id: RD011
+    name: anti_christian_slur_en
+    pattern: "\\b(ricebag|rice\\s+convert|conversion\\s+mafia|church\\s+mafia|missionary\\s+fraud|soul\\s+harvester)\\b"
+    severity: high
+    weight: 0.82
+    description: "English: Anti-Christian slurs and conversion hate"
+
+  - id: RD012
+    name: anti_christian_violence_en
+    pattern: "(christian|church|congregation|pastor|missionary|nun)[\\s\\S]{0,40}(should\\s+be|deserve\\s+to\\s+be|need\\s+to\\s+be)\\s+(killed|eliminated|attacked|burned|destroyed|demolished|driven\\s+out)"
+    severity: critical
+    weight: 0.98
+    description: "English: Inciting violence against Christians"
+
+  # ── General communal patterns ─────────────────────────────────────────
+
+  - id: RD013
+    name: communal_genocide_en
+    pattern: "(hindu|muslim|sikh|christian|buddhist|jain|tribal)s?\\s+(genocide|holocaust|cleansing|ethnic\\s+cleansing|pogrom|massacre)\\s+(was\\s+justified|was\\s+deserved|should\\s+happen|needed|they\\s+deserved)"
+    severity: critical
+    weight: 0.98
+    description: "English: Justifying or calling for communal genocide"
+
+  - id: RD014
+    name: religious_boycott_en
+    pattern: "(boycott|ban|stop\\s+buying\\s+from|don[''']t\\s+buy\\s+from|don[''']t\\s+shop\\s+at|avoid)[\\s\\S]{0,30}(muslim|hindu|sikh|christian|jain|buddhist)\\s+(shops?|businesses?|stores?|vendors?|sellers?|products?)"
+    severity: high
+    weight: 0.80
+    description: "English: Economic boycott based on religion"
+
+  - id: RD015
+    name: forced_conversion_incitement
+    pattern: "(forced?\\s+conver|ghar\\s+wapsi|love\\s+jihad|religious\\s+convert)[\\s\\S]{0,40}(by\\s+force|forcibly|threat|coerce|trap|trick|lure|bribe|at\\s+gunpoint)"
+    severity: high
+    weight: 0.82
+    description: "Promoting or inciting forced religious conversion"
+
+  - id: RD016
+    name: communal_riot_incitement_en
+    pattern: "(riot|danga|communal\\s+violence|attack)[\\s\\S]{0,30}(against|on)\\s+(muslim|hindu|sikh|christian|buddhist|temple|mosque|church|gurdwara|gurudwara|dargah)"
+    severity: critical
+    weight: 0.95
+    description: "English: Inciting communal riots"
+
+  - id: RD017
+    name: place_of_worship_destruction_en
+    pattern: "(destroy|demolish|burn|bomb|attack|raze|flatten)[\\s\\S]{0,20}(mosque|masjid|temple|mandir|church|gurdwara|gurudwara|dargah|synagogue|pagoda|vihara)"
+    severity: critical
+    weight: 0.95
+    description: "English: Calls to destroy places of worship"
+
+  - id: RD018
+    name: religious_purity_en
+    pattern: "(this\\s+is\\s+a|our|india\\s+is\\s+a)\\s+(hindu|muslim|christian|sikh)\\s+(nation|country|rashtra|state)[\\s\\S]{0,30}(only|no\\s+place\\s+for|get\\s+out|leave)"
+    severity: high
+    weight: 0.82
+    description: "English: Exclusionary religious nationalism"
+
+  # ── Hindi/Devanagari communal patterns ────────────────────────────────
+
+  - id: RD019
+    name: anti_muslim_slur_hi
+    pattern: "(कटुआ|कटवा|मुल्ला|जिहादी|लैंडया|सूल्ला|पंक्चरवाला|बकरा\\s*कसाई|तुर्क|म्लेच्छ)"
+    severity: critical
+    weight: 0.95
+    description: "Hindi: Anti-Muslim slurs (Devanagari)"
+
+  - id: RD020
+    name: anti_hindu_slur_hi
+    pattern: "(भक्त|चड्डी|गोमूत्र|संघी|मूर्ति\\s*पूजक|काफ़िर|काफिर|मुशरिक)"
+    severity: high
+    weight: 0.82
+    description: "Hindi: Anti-Hindu slurs (Devanagari)"
+
+  - id: RD021
+    name: communal_violence_hi
+    pattern: "(मुसलमान|हिंदू|सिख|ईसाई|बौद्ध|जैन)[\\s\\S]{0,40}(मारो|काटो|जलाओ|ख़त्म\\s*करो|भगाओ|निकालो|देश\\s*से\\s*बाहर|पाकिस्तान\\s*भेजो)"
+    severity: critical
+    weight: 0.98
+    description: "Hindi: Inciting communal violence"
+
+  - id: RD022
+    name: worship_destruction_hi
+    pattern: "(तोड़ो|गिराओ|जलाओ|उड़ा\\s*दो|मिटा\\s*दो|ध्वस्त\\s*करो)[\\s\\S]{0,20}(मस्जिद|मंदिर|चर्च|गुरुद्वारा|दरगाह|मज़ार|मजार)"
+    severity: critical
+    weight: 0.95
+    description: "Hindi: Calls to destroy places of worship"
+
+  - id: RD023
+    name: muslim_deportation_hi
+    pattern: "(मुसलमान|मुस्लिम)[\\s\\S]{0,30}(पाकिस्तान\\s*(भेजो|जाओ|भाग\\s*जाओ)|देश\\s*(छोड़ो|से\\s*निकालो|से\\s*बाहर)|वापस\\s*भेजो)"
+    severity: critical
+    weight: 0.92
+    description: "Hindi: Muslim deportation calls"
+
+  - id: RD024
+    name: communal_boycott_hi
+    pattern: "(बॉयकॉट|बहिष्कार|मत\\s+खरीदो|मत\\s+लो|बंद\\s+करो)[\\s\\S]{0,30}(मुसलमान|मुस्लिम|हिंदू|सिख|ईसाई)[\\s\\S]{0,20}(दुकान|कारोबार|व्यापार|सामान|प्रोडक्ट)"
+    severity: high
+    weight: 0.80
+    description: "Hindi: Communal economic boycott"
+
+  # ── Hinglish communal patterns ────────────────────────────────────────
+
+  - id: RD025
+    name: communal_slur_hinglish
+    pattern: "\\b(katua|katwa|mulla|jihadi|landya|sulla|puncturewala|ricebag|sanghi|chaddi|gaumutra)\\b"
+    severity: critical
+    weight: 0.92
+    description: "Hinglish: Transliterated communal slurs"
+
+  - id: RD026
+    name: communal_violence_hinglish
+    pattern: "(muslim|musalman|hindu|sikh|christian|isai)[\\s\\S]{0,40}(maaro|kaato|jalaao|bhagao|nikalo|khatam\\s+karo|sabak\\s+sikhao|aukat\\s+dikhao)"
+    severity: critical
+    weight: 0.98
+    description: "Hinglish: Communal violence incitement"
+
+  - id: RD027
+    name: deportation_hinglish
+    pattern: "(muslim|musalman|mulle)[\\s\\S]{0,30}(pakistan\\s+(bhejo|jaao|bhaag)|desh\\s+(chhodo|se\\s+nikalo)|wapas\\s+bhejo|go\\s+back)"
+    severity: critical
+    weight: 0.92
+    description: "Hinglish: Muslim deportation rhetoric"
+
+  - id: RD028
+    name: communal_boycott_hinglish
+    pattern: "(boycott|bycott|bahishkar)\\s+(muslim|musalman|hindu|sikh|christian|isai)[\\s\\S]{0,20}(dukan|shop|business|product|saman)"
+    severity: high
+    weight: 0.80
+    description: "Hinglish: Communal economic boycott"
+
+  - id: RD029
+    name: worship_destruction_hinglish
+    pattern: "(todo|giraa?o|jalaa?o|udaa?\\s*do|mitaa?\\s*do)[\\s\\S]{0,20}(masjid|mandir|church|gurdwara|gurudwara|dargah|mazar)"
+    severity: critical
+    weight: 0.95
+    description: "Hinglish: Calls to destroy places of worship"
+
+  - id: RD030
+    name: religious_slur_proximity_en
+    pattern: "(all|every|typical)\\s+(muslim|hindu|sikh|christian|buddhist|jain)s?\\s+(are|is)\\s+(cancer|plague|disease|vermin|cockroach|rat|snake|parasite|pest|scum|filth|trash)"
+    severity: critical
+    weight: 0.98
+    description: "English: Dehumanizing an entire religious community"
+
+  # ── Anti-minority and anti-tribal ─────────────────────────────────────
+
+  - id: RD031
+    name: anti_buddhist_en
+    pattern: "(buddhist|ambedkarite|neo[\\s-]?buddhist)s?\\s+(are|is)\\s+(anti[\\s-]?national|traitor|fake|fraud|not\\s+real\\s+indian|converting\\s+for\\s+benefits)"
+    severity: high
+    weight: 0.82
+    description: "English: Anti-Buddhist/neo-Buddhist discrimination"
+
+  - id: RD032
+    name: anti_jain_en
+    pattern: "\\b(jain|jains)\\b\\s+(are|is)\\s+(miserly|cheap|greedy|hoarding|stealing|parasites|tax\\s+evaders)"
+    severity: high
+    weight: 0.82
+    description: "English: Anti-Jain stereotyping"
+
+  - id: RD033
+    name: northeast_racist_en
+    pattern: "(chinky|chink|chinese|nepali|momos|momo|mongoloid|flat\\s+face|small\\s+eyes|corona)[\\s\\S]{0,30}(northeast|north[\\s-]?east|manipur|nagaland|mizoram|meghalaya|arunachal|assam|tripura|sikkim)"
+    severity: critical
+    weight: 0.90
+    description: "English: Racist slurs targeting Northeast Indian communities"
+
+  - id: RD034
+    name: northeast_exclusion_en
+    pattern: "(northeast|north[\\s-]?east)\\s+(people|indians)[\\s\\S]{0,30}(not\\s+real\\s+indian|don[''']t\\s+look\\s+indian|outsider|foreigner|chinese|go\\s+back)"
+    severity: critical
+    weight: 0.90
+    description: "English: Exclusion of Northeast Indians"
+
+  - id: RD035
+    name: anti_tribal_religion_en
+    pattern: "(tribal|adivasi|vanvasi)\\s+(religion|worship|ritual|practice)[\\s\\S]{0,30}(primitive|savage|pagan|demonic|superstition|backward|uncivilized|black\\s+magic)"
+    severity: high
+    weight: 0.82
+    description: "English: Denigrating tribal religious practices"

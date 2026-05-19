@@ -1,0 +1,220 @@
+category: caste_communal_bias
+description: "Detects caste-based discrimination, communal hate speech, Scheduled Caste/Tribe slurs, OBC stereotyping, casteist language, untouchability references, and caste-supremacist content in English, Hindi, and Hinglish"
+rules:
+  # ── English caste-based patterns ──────────────────────────────────────
+
+  - id: CCB001
+    name: caste_superiority_en
+    pattern: "(upper|higher|forward)\\s+caste\\s+(people|persons|families|communities)\\s+(are|is|were|should\\s+be)\\s+(superior|better|smarter|more\\s+intelligent|more\\s+capable|more\\s+civilized|purer|cleaner)"
+    severity: critical
+    weight: 0.92
+    description: "English: Claims upper caste superiority"
+
+  - id: CCB002
+    name: caste_inferiority_en
+    pattern: "(lower|backward|scheduled)\\s+(caste|tribe)\\s+(people|persons|communities)\\s+(are|is|were)\\s+(inferior|dirty|filthy|lazy|stupid|dumb|criminal|thieves|untrustworthy|dishonest|incompetent|undeserving)"
+    severity: critical
+    weight: 0.95
+    description: "English: Caste-based defamation of SC/ST/OBC communities"
+
+  - id: CCB003
+    name: untouchability_promotion_en
+    pattern: "(should\\s+not|shouldn[''']t|cannot|must\\s+not|don[''']t)\\s+(touch|eat\\s+with|drink\\s+with|sit\\s+with|marry|dine\\s+with|share\\s+food|enter\\s+temple|use\\s+the\\s+same)[\\s\\S]{0,40}(caste|dalit|sc|st|tribe|harijan|low[\\s-]born|untouchable)"
+    severity: critical
+    weight: 0.95
+    description: "English: Promoting untouchability practices"
+
+  - id: CCB004
+    name: untouchability_ref_en
+    pattern: "\\b(untouchable|outcaste|out[\\s-]?caste|polluted\\s+caste|impure\\s+caste|polluting\\s+presence|unclean\\s+caste)\\b"
+    severity: high
+    weight: 0.80
+    description: "English: Untouchability-related derogatory references"
+
+  - id: CCB005
+    name: caste_slur_en
+    pattern: "\\b(casteist|caste\\s+scum|low[\\s-]?born|half[\\s-]?breed|caste\\s+trash|uppercaste\\s+trash)\\b"
+    severity: critical
+    weight: 0.88
+    description: "English: Caste-based slurs"
+
+  - id: CCB006
+    name: reservation_hate_en
+    pattern: "(reservation|quota)\\s+(is|are)\\s+(destroying|ruining|killing|cancer|disease|plague|joke|scam|theft|robbery)[\\s\\S]{0,50}(india|country|nation|merit|meritocracy|deserving)"
+    severity: high
+    weight: 0.75
+    description: "English: Hate speech targeting reservation policy and beneficiaries"
+
+  - id: CCB007
+    name: caste_violence_en
+    pattern: "(dalit|sc|st|tribal|lower\\s+caste|backward\\s+caste|scheduled\\s+caste)[\\s\\S]{0,40}(should\\s+be|deserve\\s+to\\s+be|need\\s+to\\s+be)\\s+(beaten|killed|lynched|punished|taught\\s+a\\s+lesson|put\\s+in\\s+their\\s+place|eliminated|wiped\\s+out)"
+    severity: critical
+    weight: 0.98
+    description: "English: Inciting violence against caste communities"
+
+  - id: CCB008
+    name: caste_stereotype_en
+    pattern: "(that|this|those|their)\\s+(caste|community|jati)\\s+(always|typically|generally|usually|naturally)\\s+(steals|lies|cheats|begs|drinks|fights|commits\\s+crimes|is\\s+violent|is\\s+corrupt)"
+    severity: critical
+    weight: 0.90
+    description: "English: Caste-based stereotyping"
+
+  - id: CCB009
+    name: intercaste_marriage_hate_en
+    pattern: "(inter[\\s-]?caste|love\\s+jihad|mixed\\s+caste)\\s+(marriage|wedding|relationship)[\\s\\S]{0,40}(sin|crime|shameful|disgraceful|disease|pollution|contamination|should\\s+be\\s+stopped|must\\s+be\\s+stopped|honor\\s+killing)"
+    severity: critical
+    weight: 0.92
+    description: "English: Hate against inter-caste marriage"
+
+  - id: CCB010
+    name: caste_purity_en
+    pattern: "(caste|blood|lineage|varna)\\s+(purity|pedigree|blood\\s*line)[\\s\\S]{0,30}(maintain|protect|preserve|guard|pollut|contaminat|mix|impure|taint)"
+    severity: high
+    weight: 0.85
+    description: "English: Caste purity rhetoric"
+
+  # ── Hindi/Devanagari caste-based patterns ─────────────────────────────
+
+  - id: CCB011
+    name: caste_slur_hi
+    pattern: "(चमार|भंगी|डोम|चूहड़|मेहतर|हलालखोर|अछूत|नीच\\s*जाति|छोटी\\s*जाति)"
+    severity: critical
+    weight: 0.95
+    description: "Hindi: Caste-based slurs (Devanagari)"
+
+  - id: CCB012
+    name: caste_superiority_hi
+    pattern: "(ऊंची|ऊँची|उच्च)\\s*(जाति|जात|वर्ण)[\\s\\S]{0,30}(श्रेष्ठ|उत्तम|बेहतर|ज्ञानी|शुद्ध|सभ्य|योग्य)"
+    severity: critical
+    weight: 0.90
+    description: "Hindi: Upper caste supremacy claims"
+
+  - id: CCB013
+    name: caste_inferiority_hi
+    pattern: "(नीच|छोटी|निम्न)\\s*(जाति|जात|वर्ण)[\\s\\S]{0,30}(गंदे|गंदी|चोर|बेईमान|कामचोर|नालायक|अपराधी|निकम्मे|गंवार|मूर्ख|नाकारा)"
+    severity: critical
+    weight: 0.95
+    description: "Hindi: Lower caste defamation"
+
+  - id: CCB014
+    name: untouchability_hi
+    pattern: "(छुआछूत|अछूत|अस्पृश्य|इनको\\s*छूना\\s*नहीं|इनसे\\s*दूर\\s*रहो|इनके\\s*साथ\\s*मत\\s*खाओ|इनके\\s*साथ\\s*मत\\s*बैठो|ये\\s*मंदिर\\s*में\\s*नहीं\\s*आ\\s*सकते)"
+    severity: critical
+    weight: 0.95
+    description: "Hindi: Untouchability practices"
+
+  - id: CCB015
+    name: reservation_hate_hi
+    pattern: "(आरक्षण|रिज़र्वेशन|रिजर्वेशन|कोटा)[\\s\\S]{0,40}(बर्बाद|तबाह|खत्म|बीमारी|कैंसर|चोरी|लूट|मज़ाक|मजाक|पाप|अन्याय)"
+    severity: high
+    weight: 0.78
+    description: "Hindi: Anti-reservation hate speech"
+
+  - id: CCB016
+    name: caste_violence_hi
+    pattern: "(दलित|अनुसूचित\\s*जाति|अनुसूचित\\s*जनजाति|एससी|एसटी|ओबीसी|SC|ST|OBC)[\\s\\S]{0,40}(मारो|पीटो|जलाओ|ख़त्म\\s*करो|सबक\\s*सिखाओ|ठीक\\s*करो|औकात\\s*दिखाओ|सफ़ाया|सफाया)"
+    severity: critical
+    weight: 0.98
+    description: "Hindi: Inciting violence against Dalit/SC/ST/OBC"
+
+  - id: CCB017
+    name: intercaste_hate_hi
+    pattern: "(अंतरजातीय|अंतर[\\s-]?जातीय|अलग\\s*जाति)[\\s\\S]{0,30}(शादी|विवाह|रिश्ता)[\\s\\S]{0,30}(पाप|शर्म|अपमान|नाक\\s*कटवाना|ऑनर\\s*किलिंग|इज़्ज़त|इज्जत)"
+    severity: critical
+    weight: 0.92
+    description: "Hindi: Anti-intercaste-marriage hate"
+
+  # ── Hinglish caste-based patterns ─────────────────────────────────────
+
+  - id: CCB018
+    name: caste_slur_hinglish
+    pattern: "\\b(chamaar|bhangi|choo?had|dom|halalkhor|achhoot|achoot|neech\\s*jaati|chhoti\\s*jaati|neech\\s*jaat)\\b"
+    severity: critical
+    weight: 0.95
+    description: "Hinglish: Transliterated caste slurs"
+
+  - id: CCB019
+    name: caste_supremacy_hinglish
+    pattern: "(upper|oonchi|unchi)\\s*(caste|jaati|jaat|varna)[\\s\\S]{0,30}(best|superior|shreshth|better|intelligent|pure|shuddh)"
+    severity: critical
+    weight: 0.90
+    description: "Hinglish: Upper caste supremacy"
+
+  - id: CCB020
+    name: caste_defamation_hinglish
+    pattern: "(ye|yeh|woh|wo|unki|inki|inke|unke)\\s+(jaati|jaat|caste)[\\s\\S]{0,30}(chor|bewakoof|ganda|nalayak|criminal|nikamme|kamchor|gawaar)"
+    severity: critical
+    weight: 0.92
+    description: "Hinglish: Defamation of a caste group"
+
+  - id: CCB021
+    name: reservation_hate_hinglish
+    pattern: "(reservation|aarakshan|quota)\\s+(se|ki\\s+wajah|ke\\s+kaaran)[\\s\\S]{0,40}(barbaad|tabah|khatam|mazaak|chori|nakli|fraud|deserve\\s+nahi)"
+    severity: high
+    weight: 0.78
+    description: "Hinglish: Anti-reservation hate"
+
+  - id: CCB022
+    name: caste_violence_hinglish
+    pattern: "(dalit|SC\\s*ST|lower\\s+caste|neech\\s+jaat)[\\s\\S]{0,40}(maaro|peeto|jalaao|sabak\\s+sikhao|aukat\\s+dikhao|khatam\\s+karo|safaya)"
+    severity: critical
+    weight: 0.98
+    description: "Hinglish: Inciting violence against lower castes"
+
+  # ── Coded / dog-whistle caste patterns ────────────────────────────────
+
+  - id: CCB023
+    name: varna_supremacy_en
+    pattern: "\\b(brahmin|kshatriya|vaishya)\\s+(are\\s+)?(naturally|inherently|genetically|born)\\s+(superior|meant\\s+to\\s+lead|meant\\s+to\\s+rule|above|dominant)"
+    severity: critical
+    weight: 0.88
+    description: "English: Varna-based supremacy claims"
+
+  - id: CCB024
+    name: shudra_slur_en
+    pattern: "(shudra|sudra|shoodra)[\\s\\S]{0,30}(meant\\s+to\\s+serve|born\\s+to\\s+serve|only\\s+fit\\s+for|should\\s+only|servant\\s+class|feet|inferior)"
+    severity: critical
+    weight: 0.92
+    description: "English: Shudra/Dalit dehumanization via varna rhetoric"
+
+  - id: CCB025
+    name: caste_based_occupation_en
+    pattern: "(caste|jati|jaati|community)\\s+(determines|decides|defines)[\\s\\S]{0,30}(occupation|job|profession|worth|value|intelligence|ability)"
+    severity: high
+    weight: 0.82
+    description: "English: Linking caste to occupational/intellectual worth"
+
+  - id: CCB026
+    name: manual_scavenging_degrading
+    pattern: "(manual\\s+scaveng|safai\\s*karamchari|sewage\\s+clean)[\\s\\S]{0,40}(their\\s+job|what\\s+they\\s+do|born\\s+for|meant\\s+for|deserve|natural|karma|past\\s+life)"
+    severity: critical
+    weight: 0.95
+    description: "Justifying manual scavenging via caste or karma"
+
+  - id: CCB027
+    name: dalit_dehumanization_en
+    pattern: "\\b(dalit|harijan|scheduled\\s+caste)\\s+(are|is)\\s+(not\\s+fully\\s+human|animal|subhuman|less\\s+than\\s+human|insects|vermin|rats|parasites|plague|infestation)"
+    severity: critical
+    weight: 0.98
+    description: "English: Dehumanizing Dalit communities"
+
+  - id: CCB028
+    name: caste_endogamy_enforcement
+    pattern: "(marry|wed|alliance)\\s+(only|strictly)[\\s\\S]{0,30}(within|same|own|our)\\s+(caste|jati|gotra|community|biradari)[\\s\\S]{0,30}(otherwise|or\\s+else|will\\s+be\\s+killed|outcaste|disown|honor)"
+    severity: high
+    weight: 0.82
+    description: "Enforcing caste endogamy with threats"
+
+  - id: CCB029
+    name: tribal_dehumanization_en
+    pattern: "(tribal|adivasi|scheduled\\s+tribe|ST\\s+people|vanvasi)\\s+(are|is)\\s+(uncivilized|savages|backward|primitive|barbaric|wild|jungle\\s+people|illiterate\\s+by\\s+nature)"
+    severity: critical
+    weight: 0.92
+    description: "English: Dehumanizing tribal/Adivasi communities"
+
+  - id: CCB030
+    name: karma_justification_caste
+    pattern: "(karma|past\\s+life|janma|poorva\\s+janma|previous\\s+birth)[\\s\\S]{0,40}(that[''']?s\\s+why|reason|explains|deserv|born\\s+in|punishment)[\\s\\S]{0,30}(lower|dalit|shudra|untouchable|backward|poor\\s+caste)"
+    severity: high
+    weight: 0.85
+    description: "Using karma/past-life to justify caste hierarchy"

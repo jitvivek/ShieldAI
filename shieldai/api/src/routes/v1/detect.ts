@@ -84,6 +84,8 @@ router.post('/', async (req: Request, res: Response, next): Promise<void> => {
     if (parsed.config?.include_breakdown !== false) {
       response.breakdown = result.breakdown;
       response.preprocessing = result.preprocessing;
+      response.pii = result.pii;
+      response.language = result.language;
     }
 
     res.json(response);

@@ -31,8 +31,8 @@ import { logger } from '../../config/logger';
 const router = Router();
 
 router.get('/status', async (req: Request, res: Response): Promise<void> => {
-  const customerId = (req as Record<string, unknown>).customerId as string;
-  const customerIndustry = (req as Record<string, unknown>).customerIndustry as string | undefined;
+  const customerId = (req as unknown as Record<string, unknown>).customerId as string;
+  const customerIndustry = (req as unknown as Record<string, unknown>).customerIndustry as string | undefined;
 
   try {
     const report = await generateComplianceReport(customerId, customerIndustry);
@@ -67,8 +67,8 @@ router.get('/status', async (req: Request, res: Response): Promise<void> => {
 });
 
 router.get('/report', async (req: Request, res: Response): Promise<void> => {
-  const customerId = (req as Record<string, unknown>).customerId as string;
-  const customerIndustry = (req as Record<string, unknown>).customerIndustry as string | undefined;
+  const customerId = (req as unknown as Record<string, unknown>).customerId as string;
+  const customerIndustry = (req as unknown as Record<string, unknown>).customerIndustry as string | undefined;
 
   try {
     const report = await generateComplianceReport(customerId, customerIndustry);

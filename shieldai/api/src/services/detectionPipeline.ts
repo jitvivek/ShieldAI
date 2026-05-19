@@ -61,7 +61,7 @@ export async function runPipeline(
   let normalizedInput = preprocessed.normalized;
   if (langResult.language !== 'en') {
     const indicResult = normalizeIndic(input);
-    normalizedInput = indicResult.normalized;
+    normalizedInput = indicResult.transliterated ?? preprocessed.normalized;
   }
 
   // Step 1b: PII scanning
@@ -248,6 +248,16 @@ export async function runPipeline(
       encodings_detected: preprocessed.encodingsDetected,
       homoglyphs_found: preprocessed.homoglyphsFound,
       invisible_chars_removed: preprocessed.invisibleCharsRemoved,
+    },
+    pii: {
+      detected: piiResult.matches.length > 0,
+      types: piiResult.matches.map((m) => m.type),
+      count: piiResult.matches.length,
+    },
+    language: {
+      detected: langResult.language,
+      is_code_mixed: langResult.isCodeMixed ?? false,
+      classifier_used: langResult.language !== 'en' ? 'muril' : 'deberta',
     },
     latencyMs,
     ruleEngineResult: rules,

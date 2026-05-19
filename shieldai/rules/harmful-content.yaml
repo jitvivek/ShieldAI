@@ -161,3 +161,89 @@ rules:
     severity: high
     weight: 0.85
     description: "Content generation action words near explicit keywords"
+
+  # ── Hate speech, bias, and discrimination (HC024-HC035) ───────────────
+
+  - id: HC024
+    name: hate_speech_general
+    pattern: "(all|every|typical)\\s+(\\w+)\\s+(are|is)\\s+(subhuman|animals?|vermin|cockroach|rat|snake|parasite|pest|scum|filth|trash|garbage|cancer|plague|disease|infestation)"
+    severity: critical
+    weight: 0.95
+    description: "Dehumanizing language targeting any group"
+
+  - id: HC025
+    name: genocide_advocacy
+    pattern: "(wipe\\s+out|exterminate|eliminate|eradicate|cleanse|purge|genocide)[\\s\\S]{0,30}(race|religion|caste|community|tribe|ethnic|people|group)"
+    severity: critical
+    weight: 0.98
+    description: "Advocacy of genocide or ethnic cleansing"
+
+  - id: HC026
+    name: lynching_mob_violence
+    pattern: "(lynch|mob\\s+justice|mob\\s+violence|public\\s+beating|stone\\s+to\\s+death|beat\\s+to\\s+death)[\\s\\S]{0,40}(deserve|justified|right\\s+thing|should\\s+happen|necessary)"
+    severity: critical
+    weight: 0.95
+    description: "Justifying lynch mobs or mob violence"
+
+  - id: HC027
+    name: honor_killing_support
+    pattern: "(honor|honour|izzat|ijjat)\\s+(killing|murder)[\\s\\S]{0,40}(justified|necessary|deserve|right|family[''']?s?\\s+right|duty|tradition|protect)"
+    severity: critical
+    weight: 0.95
+    description: "Justifying or supporting honor killings"
+
+  - id: HC028
+    name: gender_caste_intersectional
+    pattern: "(dalit|sc|st|tribal|lower\\s+caste|backward)\\s+(women|girls?|woman|lady)[\\s\\S]{0,30}(deserve|easy|available|loose|characterless|asking\\s+for\\s+it)"
+    severity: critical
+    weight: 0.95
+    description: "Intersectional: Caste + gender targeted abuse"
+
+  - id: HC029
+    name: ethnic_slur_india
+    pattern: "\\b(bihari|bhaiya|madrasi|chinky|kallu|kaalia|gujju|bong|mallu|northie|southie)\\b[\\s\\S]{0,30}(all|every|always|typical|inherent|naturally)\\s+(lazy|dirty|stupid|cheap|criminal|backward|ugly|smelly|thief|corrupt)"
+    severity: critical
+    weight: 0.90
+    description: "Regional/ethnic slurs combined with stereotyping"
+
+  - id: HC030
+    name: disability_mockery
+    pattern: "(cripple|retard|handicap|disabled|lame|deaf|blind|dumb|mental)\\s+(people|person|kid|child)[\\s\\S]{0,30}(useless|burden|should\\s+die|waste|better\\s+off\\s+dead|shouldn[''']t\\s+exist|drain)"
+    severity: critical
+    weight: 0.92
+    description: "Disability-targeted dehumanization"
+
+  - id: HC031
+    name: lgbtq_hate
+    pattern: "(gay|lesbian|homosexual|transgender|trans|queer|lgbtq?|hijra|kinnar|chakka)[\\s\\S]{0,30}(disease|mental\\s+illness|sin|perversion|abomination|unnatural|should\\s+be\\s+killed|should\\s+be\\s+jailed|should\\s+be\\s+cured|need\\s+treatment)"
+    severity: critical
+    weight: 0.92
+    description: "LGBTQ+ targeted hate speech"
+
+  - id: HC032
+    name: misogynistic_violence
+    pattern: "(women|girls?|woman|wife|wives)\\s+(should|must|need\\s+to|deserve\\s+to)\\s+(be\\s+beaten|be\\s+hit|stay\\s+home|shut\\s+up|obey|be\\s+controlled|be\\s+raped|learn\\s+their\\s+place|know\\s+their\\s+place)"
+    severity: critical
+    weight: 0.95
+    description: "Misogynistic violence or subjugation advocacy"
+
+  - id: HC033
+    name: dowry_harassment
+    pattern: "(dowry|dahej|tilak)[\\s\\S]{0,30}(bring\\s+more|not\\s+enough|burn|kill|torture|harass|throw\\s+acid|set\\s+fire|demand|extort)"
+    severity: critical
+    weight: 0.92
+    description: "Dowry-related harassment and violence"
+
+  - id: HC034
+    name: sati_promotion
+    pattern: "(sati|suttee|widow\\s+burning)[\\s\\S]{0,30}(tradition|glory|honor|honour|divine|holy|duty|should\\s+be\\s+revived|bring\\s+back|great\\s+practice)"
+    severity: critical
+    weight: 0.95
+    description: "Promotion or glorification of Sati practice"
+
+  - id: HC035
+    name: communal_riot_playbook
+    pattern: "(how\\s+to\\s+)?(start|organize|plan|incite|trigger)\\s+(a\\s+)?(riot|communal\\s+violence|pogrom|mob\\s+attack|lynching|ethnic\\s+violence)"
+    severity: critical
+    weight: 0.98
+    description: "Instructions for starting communal riots or violence"

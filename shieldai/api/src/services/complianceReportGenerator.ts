@@ -164,6 +164,6 @@ export async function generateComplianceReport(
 
 function buildRegDescription(regKey: string, violations: ComplianceViolation[]): string {
   if (violations.length === 0) return 'No violations detected in the last 30 days.';
-  const topSection = violations[0].sectionTitle;
+  const topSection = violations[0]!.sectionTitle;
   return `${violations.length} violation(s) detected. Most recent: ${topSection}.`;
 }

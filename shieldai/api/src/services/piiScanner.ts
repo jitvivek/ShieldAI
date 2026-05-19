@@ -29,7 +29,8 @@ function verhoeffCheck(num: string): boolean {
   let c = 0;
   const digits = num.split('').reverse().map(Number);
   for (let i = 0; i < digits.length; i++) {
-    c = VERHOEFF_D[c][VERHOEFF_P[i % 8][digits[i]]];
+    const p = VERHOEFF_P[i % 8]![digits[i]!]!;
+    c = VERHOEFF_D[c]![p]!;
   }
   return c === 0;
 }
@@ -38,7 +39,7 @@ function luhnCheck(num: string): boolean {
   let sum = 0;
   let alternate = false;
   for (let i = num.length - 1; i >= 0; i--) {
-    let n = parseInt(num[i], 10);
+    let n = parseInt(num[i]!, 10);
     if (alternate) {
       n *= 2;
       if (n > 9) n -= 9;
@@ -93,7 +94,7 @@ const PII_PATTERNS: Record<PiiType, PiiPatternConfig> = {
   },
   pan: {
     pattern: /\b[A-Z]{3}[ABCFGHLJPT][A-Z]\d{4}[A-Z]\b/g,
-    validator: (match: string) => 'ABCFGHLJPT'.includes(match[3]),
+    validator: (match: string) => 'ABCFGHLJPT'.includes(match[3]!),
     description: 'PAN card number (ABCDE1234F format)',
     severity: 'critical',
     dpdpSection: 'Section 8(1) — Personal data processing',
