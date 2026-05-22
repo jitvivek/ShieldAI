@@ -1,0 +1,16 @@
+{
+  "category": "direct_injection",
+  "description": "Patterns that attempt to override system instructions, extract system prompts, or bypass safety guidelines",
+  "rules": [
+    { "id": "DI001", "name": "ignore_instructions", "pattern": "ignore\\s+(all\\s+)?(previous|prior|above)\\s+(instructions?|rules?|prompts?|guidelines?)", "severity": "critical", "weight": 0.95, "description": "Direct instruction override attempt" },
+    { "id": "DI002", "name": "disregard_guidelines", "pattern": "disregard\\s+(your|the|all)\\s+(guidelines?|instructions?|rules?|safety)", "severity": "critical", "weight": 0.90, "description": "Disregard safety guidelines" },
+    { "id": "DI003", "name": "forget_everything", "pattern": "forget\\s+(everything|all)\\s+(you\\s+)?(were|have\\s+been)\\s+told", "severity": "critical", "weight": 0.90, "description": "Command to forget prior instructions" },
+    { "id": "DI004", "name": "you_are_now", "pattern": "you\\s+are\\s+now\\s+(DAN|an?\\s+unrestricted|free|unfiltered|evil|jailbroken)", "severity": "critical", "weight": 0.95, "description": "Identity override to unrestricted persona" },
+    { "id": "DI005", "name": "system_prompt_reveal", "pattern": "system\\s*prompt\\s*(is|:|reveal|show|display|output|print|repeat|what)", "severity": "high", "weight": 0.85, "description": "Attempt to extract system prompt" },
+    { "id": "DI006", "name": "override_safety", "pattern": "override\\s+(safety|content)\\s+(filter|policy|guideline|restriction)", "severity": "critical", "weight": 0.90, "description": "Direct safety override attempt" },
+    { "id": "DI007", "name": "do_not_follow", "pattern": "do\\s+not\\s+follow\\s+(your|any)\\s+(rules?|safety|guidelines?|instructions?)", "severity": "critical", "weight": 0.92, "description": "Command to not follow rules" },
+    { "id": "DI008", "name": "new_rules", "pattern": "(new|updated|revised)\\s+(rules?|instructions?|guidelines?)\\s*(:|are|follow)", "severity": "high", "weight": 0.85, "description": "Attempt to inject new rules" },
+    { "id": "DI009", "name": "developer_mode", "pattern": "(enter|enable|activate|switch\\s+to)\\s+(developer|dev|debug|admin|sudo|root)\\s*(mode|access)?", "severity": "critical", "weight": 0.88, "description": "Attempt to activate developer mode" },
+    { "id": "DI010", "name": "bypass_filters", "pattern": "(bypass|circumvent|evade|avoid|skip|disable)\\s+(your|the|all)?\\s*(safety|content)?\\s*(filter|restriction|limitation|check)", "severity": "critical", "weight": 0.90, "description": "Attempt to bypass filters" }
+  ]
+}

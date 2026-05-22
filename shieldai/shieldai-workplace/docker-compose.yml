@@ -1,0 +1,61 @@
+services:
+  workplace:
+    build: .
+    ports:
+      - "3001:3001"
+    environment:
+      - DATABASE_URL=postgresql://shield:shield@postgres:5432/shieldai
+      - REDIS_URL=redis://redis:6379
+      - SHIELDAI_API_URL=http://api:3000
+      - PORT=3001
+      - NODE_ENV=production
+      - TEAMS_APP_ID=${TEAMS_APP_ID}
+      - TEAMS_APP_PASSWORD=${TEAMS_APP_PASSWORD}
+      - SLACK_BOT_TOKEN=${SLACK_BOT_TOKEN}
+      - SLACK_SIGNING_SECRET=${SLACK_SIGNING_SECRET}
+      - SLACK_APP_TOKEN=${SLACK_APP_TOKEN}
+      - AZURE_AD_TENANT_ID=${AZURE_AD_TENANT_ID}
+      - AZURE_AD_CLIENT_ID=${AZURE_AD_CLIENT_ID}
+      - JWT_SECRET=${JWT_SECRET}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: shield
+      POSTGRES_PASSWORD: shield
+      POSTGRES_DB: shieldai
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U shield"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  pg-data:

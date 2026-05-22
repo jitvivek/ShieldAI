@@ -8,6 +8,7 @@ import ApiKeys from './pages/ApiKeys';
 // PHASE 2 ADDITION
 import Guards from './pages/Guards';
 import Policies from './pages/Policies';
+import PolicyBuilder from './pages/PolicyBuilder';
 import ThreatFeed from './pages/ThreatFeed';
 // India-specific
 import IndiaInsights from './pages/IndiaInsights';
@@ -21,6 +22,7 @@ function App() {
         <Route path="/playground" element={<Playground />} />
         <Route path="/guards" element={<Guards />} />
         <Route path="/policies" element={<Policies />} />
+        <Route path="/policies/builder" element={<PolicyBuilder />} />
         <Route path="/threat-feed" element={<ThreatFeed />} />
         <Route path="/logs" element={<Logs />} />
         <Route path="/api-keys" element={<ApiKeys />} />

@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Organization {
+  id          String   @id @default(uuid())
+  name        String
+  platform    String   // teams | slack | both
+  teamsAppId  String?  @map("teams_app_id")
+  slackTeamId String?  @map("slack_team_id")
+  tier        String   @default("starter")
+  policyName  String   @default("default") @map("policy_name")
+  policyYaml  String?  @map("policy_yaml") @db.Text
+  adminEmails Json     @default("[]") @map("admin_emails")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  scanLogs    WorkplaceScanLog[]
+  botConfigs  BotConfig[]
+
+  @@map("wp_organizations")
+}
+
+model WorkplaceScanLog {
+  id               String   @id @default(uuid())
+  orgId            String   @map("org_id")
+  org              Organization @relation(fields: [orgId], references: [id])
+  platform         String   // teams | slack
+  userId           String   @map("user_id") // hashed
+  channelId        String   @map("channel_id")
+  direction        String   // to_bot | from_bot
+  verdict          String   // safe | suspicious | malicious
+  riskScore        Float    @map("risk_score")
+  category         String?
+  language         String?
+  piiDetected      Json?    @map("pii_detected")
+  policyViolations Json?    @map("policy_violations")
+  dpdpFlags        Json?    @map("dpdp_flags")
+  actionTaken      String   @map("action_taken") // allowed | flagged | blocked
+  latencyMs        Int      @map("latency_ms")
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  @@index([orgId, createdAt])
+  @@index([verdict, createdAt])
+  @@map("wp_scan_logs")
+}
+
+model BotConfig {
+  id        String  @id @default(uuid())
+  orgId     String  @map("org_id")
+  org       Organization @relation(fields: [orgId], references: [id])
+  botUserId String  @map("bot_user_id")
+  botName   String  @map("bot_name")
+  platform  String  // teams | slack
+  isActive  Boolean @default(true) @map("is_active")
+
+  @@unique([orgId, botUserId, platform])
+  @@map("wp_bot_configs")
+}

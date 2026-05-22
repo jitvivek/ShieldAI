@@ -1,0 +1,44 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.17/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.17",
+  "version": "1.0.0",
+  "id": "{{TEAMS_APP_ID}}",
+  "developer": {
+    "name": "ShieldAI",
+    "websiteUrl": "https://shieldai.dev",
+    "privacyUrl": "https://shieldai.dev/privacy",
+    "termsOfUseUrl": "https://shieldai.dev/terms"
+  },
+  "name": {
+    "short": "ShieldAI Workplace",
+    "full": "ShieldAI Workplace — AI Safety for Teams"
+  },
+  "description": {
+    "short": "Monitor and secure AI bot interactions in Teams",
+    "full": "ShieldAI Workplace scans messages to and from AI bots (Copilot, custom GPT bots) for PII exposure, harmful content, and prompt injection attacks. Supports Hindi, Hinglish, Tamil & English. DPDP Act compliant."
+  },
+  "icons": {
+    "color": "color.png",
+    "outline": "outline.png"
+  },
+  "accentColor": "#0D9488",
+  "bots": [
+    {
+      "botId": "{{TEAMS_APP_ID}}",
+      "scopes": ["team", "personal", "groupChat"],
+      "supportsFiles": false,
+      "isNotificationOnly": false,
+      "commandLists": [
+        {
+          "scopes": ["team", "groupChat"],
+          "commands": [
+            { "title": "status", "description": "Show today's scan statistics" },
+            { "title": "settings", "description": "Configure ShieldAI settings" }
+          ]
+        }
+      ]
+    }
+  ],
+  "permissions": ["identity", "messageTeamMembers"],
+  "validDomains": ["shieldai.dev"]
+}

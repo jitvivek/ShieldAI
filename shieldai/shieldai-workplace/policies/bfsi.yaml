@@ -1,0 +1,31 @@
+name: bfsi-strict
+org_type: banking
+policies:
+  - name: block_aadhaar_pan
+    action: block
+    detector: pii_scanner
+    patterns: [aadhaar, pan, credit_card, ifsc]
+    message: "Sharing financial identifiers with AI bots is prohibited per RBI guidelines."
+
+  - name: block_upi
+    action: block
+    detector: pii_scanner
+    patterns: [upi_id]
+    message: "UPI IDs must not be shared with AI bots."
+
+  - name: flag_financial_advice
+    action: flag
+    detector: content_classifier
+    categories: [investment_advice, loan_recommendation]
+    message: "AI-generated financial advice must be reviewed before sharing with customers."
+
+  - name: flag_customer_data
+    action: flag
+    detector: pii_scanner
+    patterns: [phone, email]
+    message: "Customer contact data detected — verify compliance before proceeding."
+
+  - name: log_all_interactions
+    action: log
+    detector: all
+    message: "All AI interactions are logged for DPDP and RBI compliance."

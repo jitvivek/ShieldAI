@@ -1,0 +1,25 @@
+name: strict
+org_type: regulated
+policies:
+  - name: block_all_pii
+    action: block
+    detector: pii_scanner
+    patterns: [aadhaar, pan, credit_card, phone, email, upi_id, ifsc]
+    message: "All personal information is blocked from AI bots under strict policy."
+
+  - name: block_harmful
+    action: block
+    detector: content_classifier
+    categories: [weapons, self_harm, explicit, drugs, violence]
+    message: "Content violates organization security policy."
+
+  - name: flag_financial
+    action: flag
+    detector: content_classifier
+    categories: [investment_advice, loan_recommendation, financial_data]
+    message: "Financial content requires manual review."
+
+  - name: log_all
+    action: log
+    detector: all
+    message: "All AI interactions logged for DPDP compliance audit."

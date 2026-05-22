@@ -1,0 +1,52 @@
+{
+  "app_name": "ShieldAI Guard",
+  "status": {
+    "protected": "Protected",
+    "warnings_today": "Warnings today",
+    "blocks_today": "Blocks today",
+    "offline": "Offline mode — reduced accuracy"
+  },
+  "stats": {
+    "scans_today": "Scans today",
+    "blocked": "Blocked",
+    "pii_caught": "PII caught",
+    "languages": "Languages detected"
+  },
+  "overlay": {
+    "warning_title": "ShieldAI detected a potential risk in your message",
+    "blocked_title": "ShieldAI blocked this message for your safety",
+    "send_anyway": "Send anyway",
+    "edit_message": "Edit message",
+    "category_label": "Category",
+    "language_label": "Language",
+    "reason_label": "Reason"
+  },
+  "settings": {
+    "general": "General",
+    "protection": "Protection",
+    "block_rules": "Block Rules",
+    "parental": "Parental Controls",
+    "notifications": "Notifications",
+    "api_key": "API Key",
+    "connection_status": "Connection Status",
+    "pii_protection": "PII Protection",
+    "harmful_filter": "Harmful Content Filter",
+    "injection_detection": "Injection Detection",
+    "hindi_hinglish": "Hindi/Hinglish Detection"
+  },
+  "pii": {
+    "aadhaar_detected": "Aadhaar number detected — this will be blocked",
+    "pan_detected": "PAN card detected — this will be blocked",
+    "upi_detected": "UPI ID detected — this will be blocked",
+    "phone_detected": "Phone number detected — this will be blocked",
+    "email_detected": "Email detected — this will be blocked",
+    "credit_card_detected": "Credit card detected — this will be blocked"
+  },
+  "popup": {
+    "status_tab": "Status",
+    "history_tab": "History",
+    "settings_tab": "Settings",
+    "monitoring": "monitoring",
+    "open_settings": "Open full settings"
+  }
+}

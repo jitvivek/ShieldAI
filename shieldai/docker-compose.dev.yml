@@ -60,6 +60,7 @@ services:
     volumes:
       - ./dashboard/src:/app/src
       - ./dashboard/index.html:/app/index.html
+      - ./dashboard/vite.config.ts:/app/vite.config.ts
     depends_on:
       - api
     command: npx vite --host 0.0.0.0 --port 5173

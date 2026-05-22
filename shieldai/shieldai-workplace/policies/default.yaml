@@ -1,0 +1,25 @@
+name: default
+org_type: general
+policies:
+  - name: block_sensitive_pii
+    action: block
+    detector: pii_scanner
+    patterns: [aadhaar, pan, credit_card]
+    message: "Sharing sensitive personal identifiers with AI bots is blocked."
+
+  - name: flag_contact_info
+    action: flag
+    detector: pii_scanner
+    patterns: [phone, email, upi_id]
+    message: "Contact information detected — please verify before sending to AI."
+
+  - name: block_harmful_content
+    action: block
+    detector: content_classifier
+    categories: [weapons, self_harm, explicit]
+    message: "Harmful content is not allowed in AI interactions."
+
+  - name: log_all
+    action: log
+    detector: all
+    message: "All AI interactions are logged for compliance."

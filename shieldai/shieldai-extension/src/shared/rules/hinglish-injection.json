@@ -1,0 +1,14 @@
+{
+  "category": "hinglish_injection",
+  "description": "Code-mixed Hindi-English injection patterns (Latin script)",
+  "rules": [
+    { "id": "HE001", "name": "ignore_hinglish", "pattern": "(bhai|yaar|sun|dekh|suno).*(ignore|bhool|chod|hata|nazarandaz).*(instructions?|rules?|nirdesh|niyam)", "severity": "critical", "weight": 0.88, "description": "Hinglish: ignore instructions with casual address" },
+    { "id": "HE002", "name": "system_prompt_hinglish", "pattern": "(apna|tera|tumhara|aapka)\\s*(system\\s*prompt|niyam|rules?)\\s*(bata|dikha|de|reveal|output)", "severity": "critical", "weight": 0.90, "description": "Hinglish: reveal system prompt" },
+    { "id": "HE003", "name": "unrestricted_hinglish", "pattern": "(ab\\s+tu|ab\\s+tum|ab\\s+aap)\\s*(ho|ban).*(free|mukt|unrestricted|bina\\s+rok)", "severity": "high", "weight": 0.82, "description": "Hinglish: you are now unrestricted" },
+    { "id": "HE004", "name": "authority_hinglish", "pattern": "(main|mai|mein)\\s*(tera|tumhara|aapka)?\\s*(developer|admin|boss|owner|malik)\\s*(hoon|hu|hun|hai)", "severity": "high", "weight": 0.75, "description": "Hinglish: I am the developer/admin" },
+    { "id": "HE005", "name": "pleading_hinglish", "pattern": "(please|pls|plz)\\s*(bhai|yaar|boss).*(system\\s*prompt|secret|hidden|internal)\\s*(bata|dikha|de)", "severity": "high", "weight": 0.78, "description": "Hinglish: pleading to reveal secrets" },
+    { "id": "HE006", "name": "ignore_pichle_hinglish", "pattern": "(pichle|pehle|purane|pahle\\s*ke)\\s*(saare|sabhi|sab|poore)?\\s*(nirdesh|instructions?|rules?|niyam)\\s*(ko)?\\s*(ignore|bhool|chod|andekha|hata)", "severity": "critical", "weight": 0.90, "description": "Hinglish: ignore previous instructions" },
+    { "id": "HE007", "name": "new_role_hinglish", "pattern": "(ab\\s+se|aaj\\s+se)\\s*(tu|tum|aap)\\s*(ek)?\\s*(naya|nayi|new|different)\\s*(AI|bot|assistant)", "severity": "high", "weight": 0.82, "description": "Hinglish: assign new AI identity" },
+    { "id": "HE008", "name": "safety_hata_hinglish", "pattern": "(safety|suraksha)\\s*(rules?|niyam|filter)\\s*(hata|band|off|disable|remove)\\s*(kar|karo|kro|do|de)", "severity": "critical", "weight": 0.90, "description": "Hinglish: disable safety rules" }
+  ]
+}

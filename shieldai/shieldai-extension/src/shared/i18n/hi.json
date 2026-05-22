@@ -1,0 +1,52 @@
+{
+  "app_name": "ShieldAI Guard",
+  "status": {
+    "protected": "सुरक्षित",
+    "warnings_today": "आज की चेतावनियाँ",
+    "blocks_today": "आज ब्लॉक किए गए",
+    "offline": "ऑफ़लाइन मोड — कम सटीकता"
+  },
+  "stats": {
+    "scans_today": "आज के स्कैन",
+    "blocked": "ब्लॉक किए गए",
+    "pii_caught": "PII पकड़े गए",
+    "languages": "भाषाएँ पहचानी गईं"
+  },
+  "overlay": {
+    "warning_title": "ShieldAI ने आपके संदेश में संभावित जोखिम का पता लगाया",
+    "blocked_title": "ShieldAI ने आपकी सुरक्षा के लिए इस संदेश को ब्लॉक किया",
+    "send_anyway": "फिर भी भेजें",
+    "edit_message": "संदेश संपादित करें",
+    "category_label": "श्रेणी",
+    "language_label": "भाषा",
+    "reason_label": "कारण"
+  },
+  "settings": {
+    "general": "सामान्य",
+    "protection": "सुरक्षा",
+    "block_rules": "ब्लॉक नियम",
+    "parental": "माता-पिता नियंत्रण",
+    "notifications": "सूचनाएँ",
+    "api_key": "API कुंजी",
+    "connection_status": "कनेक्शन स्थिति",
+    "pii_protection": "PII सुरक्षा",
+    "harmful_filter": "हानिकारक सामग्री फ़िल्टर",
+    "injection_detection": "इंजेक्शन पहचान",
+    "hindi_hinglish": "हिंदी/हिंग्लिश पहचान"
+  },
+  "pii": {
+    "aadhaar_detected": "आधार नंबर पाया गया — यह ब्लॉक किया जाएगा",
+    "pan_detected": "PAN कार्ड पाया गया — यह ब्लॉक किया जाएगा",
+    "upi_detected": "UPI ID पाई गई — यह ब्लॉक किया जाएगा",
+    "phone_detected": "फोन नंबर पाया गया — यह ब्लॉक किया जाएगा",
+    "email_detected": "ईमेल पाया गया — यह ब्लॉक किया जाएगा",
+    "credit_card_detected": "क्रेडिट कार्ड पाया गया — यह ब्लॉक किया जाएगा"
+  },
+  "popup": {
+    "status_tab": "स्थिति",
+    "history_tab": "इतिहास",
+    "settings_tab": "सेटिंग्स",
+    "monitoring": "निगरानी",
+    "open_settings": "पूर्ण सेटिंग्स खोलें"
+  }
+}

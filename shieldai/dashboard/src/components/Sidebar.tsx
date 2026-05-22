@@ -5,6 +5,7 @@ const navItems = [
   { path: '/playground', label: 'Playground', icon: '🧪' },
   { path: '/guards', label: 'Guardrails', icon: '🛡️' },
   { path: '/policies', label: 'Policies', icon: '📜' },
+  { path: '/policies/builder', label: 'Policy Builder', icon: '🔧' },
   { path: '/threat-feed', label: 'Threat Feed', icon: '⚡' },
   { path: '/logs', label: 'Scan Logs', icon: '📋' },
   { path: '/api-keys', label: 'API Keys', icon: '🔑' },

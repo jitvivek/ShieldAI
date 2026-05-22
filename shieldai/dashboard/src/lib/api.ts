@@ -88,6 +88,23 @@ export const api = {
   deletePolicy: (name: string) =>
     apiFetch<any>(`/policies/${name}`, { method: 'DELETE' }),
 
+  // Policy Builder
+  getBuilderParameters: () => apiFetch<any>('/policies/builder/parameters'),
+
+  getBuilderPreset: (industry: string) => apiFetch<any>(`/policies/builder/presets/${industry}`),
+
+  generatePolicy: (data: any) =>
+    apiFetch<any>('/policies/builder/generate', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }),
+
+  createBuiltPolicy: (data: any) =>
+    apiFetch<any>('/policies/builder/create', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }),
+
   // Compliance
   getComplianceStatus: () => apiFetch<any>('/compliance/status'),
   getComplianceReport: () => apiFetch<any>('/compliance/report'),

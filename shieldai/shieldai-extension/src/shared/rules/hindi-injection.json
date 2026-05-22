@@ -1,0 +1,14 @@
+{
+  "category": "hindi_injection",
+  "description": "Hindi-language prompt injection patterns (Devanagari script)",
+  "rules": [
+    { "id": "HI001", "name": "ignore_instructions_hi", "pattern": "(पिछले|पूर्व|सभी)\\s*(निर्देश|नियम|अनुदेश).*(अनदेखा|भूल|छोड़|नज़रअंदाज़|नजरअंदाज)", "severity": "critical", "weight": 0.90, "description": "Hindi: ignore previous instructions" },
+    { "id": "HI002", "name": "reveal_prompt_hi", "pattern": "(सिस्टम|system)\\s*(प्रॉम्प्ट|prompt|निर्देश).*(बताओ|दिखाओ|प्रकट|output|reveal|बता\\s*दो|दिखा\\s*दो)", "severity": "critical", "weight": 0.92, "description": "Hindi: reveal system prompt" },
+    { "id": "HI003", "name": "unrestricted_hi", "pattern": "(बिना|कोई)\\s*(रोक|प्रतिबंध|पाबंदी|नियम|restriction)", "severity": "high", "weight": 0.80, "description": "Hindi: remove restrictions" },
+    { "id": "HI004", "name": "you_are_now_hi", "pattern": "(अब\\s+तुम|अब\\s+आप)\\s*(हो|बन\\s+गए|बन\\s+जाओ).*(मुक्त|स्वतंत्र|unrestricted|free)", "severity": "critical", "weight": 0.88, "description": "Hindi: you are now free/unrestricted" },
+    { "id": "HI005", "name": "i_am_developer_hi", "pattern": "(मैं|मै|मे)\\s*(आपका|तुम्हारा|तेरा)?\\s*(डेवलपर|developer|एडमिन|admin|मालिक|owner)\\s*(हूं|हूँ|हु)", "severity": "high", "weight": 0.82, "description": "Hindi: claiming developer/admin identity" },
+    { "id": "HI006", "name": "forget_rules_hi", "pattern": "(अपने|तुम्हारे|आपके)\\s*(सभी|सारे|पूरे)?\\s*(नियम|rules|निर्देश|instructions)\\s*(भूल|माफ|हटा|delete|remove)", "severity": "critical", "weight": 0.90, "description": "Hindi: forget your rules" },
+    { "id": "HI007", "name": "output_config_hi", "pattern": "(अपना|तुम्हारा|आपका)\\s*(पूरा|full|complete)?\\s*(कॉन्फ़िगरेशन|configuration|config|सेटिंग|settings?)\\s*(आउटपुट|output|बताओ|दिखाओ|print)", "severity": "critical", "weight": 0.88, "description": "Hindi: output your configuration" },
+    { "id": "HI008", "name": "pretend_mode_hi", "pattern": "(बहाना|नाटक|ढोंग)\\s*(करो|कर)\\s*(कि)?.*(कोई\\s*(नियम|rule)|बिना\\s*(रोक|प्रतिबंध))", "severity": "high", "weight": 0.82, "description": "Hindi: pretend there are no rules" }
+  ]
+}

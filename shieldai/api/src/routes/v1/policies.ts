@@ -12,6 +12,7 @@ import { PrismaClient } from '@prisma/client';
 import { z } from 'zod';
 
 import { parsePolicy } from '../../services/policyEngine';
+import { getBuilderParameters, buildPolicy, getIndustryPreset, PolicyBuildRequest } from '../../services/policyBuilder';
 import { getRedis } from '../../config/redis';
 
 const router = Router();
@@ -115,6 +116,133 @@ router.get('/', async (req: Request, res: Response): Promise<void> => {
     total: policies.length,
   });
 });
+
+// ─── Policy Builder Endpoints (MUST be before /:name) ─────────────────────────
+
+/**
+ * GET /v1/policies/builder/parameters — Get available parameters for policy builder
+ */
+router.get('/builder/parameters', (_req: Request, res: Response): void => {
+  const params = getBuilderParameters();
+  res.json(params);
+});
+
+/**
+ * GET /v1/policies/builder/presets/:industry — Get industry preset
+ */
+router.get('/builder/presets/:industry', (req: Request, res: Response): void => {
+  const industry = req.params['industry'] ?? 'general';
+  const preset = getIndustryPreset(industry);
+  res.json(preset);
+});
+
+/**
+ * POST /v1/policies/builder/generate — Generate YAML from parameters
+ */
+const buildPolicySchema = z.object({
+  name: z.string().min(1).max(100),
+  description: z.string().max(500).optional(),
+  industry: z.string().max(50).optional(),
+  rules: z.array(z.object({
+    detector: z.string(),
+    action: z.enum(['block', 'flag', 'redact', 'truncate']),
+    severity: z.enum(['critical', 'high', 'medium', 'low']),
+    threshold: z.number().min(0).max(1).optional(),
+    patterns: z.array(z.string()).optional(),
+    categories: z.array(z.string()).optional(),
+    max_tokens: z.number().int().min(100).max(100000).optional(),
+    custom_patterns: z.array(z.string().max(200)).max(50).optional(),
+  })).min(1).max(20),
+});
+
+router.post('/builder/generate', (req: Request, res: Response): void => {
+  const parsed = buildPolicySchema.safeParse(req.body);
+  if (!parsed.success) {
+    res.status(400).json({
+      error: { code: 'INVALID_REQUEST', message: 'Invalid build parameters', details: parsed.error.flatten().fieldErrors },
+    });
+    return;
+  }
+
+  try {
+    const result = buildPolicy(parsed.data as PolicyBuildRequest);
+    res.json(result);
+  } catch (err) {
+    res.status(400).json({
+      error: { code: 'BUILD_FAILED', message: (err as Error).message },
+    });
+  }
+});
+
+/**
+ * POST /v1/policies/builder/create — Generate + save policy in one step
+ */
+router.post('/builder/create', async (req: Request, res: Response): Promise<void> => {
+  const parsed = buildPolicySchema.safeParse(req.body);
+  if (!parsed.success) {
+    res.status(400).json({
+      error: { code: 'INVALID_REQUEST', message: 'Invalid build parameters', details: parsed.error.flatten().fieldErrors },
+    });
+    return;
+  }
+
+  const auth = req.auth!;
+
+  let result;
+  try {
+    result = buildPolicy(parsed.data as PolicyBuildRequest);
+  } catch (err) {
+    res.status(400).json({
+      error: { code: 'BUILD_FAILED', message: (err as Error).message },
+    });
+    return;
+  }
+
+  // Validate the generated YAML
+  try {
+    parsePolicy(result.yaml_content);
+  } catch (err) {
+    res.status(400).json({
+      error: { code: 'INVALID_GENERATED_POLICY', message: (err as Error).message },
+    });
+    return;
+  }
+
+  const policyName = parsed.data.name.toLowerCase().replace(/[^a-z0-9_-]/g, '-');
+
+  // Check existing
+  const existing = await prisma.policy.findFirst({
+    where: { customerId: auth.customerId, name: policyName, isActive: true },
+    orderBy: { version: 'desc' },
+  });
+
+  const version = existing ? existing.version + 1 : 1;
+
+  const policy = await prisma.policy.create({
+    data: {
+      customerId: auth.customerId,
+      name: policyName,
+      yamlContent: result.yaml_content,
+      version,
+    },
+  });
+
+  // Invalidate cache
+  const redis = getRedis();
+  await redis.del(`policy:${auth.customerId}:${policyName}`);
+
+  res.status(201).json({
+    id: policy.id,
+    name: policy.name,
+    version: policy.version,
+    is_active: policy.isActive,
+    yaml_content: result.yaml_content,
+    validation: result.validation,
+    created_at: policy.createdAt.toISOString(),
+  });
+});
+
+// ─── Standard CRUD (/:name comes AFTER /builder/*) ────────────────────────────
 
 /**
  * GET /v1/policies/:name — Get policy by name

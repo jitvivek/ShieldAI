@@ -1,0 +1,47 @@
+{
+  "name": "shieldai-workplace",
+  "version": "1.0.0",
+  "description": "ShieldAI Workplace — Teams & Slack AI safety plugin",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "nodemon --exec ts-node src/index.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint src/ --ext .ts",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:migrate:deploy": "prisma migrate deploy"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.20.0",
+    "@slack/bolt": "^3.21.0",
+    "botbuilder": "^4.23.0",
+    "cors": "^2.8.5",
+    "express": "^4.21.0",
+    "express-async-errors": "^3.1.1",
+    "helmet": "^7.1.0",
+    "ioredis": "^5.4.1",
+    "js-yaml": "^4.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "jwks-rsa": "^3.1.0",
+    "pino": "^9.4.0",
+    "pino-http": "^10.3.0",
+    "uuid": "^10.0.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/js-yaml": "^4.0.9",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/node": "^20.11.0",
+    "@types/uuid": "^10.0.0",
+    "nodemon": "^3.1.0",
+    "prisma": "^5.20.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.0",
+    "vitest": "^1.6.0"
+  }
+}

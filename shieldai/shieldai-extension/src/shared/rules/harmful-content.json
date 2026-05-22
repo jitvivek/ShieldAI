@@ -1,0 +1,16 @@
+{
+  "category": "harmful_content",
+  "description": "Patterns that detect requests for harmful, dangerous, or illegal content",
+  "rules": [
+    { "id": "HC001", "name": "explosive_device", "pattern": "(how\\s+to\\s+)?(make|build|create|construct|assemble|synthesize)\\s+(a\\s+)?(bomb|explosive|IED|detonator|grenade|landmine|pipe\\s*bomb|molotov)", "severity": "critical", "weight": 0.95, "description": "Request to create explosive devices" },
+    { "id": "HC002", "name": "weapon_creation", "pattern": "(how\\s+to\\s+)?(make|build|create|construct|assemble|manufacture|3d\\s*print)\\s+(a\\s+)?(weapon|firearm|gun|rifle|pistol|silencer|suppressor)", "severity": "critical", "weight": 0.95, "description": "Request to create weapons" },
+    { "id": "HC003", "name": "chemical_weapon", "pattern": "(how\\s+to\\s+)?(make|create|synthesize|produce|mix)\\s+(a\\s+)?(poison|toxin|nerve\\s*agent|chemical\\s*weapon|sarin|ricin|cyanide)", "severity": "critical", "weight": 0.95, "description": "Request to create chemical weapons or poisons" },
+    { "id": "HC004", "name": "drug_synthesis", "pattern": "(how\\s+to\\s+)?(make|synthesize|cook|produce|manufacture|extract)\\s+(a\\s+)?(meth|methamphetamine|cocaine|heroin|fentanyl|LSD|MDMA)", "severity": "critical", "weight": 0.90, "description": "Request to synthesize illegal drugs" },
+    { "id": "HC005", "name": "self_harm", "pattern": "(how\\s+to\\s+)?(commit|attempt|plan|method\\s+for)\\s*(suicide|self.?harm|kill\\s+(myself|yourself|oneself))", "severity": "critical", "weight": 0.95, "description": "Self-harm content" },
+    { "id": "HC006", "name": "child_exploitation", "pattern": "(child|minor|underage|kids?)\\s*[\\s\\S]{0,20}(exploit|abuse|groom|traffick|pornograph)", "severity": "critical", "weight": 0.98, "description": "Child exploitation content" },
+    { "id": "HC007", "name": "hacking_guide", "pattern": "(how\\s+to\\s+)?(hack|crack|exploit|breach|compromise)\\s+(into\\s+)?(bank|account|system|network|server|website|email)", "severity": "high", "weight": 0.80, "description": "Hacking instructions" },
+    { "id": "HC008", "name": "phishing_creation", "pattern": "(create|generate|write|design)\\s+(a\\s+)?(phishing|scam|fraud)\\s*(email|page|site|message|template)", "severity": "critical", "weight": 0.90, "description": "Creating phishing content" },
+    { "id": "HC009", "name": "violence_instructions", "pattern": "(how\\s+to\\s+)?(kill|murder|assassinate|attack|stab|shoot|strangle)\\s+(a\\s+)?(person|someone|people|human)", "severity": "critical", "weight": 0.95, "description": "Violence instructions" },
+    { "id": "HC010", "name": "terrorism", "pattern": "(plan|organize|coordinate|execute)\\s+(a\\s+)?(terror|terrorist\\s+attack|mass\\s+(shooting|casualty)|bombing)", "severity": "critical", "weight": 0.98, "description": "Terrorism-related content" }
+  ]
+}

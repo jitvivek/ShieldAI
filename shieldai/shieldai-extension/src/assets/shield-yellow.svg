@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+  <path fill="#F59E0B" d="M24 4L6 11v9c0 10.5 7.7 20.3 18 23 10.3-2.7 18-12.5 18-23v-9L24 4z"/>
+  <text x="24" y="30" text-anchor="middle" font-family="Arial" font-weight="bold" font-size="20" fill="white">!</text>
+</svg>
