@@ -1,0 +1,149 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Parent {
+  id          String   @id @default(cuid())
+  phone       String   @unique
+  name        String
+  email       String?
+  pinHash     String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  children    Child[]
+  subscription Subscription?
+}
+
+model Child {
+  id          String    @id @default(cuid())
+  name        String
+  age         Int
+  ageTier     AgeTier
+  parentId    String
+  parent      Parent    @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  devices     Device[]
+  activities  Activity[]
+  alerts      Alert[]
+  settings    ChildSettings?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Device {
+  id          String   @id @default(cuid())
+  childId     String
+  child       Child    @relation(fields: [childId], references: [id], onDelete: Cascade)
+  platform    Platform
+  deviceName  String
+  pairCode    String   @unique
+  isActive    Boolean  @default(true)
+  lastSeen    DateTime?
+  createdAt   DateTime @default(now())
+}
+
+model Activity {
+  id          String   @id @default(cuid())
+  childId     String
+  child       Child    @relation(fields: [childId], references: [id], onDelete: Cascade)
+  appPackage  String
+  appName     String
+  text        String
+  verdict     Verdict
+  confidence  Float
+  category    String?
+  language    String?
+  matchedRules String[]
+  createdAt   DateTime @default(now())
+}
+
+model Alert {
+  id          String      @id @default(cuid())
+  childId     String
+  child       Child       @relation(fields: [childId], references: [id], onDelete: Cascade)
+  type        AlertType
+  severity    Severity
+  title       String
+  message     String
+  metadata    Json?
+  isRead      Boolean     @default(false)
+  createdAt   DateTime    @default(now())
+}
+
+model ChildSettings {
+  id              String   @id @default(cuid())
+  childId         String   @unique
+  child           Child    @relation(fields: [childId], references: [id], onDelete: Cascade)
+  sensitivity     Float    @default(0.7)
+  dailyLimitMins  Int?
+  nightModeStart  String?
+  nightModeEnd    String?
+  blockedApps     String[]
+  blockedKeywords String[]
+  piiTypes        String[]
+  updatedAt       DateTime @updatedAt
+}
+
+model Subscription {
+  id            String   @id @default(cuid())
+  parentId      String   @unique
+  parent        Parent   @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  plan          Plan
+  status        SubStatus
+  razorpayId    String?
+  currentPeriodEnd DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+enum AgeTier {
+  young
+  teen
+  older_teen
+}
+
+enum Platform {
+  android
+  ios
+}
+
+enum Verdict {
+  safe
+  flagged
+  blocked
+}
+
+enum AlertType {
+  injection
+  pii
+  harmful
+  explicit
+  cyberbullying
+  time_limit
+  panic
+}
+
+enum Severity {
+  low
+  medium
+  high
+  critical
+}
+
+enum Plan {
+  free
+  basic
+  premium
+  family
+}
+
+enum SubStatus {
+  active
+  cancelled
+  expired
+  trial
+}

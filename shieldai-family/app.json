@@ -1,0 +1,71 @@
+{
+  "expo": {
+    "name": "ShieldAI Family",
+    "slug": "shieldai-family",
+    "version": "1.0.0",
+    "scheme": "shieldai-family",
+    "orientation": "portrait",
+    "icon": "./src/assets/icons/app-icon.png",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./src/assets/icons/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0D9488"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.shieldai.family",
+      "buildNumber": "1",
+      "infoPlist": {
+        "NSCameraUsageDescription": "ShieldAI Family needs camera access for QR code scanning during device pairing.",
+        "UIBackgroundModes": ["fetch", "remote-notification", "processing"]
+      },
+      "entitlements": {
+        "com.apple.developer.networking.networkextension": ["content-filter-provider"]
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./src/assets/icons/adaptive-icon.png",
+        "backgroundColor": "#0D9488"
+      },
+      "package": "com.shieldai.family",
+      "versionCode": 1,
+      "permissions": [
+        "android.permission.BIND_ACCESSIBILITY_SERVICE",
+        "android.permission.SYSTEM_ALERT_WINDOW",
+        "android.permission.PACKAGE_USAGE_STATS",
+        "android.permission.FOREGROUND_SERVICE",
+        "android.permission.RECEIVE_BOOT_COMPLETED",
+        "android.permission.POST_NOTIFICATIONS",
+        "android.permission.CAMERA",
+        "android.permission.INTERNET",
+        "android.permission.SEND_SMS"
+      ]
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      "expo-notifications",
+      "expo-task-manager",
+      "expo-background-fetch",
+      "expo-localization",
+      ["expo-camera", { "cameraPermission": "Allow ShieldAI Family to use camera for QR scanning." }],
+      "@react-native-firebase/app",
+      "@react-native-firebase/auth",
+      "@sentry/react-native/expo"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "your-eas-project-id"
+      }
+    }
+  }
+}
