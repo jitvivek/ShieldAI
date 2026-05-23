@@ -50,14 +50,19 @@ async function scanAndHandle(text: string): Promise<'allow' | 'block'> {
 
     let response: ScanResponse;
     try {
+      // Check if extension context is still valid
+      if (!chrome.runtime?.id) {
+        console.warn('[ShieldAI] Extension context invalidated — please refresh the page');
+        return 'allow';
+      }
       const resp = await chrome.runtime.sendMessage(request);
       if (!resp || !resp.verdict) {
-        console.warn('[ShieldAI] Empty response from background, running will allow');
+        console.warn('[ShieldAI] Empty response from background, allowing message');
         return 'allow';
       }
       response = resp;
     } catch (msgErr) {
-      console.warn('[ShieldAI] Message send failed:', msgErr);
+      console.warn('[ShieldAI] Message send failed (refresh page if extension was updated):', msgErr);
       return 'allow';
     }
 
@@ -108,48 +113,82 @@ function interceptSubmission(adapter: SiteAdapter): void {
   const input = adapter.getInputElement();
   if (!input) return;
 
-  // Intercept Enter key
-  input.addEventListener('keydown', async (e: Event) => {
-    const keyEvent = e as KeyboardEvent;
-    if (keyEvent.key === 'Enter' && !keyEvent.shiftKey) {
-      const text = adapter.extractText(input);
-      if (!text.trim()) return;
+  let allowNext = false; // Flag to allow the next submission through
 
-      keyEvent.preventDefault();
-      keyEvent.stopPropagation();
+  // Attach to DOCUMENT in capture phase — fires BEFORE React/ChatGPT handlers
+  document.addEventListener('keydown', async (e: KeyboardEvent) => {
+    // Only intercept if the event target is inside our tracked input
+    const target = e.target as Node;
+    if (target !== input && !input.contains(target)) return;
+    if (e.key !== 'Enter' || e.shiftKey || e.isComposing) return;
 
-      const result = await scanAndHandle(text);
-      if (result === 'allow') {
-        // Re-dispatch the event to let the page handle it
-        adapter.restoreSubmission(input);
+    // If we already scanned and allowed, let it through
+    if (allowNext) {
+      console.log('[ShieldAI] Allowing Enter through (already scanned)');
+      allowNext = false;
+      return;
+    }
+
+    const text = adapter.extractText(input);
+    if (!text.trim()) return;
+
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    e.stopPropagation();
+
+    console.log('[ShieldAI] Intercepted Enter. Scanning:', text.slice(0, 80));
+    const result = await scanAndHandle(text);
+    console.log('[ShieldAI] Scan result:', result);
+
+    if (result === 'allow') {
+      // Find and click the send button
+      const btn = adapter.getSubmitButton();
+      console.log('[ShieldAI] Submit button found:', !!btn, btn?.tagName, btn?.getAttribute('data-testid'));
+      if (btn) {
+        allowNext = true;
+        btn.click();
+      } else {
+        // Last resort: dispatch Enter and hope it works
+        allowNext = true;
         input.dispatchEvent(new KeyboardEvent('keydown', {
-          key: 'Enter',
-          code: 'Enter',
-          keyCode: 13,
-          which: 13,
-          bubbles: true,
+          key: 'Enter', code: 'Enter', keyCode: 13, which: 13,
+          bubbles: true, cancelable: true,
         }));
       }
     }
-  }, true);
+  }, true); // capture phase
 
-  // Intercept submit button click
-  const submitBtn = adapter.getSubmitButton();
-  if (submitBtn) {
-    submitBtn.addEventListener('click', async (e: Event) => {
-      const text = adapter.extractText(input);
-      if (!text.trim()) return;
+  // Also intercept submit button clicks (user clicking with mouse)
+  document.addEventListener('click', async (e: MouseEvent) => {
+    const btn = adapter.getSubmitButton();
+    if (!btn) return;
 
-      e.preventDefault();
-      e.stopPropagation();
+    // Check if the click target is the submit button or inside it
+    const target = e.target as Node;
+    if (target !== btn && !btn.contains(target)) return;
 
-      const result = await scanAndHandle(text);
-      if (result === 'allow') {
-        adapter.restoreSubmission(input);
-        submitBtn.click();
-      }
-    }, true);
-  }
+    // If flagged to allow, let it through
+    if (allowNext) {
+      allowNext = false;
+      return;
+    }
+
+    const text = adapter.extractText(input);
+    if (!text.trim()) return;
+
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    e.stopPropagation();
+
+    console.log('[ShieldAI] Intercepted send button click. Scanning:', text.slice(0, 80));
+    const result = await scanAndHandle(text);
+    console.log('[ShieldAI] Scan result (button):', result);
+
+    if (result === 'allow') {
+      allowNext = true;
+      btn.click();
+    }
+  }, true); // capture phase
 
   // PII highlighting on input (debounced) — listen to both input and keyup for contenteditable
   const piiHandler = () => {

@@ -14,6 +14,20 @@ interface OverlayOptions {
 let overlayHost: HTMLElement | null = null;
 let autoDismissTimer: ReturnType<typeof setTimeout> | null = null;
 
+const CATEGORY_LABELS: Record<string, string> = {
+  hinglish_injection: 'Prompt Injection',
+  hindi_injection: 'Prompt Injection',
+  direct_injection: 'Prompt Injection',
+  roleplay_exploit: 'Jailbreak Attempt',
+  harmful_content: 'Harmful Content',
+  pii_exposure: 'PII Data Exposure',
+  none: 'Unknown Threat',
+};
+
+function getCategoryLabel(raw: string): string {
+  return CATEGORY_LABELS[raw] || raw.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+}
+
 export function showOverlay(options: OverlayOptions): void {
   removeOverlay();
 
@@ -33,14 +47,15 @@ export function showOverlay(options: OverlayOptions): void {
     ? 'ShieldAI blocked this message for your safety'
     : 'ShieldAI detected a potential risk in your message';
 
+  const categoryLabel = getCategoryLabel(options.category);
   const detailText = options.pii.length > 0
     ? `PII detected: ${options.pii.map(p => `${p.label} (${p.masked})`).join(', ')}`
-    : `Category: ${options.category.replace(/_/g, ' ')} | Language: ${options.language}`;
+    : `Threat: ${categoryLabel} | Language: ${options.language}`;
 
   const buttonsHtml = isBlocked
-    ? `<button id="shieldai-edit" style="padding:8px 16px;border-radius:6px;border:1px solid #6B7280;background:#fff;cursor:pointer;font-size:13px;">Edit message</button>`
-    : `<button id="shieldai-send" style="padding:8px 16px;border-radius:6px;border:none;background:#F59E0B;color:#fff;cursor:pointer;font-size:13px;margin-right:8px;">Send anyway</button>
-       <button id="shieldai-edit" style="padding:8px 16px;border-radius:6px;border:1px solid #6B7280;background:#fff;cursor:pointer;font-size:13px;">Edit message</button>`;
+    ? `<button id="shieldai-edit" style="padding:8px 16px;border-radius:6px;border:1px solid #DC2626;background:#fff;color:#DC2626;cursor:pointer;font-size:13px;font-weight:600;line-height:1.4;">✏️ Edit Message</button>`
+    : `<button id="shieldai-send" style="padding:8px 16px;border-radius:6px;border:none;background:#F59E0B;color:#fff;cursor:pointer;font-size:13px;font-weight:600;line-height:1.4;margin-right:8px;">⚡ Send Anyway</button>
+       <button id="shieldai-edit" style="padding:8px 16px;border-radius:6px;border:1px solid #6B7280;background:#fff;color:#374151;cursor:pointer;font-size:13px;font-weight:600;line-height:1.4;">✏️ Edit Message</button>`;
 
   const html = `
     <style>
@@ -54,9 +69,10 @@ export function showOverlay(options: OverlayOptions): void {
         box-shadow: 0 10px 25px rgba(0,0,0,0.15);
         animation: shieldai-slide-up 0.3s ease-out;
       }
-      .shieldai-title { font-size: 14px; font-weight: 600; color: #1F2937; margin-bottom: 6px; }
-      .shieldai-detail { font-size: 12px; color: #6B7280; margin-bottom: 12px; }
-      .shieldai-actions { display: flex; justify-content: flex-end; }
+      .shieldai-title { font-size: 14px; font-weight: 600; color: #1F2937; margin-bottom: 6px; line-height: 1.5; }
+      .shieldai-detail { font-size: 12px; color: #4B5563; margin-bottom: 12px; line-height: 1.4; }
+      .shieldai-actions { display: flex; justify-content: flex-end; align-items: center; }
+      button { font-family: inherit; }
       @keyframes shieldai-slide-up {
         from { opacity: 0; transform: translateY(20px); }
         to { opacity: 1; transform: translateY(0); }

@@ -10,9 +10,31 @@ export function handleMessage(
   _sender: chrome.runtime.MessageSender,
   sendResponse: (response: ScanResponse) => void
 ): void {
-  if (message.type !== 'SCAN_PROMPT') return;
+  if (message.type !== 'SCAN_PROMPT') {
+    // Always respond to avoid leaving the message channel hanging
+    sendResponse({
+      verdict: 'safe',
+      riskScore: 0,
+      category: 'none',
+      language: 'English',
+      piiDetected: [],
+      details: '',
+      offline: true,
+    });
+    return;
+  }
 
-  processMessage(message).then(sendResponse);
+  processMessage(message).then(sendResponse).catch(() => {
+    sendResponse({
+      verdict: 'safe',
+      riskScore: 0,
+      category: 'error',
+      language: 'English',
+      piiDetected: [],
+      details: 'Scan failed — allowing message.',
+      offline: true,
+    });
+  });
 }
 
 async function processMessage(message: ScanRequest): Promise<ScanResponse> {
